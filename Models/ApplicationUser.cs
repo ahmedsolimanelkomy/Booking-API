@@ -26,9 +26,12 @@ namespace Booking_API.Models
         public int PassportId { get; set; }
         // public int CityId { get; set; }
 
+
         // Navigation Properties
         public WishList? WishList { get; set; }
         public Passport? Passport { get; set; }
+
+        public ICollection<Booking>? BookingList { get; set; }
         // public City City { get; set; } 
         // mt1 Ticket
         // 1tm Booking

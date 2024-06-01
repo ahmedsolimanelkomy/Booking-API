@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Booking_API.Models
 {
+    //
     public enum PaymentMethod
     {
         CreditCard,

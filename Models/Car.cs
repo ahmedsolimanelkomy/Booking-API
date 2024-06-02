@@ -1,24 +1,51 @@
-﻿namespace Booking_API.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace Booking_API.Models
 {
     public class Car
     {
-        public string Model { get; set; }
-        public string Type { get; set; }
-        public float Price { get; set; }
+        [Key]
+        public int Id { get; set; }
+
+        [MaxLength(50)]
+        public string? Model { get; set; }
+
+        [MaxLength(50)]
+        public string? Type { get; set; }
+
+        [Range(0, double.MaxValue)]
+        public decimal RentPrice { get; set; }
+
         public bool AvailabilityStatus { get; set; }
-        public string PickUpLocation { get; set; }
-        public string DropOffLocation { get; set; }
-        public DateTime PickUpDate { get; set; }
+
+        [MaxLength(100)]
+        public string? PickupLocation { get; set; }
+
+        [MaxLength(100)]
+        public string? DropOffLocation { get; set; }
+
+        public DateTime PickupDate { get; set; }
+
         public DateTime DropOffDate { get; set; }
-        public TimeSpan PickUpTime { get; set; }
-        public TimeSpan DropOffTime { get; set; }
+
+        [MaxLength(20)]
+        public string? PlateNumber { get; set; }
         public bool InsuranceIncluded { get; set; }
 
         public bool IsBooked { get; set; }
-        public string CarImage { get; set; }
-        public int CarRating { get; set; }
+
+        [MaxLength(30)]
+        public string? Color { get; set; }
 
 
+        // Foreign Key
+        [ForeignKey("CarAgency")]
+        public int AgencyId { get; set; }
+
+        // Navigation Properties
+        public virtual CarAgency? CarAgency { get; set; }
+        public virtual ICollection<Booking>? Bookings { get; set; } = new HashSet<Booking>();
 
     }
 }

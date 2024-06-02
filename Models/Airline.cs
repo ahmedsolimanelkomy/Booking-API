@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Booking_API.Models
 {
-    public class Aireline
+    public class Airline
     {
         [Key]
         public int Id { get; set; }
@@ -10,18 +11,24 @@ namespace Booking_API.Models
         [StringLength(50)]
         public string? Name { get; set; }
 
+        [Url]
         public string? LogoUrl { get; set; }
 
-        
         [EmailAddress]
         public string? Email { get; set; }
 
+        [Url]
         public string? WebsiteURL { get; set; }
 
-        public int? PhoneNumber { get; set; }
+        [Phone]
+        public string? PhoneNumber { get; set; }
 
-        // CountryNumber ????
+        // Foreign Keys
+        [ForeignKey("City")]
+        public int CityId { get; set; }
 
-        // mt1 City
+        // Navigation Properties
+        public City? City { get; set; }
+
     }
 }

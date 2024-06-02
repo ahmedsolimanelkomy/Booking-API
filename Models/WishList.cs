@@ -14,7 +14,7 @@ namespace Booking_API.Models
 
         // Navigation Properties
         public ApplicationUser? User { get; set; }
-        // m2m Hotel
+        public ICollection<Hotel>? Hotels { get; set; } = new HashSet<Hotel>();
 
     }
 }

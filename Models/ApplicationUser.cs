@@ -21,11 +21,11 @@ namespace Booking_API.Models
 
         // Foreign keys
         [ForeignKey("WishList")]
-        public int WishListId { get; set; }
+        public int? WishListId { get; set; }
         [ForeignKey("Passport")]
-        public int PassportId { get; set; }
+        public int? PassportId { get; set; }
         [ForeignKey("City")]
-        public int CityId { get; set; }
+        public int? CityId { get; set; }
 
         // Navigation Properties
         public WishList? WishList { get; set; }

@@ -24,13 +24,14 @@ namespace Booking_API.Models
         public int WishListId { get; set; }
         [ForeignKey("Passport")]
         public int PassportId { get; set; }
-        // public int CityId { get; set; }
+        [ForeignKey("City")]
+        public int CityId { get; set; }
 
         // Navigation Properties
         public WishList? WishList { get; set; }
         public Passport? Passport { get; set; }
-        // public City City { get; set; } 
-        // mt1 Ticket
-        // 1tm Booking
+        public City? City { get; set; }
+
+        public ICollection<Booking>? Bookings { get; set; }
     }
 }

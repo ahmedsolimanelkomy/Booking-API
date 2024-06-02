@@ -21,7 +21,7 @@
     <Folder Include="Controllers\" />
     <Folder Include="DTOs\" />
     <Folder Include="AutoMappers\" />
-    <Folder Include="Validations\" />
+    <Folder Include="Migrations\" />
     <Folder Include="Repository\IRepository\" />
     <Folder Include="Services\IService\" />
   </ItemGroup>

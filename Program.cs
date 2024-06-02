@@ -3,6 +3,7 @@ using Booking_API.Models;
 using Booking_API.Repository.IRepository;
 using Booking_API.Repository;
 using Microsoft.EntityFrameworkCore;
+using Booking_API.Services;
 
 namespace Booking_API
 {
@@ -23,6 +24,8 @@ namespace Booking_API
                 option.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
             });
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<BookingService, BookingService>();
+
 
 
             var app = builder.Build();

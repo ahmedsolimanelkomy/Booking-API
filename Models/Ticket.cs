@@ -8,7 +8,8 @@ namespace Booking_API.Models
         [Key]
         public int Id { get; set; }
         public int? SeatNumber { get; set; }
-        public int? Price { get; set; }
+        [DataType(DataType.Currency)]
+        public decimal Price { get; set; }
         public bool? AvailabilityStatus { get; set; }
 
         //Foriegn Keys

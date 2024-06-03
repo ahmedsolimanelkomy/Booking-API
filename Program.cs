@@ -32,10 +32,12 @@ namespace Booking_API
             builder.Services.AddScoped<ITicketService, TicketService>();
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-        .AddEntityFrameworkStores<BookingContext>()
-        .AddDefaultTokenProviders();
+            .AddEntityFrameworkStores<BookingContext>()
+            .AddDefaultTokenProviders();
 
             builder.Services.AddScoped<UserManager<ApplicationUser>>();
+            builder.Services.AddScoped<IService<City>, Service<City>>();
+            builder.Services.AddScoped<IService<Country>, Service<Country>>();
 
 
 

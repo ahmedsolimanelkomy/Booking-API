@@ -3,10 +3,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Booking_API.Models
 {
+    public enum Class
+    {
+        FirstClass,
+        Economy,
+        Business
+    }
     public class Flight
     {
         [Key]
         public int Id { get; set; }
+
         public int? FlightNumber { get; set; }
 
         [StringLength(50)]
@@ -15,17 +22,12 @@ namespace Booking_API.Models
         [StringLength(50)]
         public string? ArrivalAirport { get; set; }
 
-        [DataType(DataType.Time)]
+        [DataType(DataType.DateTime)]
         public DateTime? DepartureTime { get; set; }
 
-        [DataType(DataType.Time)]
+        [DataType(DataType.DateTime)]
         public DateTime? ArrivalTime { get; set; }
-
-        public int? Price { get; set; }
-
-        public bool? AvailabilityStatus { get; set; }
-
-        public string? Class { get; set; }
+        public Class? Class { get; set; }
 
         [Range(0, 100)]
         [Display(Name = "Baggage Allowance (kg)")]
@@ -33,12 +35,16 @@ namespace Booking_API.Models
 
         public int? StopOversNo { get; set; }
 
-        [ForeignKey("Aireline")]
-        public int? AirelineId { get; set; }
+        [DataType(DataType.Duration)]
+        public int Duration { get; set; }
 
-        public Aireline? Aireline { get; set; }
+        // Foreign Keys
+        [ForeignKey("Airline")]
+        public int? AirlineId { get; set; }
 
-        // Duration ???
+        // Navigation Properties
+        public Airline? Airline { get; set; }
+        public ICollection<Booking>? Bookings { get; set; } = new HashSet<Booking>();
 
 
     }

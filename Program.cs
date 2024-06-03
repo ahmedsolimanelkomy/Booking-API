@@ -5,6 +5,7 @@ using Booking_API.Repository;
 using Microsoft.EntityFrameworkCore;
 using Booking_API.Services;
 using Microsoft.AspNetCore.Identity;
+using Booking_API.Services.IService;
 
 namespace Booking_API
 {
@@ -28,10 +29,12 @@ namespace Booking_API
             builder.Services.AddScoped<BookingService, BookingService>();
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-        .AddEntityFrameworkStores<BookingContext>()
-        .AddDefaultTokenProviders();
+            .AddEntityFrameworkStores<BookingContext>()
+            .AddDefaultTokenProviders();
 
             builder.Services.AddScoped<UserManager<ApplicationUser>>();
+            builder.Services.AddScoped<IService<City>, Service<City>>();
+            builder.Services.AddScoped<IService<Country>, Service<Country>>();
 
 
 

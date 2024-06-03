@@ -6,7 +6,7 @@ namespace Booking_API.DTOs
     {
       
             [Required]
-            public string Username { get; set; }
+            public string UserName { get; set; }
 
             [Required]
             [EmailAddress]

@@ -5,6 +5,7 @@ using Booking_API.Repository;
 using Microsoft.EntityFrameworkCore;
 using Booking_API.Services;
 using Microsoft.AspNetCore.Identity;
+using Booking_API.Services.IService;
 
 namespace Booking_API
 {
@@ -25,7 +26,10 @@ namespace Booking_API
                 option.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
             });
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddScoped<BookingService, BookingService>();
+            builder.Services.AddScoped<IBookingService, BookingService>();
+            builder.Services.AddScoped<IAirlineService, AirlineService>();
+            builder.Services.AddScoped<IFlightService, FlightService>();
+            builder.Services.AddScoped<ITicketService, TicketService>();
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
         .AddEntityFrameworkStores<BookingContext>()

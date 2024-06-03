@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "D:\\Graduation Project\\Grade Project\\Booking-API\\Booking API.csproj": {}
   },
   "projects": {
@@ -12,9 +13,30 @@
         "projectPath": "D:\\Graduation Project\\Grade Project\\Booking-API\\Booking API.csproj",
         "packagesPath": "C:\\Users\\zain house\\.nuget\\packages\\",
         "outputPath": "D:\\Graduation Project\\Grade Project\\Booking-API\\obj\\",
+=======
+    "C:\\Users\\AIO\\Desktop\\Graduation Project\\Booking-API\\Booking API.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\AIO\\Desktop\\Graduation Project\\Booking-API\\Booking API.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\AIO\\Desktop\\Graduation Project\\Booking-API\\Booking API.csproj",
+        "projectName": "Booking API",
+        "projectPath": "C:\\Users\\AIO\\Desktop\\Graduation Project\\Booking-API\\Booking API.csproj",
+        "packagesPath": "C:\\Users\\AIO\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\AIO\\Desktop\\Graduation Project\\Booking-API\\obj\\",
+>>>>>>> 000868cfa68038a2346ea2c57e8ddd5821a97c94
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
+<<<<<<< HEAD
           "C:\\Users\\zain house\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+          "C:\\Users\\AIO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+>>>>>>> 000868cfa68038a2346ea2c57e8ddd5821a97c94
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -87,7 +109,11 @@
               "privateAssets": "all"
             }
           },
+<<<<<<< HEAD
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+=======
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+>>>>>>> 000868cfa68038a2346ea2c57e8ddd5821a97c94
         }
       }
     }

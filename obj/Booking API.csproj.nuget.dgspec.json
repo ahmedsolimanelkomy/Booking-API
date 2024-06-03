@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\AIO\\Desktop\\graduation project\\Booking-API\\Booking API.csproj": {}
+    "C:\\Users\\AIO\\Desktop\\Graduation Project\\Booking-API\\Booking API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\AIO\\Desktop\\graduation project\\Booking-API\\Booking API.csproj": {
+    "C:\\Users\\AIO\\Desktop\\Graduation Project\\Booking-API\\Booking API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\AIO\\Desktop\\graduation project\\Booking-API\\Booking API.csproj",
+        "projectUniqueName": "C:\\Users\\AIO\\Desktop\\Graduation Project\\Booking-API\\Booking API.csproj",
         "projectName": "Booking API",
-        "projectPath": "C:\\Users\\AIO\\Desktop\\graduation project\\Booking-API\\Booking API.csproj",
+        "projectPath": "C:\\Users\\AIO\\Desktop\\Graduation Project\\Booking-API\\Booking API.csproj",
         "packagesPath": "C:\\Users\\AIO\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\AIO\\Desktop\\graduation project\\Booking-API\\obj\\",
+        "outputPath": "C:\\Users\\AIO\\Desktop\\Graduation Project\\Booking-API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

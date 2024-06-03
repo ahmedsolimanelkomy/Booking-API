@@ -16,7 +16,7 @@ public class BookingController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Booking>>> GetBookings([FromQuery] string[] includeProperties)
     {
-        var bookings = await _bookingService.GetAllBookingsAsync(includeProperties);
+        var bookings = await _bookingService.GetAllAsync(includeProperties);
         return Ok(bookings);
     }
 
@@ -34,7 +34,7 @@ public class BookingController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Booking>> PostBooking(Booking booking)
     {
-        await _bookingService.AddBookingAsync(booking);
+        await _bookingService.AddAsync(booking);
         return CreatedAtAction(nameof(GetBooking), new { id = booking.Id }, booking);
     }
 
@@ -46,14 +46,14 @@ public class BookingController : ControllerBase
             return BadRequest();
         }
 
-        await _bookingService.UpdateBookingAsync(booking);
+        await _bookingService.UpdateAsync(booking);
         return NoContent();
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteBooking(int id)
     {
-        await _bookingService.DeleteBookingAsync(id);
+        await _bookingService.DeleteAsync(id);
         return NoContent();
     }
 }

@@ -10,10 +10,8 @@ namespace Booking_API.Models
         public string? Name { get; set; }
         public string? Code { get; set; }
 
-        //Foreign Keys
         [ForeignKey("Country")]
         public int CountryId { get; set; }
-        //Navigation Properties
         public ICollection<Hotel>? Hotels { get; set; } = new HashSet<Hotel>();
 
     }

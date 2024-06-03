@@ -27,9 +27,6 @@ namespace Booking_API.Models
 
         [DataType(DataType.DateTime)]
         public DateTime? ArrivalTime { get; set; }
-
-        [DataType(DataType.Currency)]
-        public decimal? Price { get; set; }
         public Class? Class { get; set; }
 
         [Range(0, 100)]

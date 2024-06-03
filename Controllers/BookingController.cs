@@ -1,6 +1,7 @@
 ﻿using Booking_API.DTOs;
 using Booking_API.Models;
 using Booking_API.Services;
+using Booking_API.Services.IService;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -12,9 +13,9 @@ namespace Booking_API.Controllers
     [Route("api/[controller]")]
     public class BookingController : ControllerBase
     {
-        private readonly BookingService _bookingService;
+        private readonly IBookingService _bookingService;
 
-        public BookingController(BookingService bookingService)
+        public BookingController(IBookingService bookingService)
         {
             _bookingService = bookingService;
         }

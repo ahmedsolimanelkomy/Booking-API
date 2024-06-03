@@ -424,3 +424,5 @@ C:\Users\anasa\source\repos\Booking-API\obj\Debug\net8.0\refint\Booking API.dll
 C:\Users\anasa\source\repos\Booking-API\obj\Debug\net8.0\Booking API.pdb
 C:\Users\anasa\source\repos\Booking-API\obj\Debug\net8.0\Booking API.genruntimeconfig.cache
 C:\Users\anasa\source\repos\Booking-API\obj\Debug\net8.0\ref\Booking API.dll
+D:\Graduation Project\Grade Project\Booking-API\bin\Debug\net8.0\AutoMapper.dll
+D:\Graduation Project\Grade Project\Booking-API\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

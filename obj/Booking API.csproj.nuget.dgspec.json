@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\anasa\\source\\repos\\Booking-API\\Booking API.csproj": {}
+    "D:\\Graduation Project\\Grade Project\\Booking-API\\Booking API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\anasa\\source\\repos\\Booking-API\\Booking API.csproj": {
+    "D:\\Graduation Project\\Grade Project\\Booking-API\\Booking API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\anasa\\source\\repos\\Booking-API\\Booking API.csproj",
+        "projectUniqueName": "D:\\Graduation Project\\Grade Project\\Booking-API\\Booking API.csproj",
         "projectName": "Booking API",
-        "projectPath": "C:\\Users\\anasa\\source\\repos\\Booking-API\\Booking API.csproj",
-        "packagesPath": "C:\\Users\\anasa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\anasa\\source\\repos\\Booking-API\\obj\\",
+        "projectPath": "D:\\Graduation Project\\Grade Project\\Booking-API\\Booking API.csproj",
+        "packagesPath": "C:\\Users\\zain house\\.nuget\\packages\\",
+        "outputPath": "D:\\Graduation Project\\Grade Project\\Booking-API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\anasa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\zain house\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,7 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -46,6 +45,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.6, )"
@@ -84,7 +87,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

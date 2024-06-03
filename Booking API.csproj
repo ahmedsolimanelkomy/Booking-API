@@ -18,12 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="DTOs\" />
     <Folder Include="AutoMappers\" />
     <Folder Include="Migrations\" />
-    <Folder Include="Repository\IRepository\" />
-    <Folder Include="Services\IService\" />
   </ItemGroup>
 
 </Project>

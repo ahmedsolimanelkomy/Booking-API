@@ -71,7 +71,7 @@ namespace Booking_API.Migrations
                     b.Property<DateOnly?>("BirthDate")
                         .HasColumnType("date");
 
-                    b.Property<int>("CityId")
+                    b.Property<int?>("CityId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -107,7 +107,7 @@ namespace Booking_API.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<int>("PassportId")
+                    b.Property<int?>("PassportId")
                         .HasColumnType("int");
 
                     b.Property<string>("PasswordHash")
@@ -132,7 +132,7 @@ namespace Booking_API.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<int>("WishListId")
+                    b.Property<int?>("WishListId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -371,9 +371,6 @@ namespace Booking_API.Migrations
                     b.Property<int?>("FlightNumber")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int?>("StopOversNo")
                         .HasColumnType("int");
 
@@ -611,8 +608,8 @@ namespace Booking_API.Migrations
                     b.Property<int?>("FlightId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Price")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("SeatNumber")
                         .HasColumnType("int");
@@ -826,21 +823,15 @@ namespace Booking_API.Migrations
                 {
                     b.HasOne("Booking_API.Models.City", "City")
                         .WithMany()
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CityId");
 
                     b.HasOne("Booking_API.Models.Passport", "Passport")
                         .WithMany()
-                        .HasForeignKey("PassportId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PassportId");
 
                     b.HasOne("Booking_API.Models.WishList", "WishList")
                         .WithMany()
-                        .HasForeignKey("WishListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WishListId");
 
                     b.Navigation("City");
 

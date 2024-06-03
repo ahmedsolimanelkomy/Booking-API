@@ -1,0 +1,14 @@
+﻿using System.Linq.Expressions;
+
+namespace Booking_API.Repository.IRepository
+{
+    public interface IRepository <T> where T : class
+    {
+        Task<IEnumerable<T>> GetAllAsync(string[]? includeProperties);
+        Task<T> GetAsync(Expression<Func<T, bool>> filter, string[]? includeProperties = null);
+        IEnumerable<T> GetList(Expression<Func<T, bool>> filter, string[]? includeProperties = null);
+        Task AddAsync(T entity);
+        Task UpdateAsync(T entity);
+        Task DeleteAsync(int id);
+    }
+}

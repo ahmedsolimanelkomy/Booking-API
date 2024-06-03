@@ -19,6 +19,8 @@ namespace Booking_API.Repository.IRepository
         IRepository<RoomType> RoomTypes { get; }
         IRepository<Ticket> Tickets { get; }
         IRepository<WishList> WishLists { get; }
+
+        IRepository<T> GetRepository<T>() where T : class;
         Task<int> SaveAsync();
     }
 

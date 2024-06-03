@@ -7,6 +7,8 @@ namespace Booking_API.Repository
     public class UnitOfWork : IUnitOfWork
     {
         private readonly BookingContext _context;
+        private Dictionary<Type, object> _repositories;
+
 
         public IRepository<Hotel> Hotels { get; private set; }
         public IRepository<Room> Rooms { get; private set; }
@@ -28,6 +30,8 @@ namespace Booking_API.Repository
         public UnitOfWork(BookingContext context)
         {
             _context = context;
+            _repositories = new Dictionary<Type, object>();
+
             Hotels = new Repository<Hotel>(_context);
             Rooms = new Repository<Room>(_context);
             Flights = new Repository<Flight>(_context);
@@ -44,6 +48,17 @@ namespace Booking_API.Repository
             Tickets = new Repository<Ticket>(_context);
             WishLists = new Repository<WishList>(_context);
             ApplicationUsers = new Repository<ApplicationUser>(_context);
+        }
+
+        public IRepository<T> GetRepository<T>() where T : class
+        {
+            if (!_repositories.ContainsKey(typeof(T)))
+            {
+                var repositoryInstance = new Repository<T>(_context);
+                _repositories.Add(typeof(T), repositoryInstance);
+            }
+
+            return (IRepository<T>)_repositories[typeof(T)];
         }
 
         public async Task<int> SaveAsync()

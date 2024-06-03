@@ -1,6 +1,6 @@
 [
   {
-    "ContainingType": "BookingController",
+    "ContainingType": "Booking_API.Controllers.BookingController",
     "Method": "GetBookings",
     "RelativePath": "api/Booking",
     "HttpMethod": "GET",
@@ -15,7 +15,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.Booking, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.Booking, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -26,7 +26,7 @@
     ]
   },
   {
-    "ContainingType": "BookingController",
+    "ContainingType": "Booking_API.Controllers.BookingController",
     "Method": "PostBooking",
     "RelativePath": "api/Booking",
     "HttpMethod": "POST",
@@ -41,7 +41,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.Models.Booking",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Booking, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -52,7 +52,7 @@
     ]
   },
   {
-    "ContainingType": "BookingController",
+    "ContainingType": "Booking_API.Controllers.BookingController",
     "Method": "GetBooking",
     "RelativePath": "api/Booking/{id}",
     "HttpMethod": "GET",
@@ -72,7 +72,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.Models.Booking",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Booking, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -83,7 +83,7 @@
     ]
   },
   {
-    "ContainingType": "BookingController",
+    "ContainingType": "Booking_API.Controllers.BookingController",
     "Method": "PutBooking",
     "RelativePath": "api/Booking/{id}",
     "HttpMethod": "PUT",
@@ -101,10 +101,20 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Booking, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
-    "ContainingType": "BookingController",
+    "ContainingType": "Booking_API.Controllers.BookingController",
     "Method": "DeleteBooking",
     "RelativePath": "api/Booking/{id}",
     "HttpMethod": "DELETE",
@@ -117,6 +127,16 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Booking, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   }
 ]

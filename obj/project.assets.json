@@ -4756,40 +4756,24 @@
     ]
   },
   "packageFolders": {
-<<<<<<< HEAD
-    "C:\\Users\\zain house\\.nuget\\packages\\": {}
-=======
-    "C:\\Users\\AIO\\.nuget\\packages\\": {},
+    "C:\\Users\\ahmed\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
->>>>>>> 000868cfa68038a2346ea2c57e8ddd5821a97c94
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< HEAD
-      "projectUniqueName": "D:\\Graduation Project\\Grade Project\\Booking-API\\Booking API.csproj",
+      "projectUniqueName": "C:\\Users\\ahmed\\Desktop\\Graduation Project\\Booking API\\Booking API\\Booking API.csproj",
       "projectName": "Booking API",
-      "projectPath": "D:\\Graduation Project\\Grade Project\\Booking-API\\Booking API.csproj",
-      "packagesPath": "C:\\Users\\zain house\\.nuget\\packages\\",
-      "outputPath": "D:\\Graduation Project\\Grade Project\\Booking-API\\obj\\",
-=======
-      "projectUniqueName": "C:\\Users\\AIO\\Desktop\\Graduation Project\\Booking-API\\Booking API.csproj",
-      "projectName": "Booking API",
-      "projectPath": "C:\\Users\\AIO\\Desktop\\Graduation Project\\Booking-API\\Booking API.csproj",
-      "packagesPath": "C:\\Users\\AIO\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\AIO\\Desktop\\Graduation Project\\Booking-API\\obj\\",
->>>>>>> 000868cfa68038a2346ea2c57e8ddd5821a97c94
+      "projectPath": "C:\\Users\\ahmed\\Desktop\\Graduation Project\\Booking API\\Booking API\\Booking API.csproj",
+      "packagesPath": "C:\\Users\\ahmed\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ahmed\\Desktop\\Graduation Project\\Booking API\\Booking API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-<<<<<<< HEAD
-        "C:\\Users\\zain house\\AppData\\Roaming\\NuGet\\NuGet.Config",
-=======
-        "C:\\Users\\AIO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ahmed\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
->>>>>>> 000868cfa68038a2346ea2c57e8ddd5821a97c94
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4797,6 +4781,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4862,20 +4847,8 @@
             "privateAssets": "all"
           }
         },
-<<<<<<< HEAD
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
-=======
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
->>>>>>> 000868cfa68038a2346ea2c57e8ddd5821a97c94
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file C:\\Users\\AIO\\Desktop\\Graduation Project\\Booking-API\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  }
 }

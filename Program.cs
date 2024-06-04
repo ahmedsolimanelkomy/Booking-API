@@ -32,6 +32,10 @@ namespace Booking_API
             builder.Services.AddScoped<IFlightService, FlightService>();
             builder.Services.AddScoped<ITicketService, TicketService>();
 
+            builder.Services.AddScoped< IPaymentService, PaymentService> ();
+            builder.Services.AddScoped<IPassportService, PassportService>();
+            builder.Services.AddScoped<IWishListService, WishListService>();
+
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<BookingContext>()
             .AddDefaultTokenProviders();
@@ -39,6 +43,8 @@ namespace Booking_API
             builder.Services.AddScoped<UserManager<ApplicationUser>>();
             builder.Services.AddScoped<IService<City>, Service<City>>();
             builder.Services.AddScoped<IService<Country>, Service<Country>>();
+
+            builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 

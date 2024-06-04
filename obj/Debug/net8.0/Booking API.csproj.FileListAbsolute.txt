@@ -571,3 +571,5 @@ C:\Users\AIO\Desktop\Graduation Project\Booking-API\obj\Debug\net8.0\Booking API
 C:\Users\AIO\Desktop\Graduation Project\Booking-API\obj\Debug\net8.0\Booking API.genruntimeconfig.cache
 C:\Users\AIO\Desktop\Graduation Project\Booking-API\obj\Debug\net8.0\ref\Booking API.dll
 >>>>>>> 000868cfa68038a2346ea2c57e8ddd5821a97c94
+C:\Users\ahmed\Desktop\Graduation Project\Booking API\Booking API\bin\Debug\net8.0\AutoMapper.dll
+C:\Users\ahmed\Desktop\Graduation Project\Booking API\Booking API\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

@@ -35,6 +35,7 @@ namespace Booking_API
             builder.Services.AddScoped< IPaymentService, PaymentService> ();
             builder.Services.AddScoped<IPassportService, PassportService>();
             builder.Services.AddScoped<IWishListService, WishListService>();
+            builder.Services.AddScoped<IHotelService, HotelService>();
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<BookingContext>()

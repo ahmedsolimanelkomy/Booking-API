@@ -28,10 +28,6 @@ namespace Booking_API
             });
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IBookingService, BookingService>();
-            builder.Services.AddScoped<IAirlineService, AirlineService>();
-            builder.Services.AddScoped<IFlightService, FlightService>();
-            builder.Services.AddScoped<ITicketService, TicketService>();
-
             builder.Services.AddScoped< IPaymentService, PaymentService> ();
             builder.Services.AddScoped<IPassportService, PassportService>();
             builder.Services.AddScoped<IWishListService, WishListService>();

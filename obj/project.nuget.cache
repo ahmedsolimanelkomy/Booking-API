@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "i6/nOjaHSGkvgVuAnG3V2+8M7QSNEieAr7vEyNIhgAfAMyu4uoqPpcpFsp67d+eiwYvdfFEFtfnA1+ibHLQWmQ==",
+  "dgSpecHash": "OOLHPMm4iHdPBff+DIz4ewIEt/dmW90cJtueK5YWk0euLRn8EMx4VIDSvXV1VPWR3XvIxv2EJIGEPV3j9gfeDQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ahmed\\Desktop\\Graduation Project\\Booking API\\Booking API\\Booking API.csproj",
+  "projectFilePath": "C:\\Users\\ahmed\\Desktop\\Graduation Project\\Booking API\\Booking-API\\Booking API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ahmed\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\ahmed\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

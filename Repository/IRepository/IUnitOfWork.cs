@@ -5,6 +5,8 @@ namespace Booking_API.Repository.IRepository
     public interface IUnitOfWork : IDisposable
     {
         IRepository<Hotel> Hotels { get; }
+        IRepository<HotelPhoto> HotelPhotos { get; }
+        IRepository<Feature> Features { get; }
         IRepository<Room> Rooms { get; }
         IRepository<Booking> Bookings { get; }
         IRepository<CarAgency> CarAgencies { get; }

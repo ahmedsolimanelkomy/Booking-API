@@ -1,5 +1,7 @@
-﻿using Booking_API.DTOs;
+﻿using AutoMapper;
+using Booking_API.DTOs;
 using Booking_API.Models;
+using Booking_API.Services;
 using Booking_API.Services.IService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +13,12 @@ namespace Booking_API.Controllers
     public class HotelController : ControllerBase
     {
         private readonly IHotelService _HotelService;
+        private readonly IMapper _mapper;
 
-        public HotelController(IHotelService HotelService)
+        public HotelController(IHotelService HotelService, IMapper mapper)
         {
             _HotelService = HotelService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -36,21 +40,20 @@ namespace Booking_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<GeneralResponse<Hotel>>> PostHotel(Hotel Hotel)
+        public async Task<ActionResult<GeneralResponse<Hotel>>> PostHotel(HotelDTO hotelDTO)
         {
-            await _HotelService.AddAsync(Hotel);
+            var Hotel = await _HotelService.AddAsync(hotelDTO);
             return CreatedAtAction(nameof(GetHotel), new { id = Hotel.Id }, new GeneralResponse<Hotel>(true, "Hotel added successfully", Hotel));
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<GeneralResponse<Hotel>>> PutHotel(int id, Hotel Hotel)
+        [HttpPatch("{id}")]
+        public async Task<ActionResult<GeneralResponse<Hotel>>> PutHotel(int id, HotelDTO hotelDTO)
         {
-            if (id != Hotel.Id)
+            if (id != hotelDTO.Id)
             {
                 return BadRequest(new GeneralResponse<Hotel>(false, "Hotel ID mismatch", null));
             }
-
-            await _HotelService.UpdateAsync(Hotel);
+            await _HotelService.UpdateAsync(hotelDTO);
             return NoContent();
         }
 

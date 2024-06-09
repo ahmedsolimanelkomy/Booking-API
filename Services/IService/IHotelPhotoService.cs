@@ -2,7 +2,8 @@
 
 namespace Booking_API.Services.IService
 {
-    public interface ITicketService:IService<Ticket>
+    public interface IHotelPhotoService :IService<HotelPhoto>
     {
+
     }
 }

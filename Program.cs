@@ -29,10 +29,14 @@ namespace Booking_API
             });
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IBookingService, BookingService>();
-            builder.Services.AddScoped<IAirlineService, AirlineService>();
-            builder.Services.AddScoped<IFlightService, FlightService>();
-            builder.Services.AddScoped<ITicketService, TicketService>();
-
+            builder.Services.AddScoped< IPaymentService, PaymentService> ();
+            builder.Services.AddScoped<IPassportService, PassportService>();
+            builder.Services.AddScoped<IWishListService, WishListService>();
+            builder.Services.AddScoped<IHotelService, HotelService>();
+            builder.Services.AddScoped<IHotelPhotoService, HotelPhotoService>();
+            builder.Services.AddScoped<IFeatureService, FeatureService>();
+            builder.Services.AddScoped<IRoomService, RoomService>();
+            builder.Services.AddScoped<IRoomTypeService, RoomTypeService>();
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<BookingContext>()
                 .AddDefaultTokenProviders();
@@ -40,6 +44,8 @@ namespace Booking_API
             builder.Services.AddScoped<UserManager<ApplicationUser>>();
             builder.Services.AddScoped<IService<City>, Service<City>>();
             builder.Services.AddScoped<IService<Country>, Service<Country>>();
+
+            builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
             // Add JWT Authentication

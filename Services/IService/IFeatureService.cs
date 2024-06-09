@@ -2,7 +2,7 @@
 
 namespace Booking_API.Services.IService
 {
-    public interface IAirlineService:IService<Airline>
+    public interface IFeatureService : IService<Feature>
     {
     }
 }

@@ -4,9 +4,9 @@ using Booking_API.Services.IService;
 
 namespace Booking_API.Services
 {
-    public class AirlineService : Service<Airline>, IAirlineService
+    public class WishListService : Service<WishList>, IWishListService
     {
-        public AirlineService(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public WishListService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
     }

@@ -9,6 +9,8 @@ namespace Booking_API.Mapping
         public MappingProfile()
         {
             CreateMap<RegisterDTO, ApplicationUser>();
-                   }
+            CreateMap<HotelDTO, Hotel>();
+                   
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Booking_API.Models
@@ -23,9 +24,8 @@ namespace Booking_API.Models
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<WishList> WishLists { get; set; }
 
-        public BookingContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+        public BookingContext(DbContextOptions<BookingContext> dbContextOptions) : base(dbContextOptions)
         {
-            
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -36,7 +36,11 @@ namespace Booking_API.Models
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-        }
 
+            builder.Entity<IdentityRole>().HasData(
+                new IdentityRole { Id = "1", Name = "ADMIN", NormalizedName = "ADMIN" },
+                new IdentityRole { Id = "2", Name = "USER", NormalizedName = "USER" }
+            );
+        }
     }
 }

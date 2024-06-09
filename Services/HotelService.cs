@@ -3,6 +3,7 @@ using Booking_API.DTOs;
 using Booking_API.Models;
 using Booking_API.Repository.IRepository;
 using Booking_API.Services.IService;
+using System.Linq.Expressions;
 
 namespace Booking_API.Services
 {
@@ -17,7 +18,7 @@ namespace Booking_API.Services
             _mapper = mapper;
         }
 
-        public async Task<Hotel> AddAsync(HotelDTO hotelDTO)
+        public async Task<Hotel> AddDTOAsync(HotelDTO hotelDTO)
         {
             
             var hotel = _mapper.Map<Hotel>(hotelDTO);
@@ -29,7 +30,7 @@ namespace Booking_API.Services
             return hotel;
         }
 
-        public async Task<Hotel> UpdateAsync(HotelDTO hotelDTO)
+        public async Task<Hotel> UpdateDTOAsync(HotelDTO hotelDTO)
         {
             var hotel = await _unitOfWork.GetRepository<Hotel>().GetAsync(h=>h.Id==hotelDTO.Id);
             if (hotel == null)
@@ -41,5 +42,7 @@ namespace Booking_API.Services
             await base.UpdateAsync(hotel);
             return hotel;
         }
+
+        
     }
 }

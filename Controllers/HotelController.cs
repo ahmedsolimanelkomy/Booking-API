@@ -13,12 +13,12 @@ namespace Booking_API.Controllers
     public class HotelController : ControllerBase
     {
         private readonly IHotelService _HotelService;
-        private readonly IMapper _mapper;
+     
 
-        public HotelController(IHotelService HotelService, IMapper mapper)
+        public HotelController(IHotelService HotelService)
         {
             _HotelService = HotelService;
-            _mapper = mapper;
+            
         }
 
         [HttpGet]
@@ -42,7 +42,7 @@ namespace Booking_API.Controllers
         [HttpPost]
         public async Task<ActionResult<GeneralResponse<Hotel>>> PostHotel(HotelDTO hotelDTO)
         {
-            var Hotel = await _HotelService.AddAsync(hotelDTO);
+            var Hotel = await _HotelService.AddDTOAsync(hotelDTO);
             return CreatedAtAction(nameof(GetHotel), new { id = Hotel.Id }, new GeneralResponse<Hotel>(true, "Hotel added successfully", Hotel));
         }
 
@@ -53,7 +53,7 @@ namespace Booking_API.Controllers
             {
                 return BadRequest(new GeneralResponse<Hotel>(false, "Hotel ID mismatch", null));
             }
-            await _HotelService.UpdateAsync(hotelDTO);
+            await _HotelService.UpdateDTOAsync(hotelDTO);
             return NoContent();
         }
 

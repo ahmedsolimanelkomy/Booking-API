@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Booking_API.Models
 {
@@ -21,6 +22,7 @@ namespace Booking_API.Models
         public int? HotelId { get; set; }
 
         //Navigation Properties
+        [JsonIgnore]
         public Hotel? Hotel { get; set; }
     }
 }

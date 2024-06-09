@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Booking_API.Models
 {
@@ -16,6 +17,7 @@ namespace Booking_API.Models
 
 
         //Navigation Properties
+        [JsonIgnore]
         public ICollection<Hotel> Photos { get; set; } = new HashSet<Hotel>();
 
     }

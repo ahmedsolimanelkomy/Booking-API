@@ -1,15 +1,14 @@
+using Booking_API.Mapping;
 using Booking_API.Models;
-using Booking_API.Repository.IRepository;
 using Booking_API.Repository;
+using Booking_API.Repository.IRepository;
 using Booking_API.Services;
 using Booking_API.Services.IService;
-using Booking_API.Mapping;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Booking_API
 {
@@ -29,7 +28,7 @@ namespace Booking_API
             });
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IBookingService, BookingService>();
-            builder.Services.AddScoped< IPaymentService, PaymentService> ();
+            builder.Services.AddScoped<IPaymentService, PaymentService>();
             builder.Services.AddScoped<IPassportService, PassportService>();
             builder.Services.AddScoped<IWishListService, WishListService>();
             builder.Services.AddScoped<IHotelService, HotelService>();
@@ -37,7 +36,7 @@ namespace Booking_API
             builder.Services.AddScoped<IFeatureService, FeatureService>();
             builder.Services.AddScoped<IRoomService, RoomService>();
             builder.Services.AddScoped<IRoomTypeService, RoomTypeService>();
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+            builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<BookingContext>()
                 .AddDefaultTokenProviders();
 

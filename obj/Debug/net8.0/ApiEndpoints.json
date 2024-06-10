@@ -17,159 +17,35 @@
   },
   {
     "ContainingType": "Booking_API.Controllers.AccountController",
-    "Method": "Register",
-    "RelativePath": "api/Account/register",
+    "Method": "RegisterAdmin",
+    "RelativePath": "api/Account/register/admin",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "model",
-        "Type": "Booking_API.DTOs.RegisterDTO",
+        "Type": "Booking_API.DTOs.UserRegisterDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Booking_API.Controllers.AirlineController",
-    "Method": "GetAirlines",
-    "RelativePath": "api/Airline",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "includeProperties",
-        "Type": "System.String[]",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.Airline, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "Booking_API.Controllers.AirlineController",
-    "Method": "PostAirline",
-    "RelativePath": "api/Airline",
+    "ContainingType": "Booking_API.Controllers.AccountController",
+    "Method": "RegisterUser",
+    "RelativePath": "api/Account/register/user",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "airline",
-        "Type": "Booking_API.Models.Airline",
+        "Name": "model",
+        "Type": "Booking_API.DTOs.UserRegisterDTO",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Airline, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "Booking_API.Controllers.AirlineController",
-    "Method": "GetAirline",
-    "RelativePath": "api/Airline/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "includeProperties",
-        "Type": "System.String[]",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Airline, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "Booking_API.Controllers.AirlineController",
-    "Method": "PutAirline",
-    "RelativePath": "api/Airline/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "airline",
-        "Type": "Booking_API.Models.Airline",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Airline, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "Booking_API.Controllers.AirlineController",
-    "Method": "DeleteAirline",
-    "RelativePath": "api/Airline/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Airline, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Booking_API.Controllers.BookingController",
@@ -187,7 +63,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.Booking, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.Booking, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -213,7 +89,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Booking, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Booking, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -244,7 +120,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Booking, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Booking, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -275,7 +151,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Booking, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Booking, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -301,7 +177,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Booking, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Booking, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -310,6 +186,115 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.CarController",
+    "Method": "GetCars",
+    "RelativePath": "api/Car",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.Car, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.CarController",
+    "Method": "CreateCar",
+    "RelativePath": "api/Car",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "car",
+        "Type": "Booking_API.Models.Car",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.Models.Car",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.CarController",
+    "Method": "GetCarById",
+    "RelativePath": "api/Car/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.Models.Car",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.CarController",
+    "Method": "UpdateCar",
+    "RelativePath": "api/Car/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "car",
+        "Type": "Booking_API.Models.Car",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.CarController",
+    "Method": "DeleteCar",
+    "RelativePath": "api/Car/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Booking_API.Controllers.CarAgencyController",
@@ -321,7 +306,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.CarAgency, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.CarAgency, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -436,7 +421,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.City, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.City, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -462,7 +447,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.City, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.City, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -493,7 +478,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.City, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.City, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -524,7 +509,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.City, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.City, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -550,7 +535,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.City, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.City, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -576,7 +561,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.Country, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.Country, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -602,7 +587,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Country, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Country, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -633,7 +618,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Country, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Country, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -664,7 +649,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Country, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Country, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -690,7 +675,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Country, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Country, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -701,9 +686,9 @@
     ]
   },
   {
-    "ContainingType": "Booking_API.Controllers.FlightController",
-    "Method": "GetFlights",
-    "RelativePath": "api/Flight",
+    "ContainingType": "Booking_API.Controllers.FeatureController",
+    "Method": "GetFeatures",
+    "RelativePath": "api/Feature",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -716,7 +701,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.Flight, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.Feature, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -727,22 +712,22 @@
     ]
   },
   {
-    "ContainingType": "Booking_API.Controllers.FlightController",
-    "Method": "PostFlight",
-    "RelativePath": "api/Flight",
+    "ContainingType": "Booking_API.Controllers.FeatureController",
+    "Method": "PostFeature",
+    "RelativePath": "api/Feature",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Flight",
-        "Type": "Booking_API.Models.Flight",
+        "Name": "Feature",
+        "Type": "Booking_API.Models.Feature",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Flight, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Feature, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -753,9 +738,9 @@
     ]
   },
   {
-    "ContainingType": "Booking_API.Controllers.FlightController",
-    "Method": "GetFlight",
-    "RelativePath": "api/Flight/{id}",
+    "ContainingType": "Booking_API.Controllers.FeatureController",
+    "Method": "GetFeature",
+    "RelativePath": "api/Feature/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -773,7 +758,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Flight, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Feature, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -784,9 +769,9 @@
     ]
   },
   {
-    "ContainingType": "Booking_API.Controllers.FlightController",
-    "Method": "PutFlight",
-    "RelativePath": "api/Flight/{id}",
+    "ContainingType": "Booking_API.Controllers.FeatureController",
+    "Method": "PutFeature",
+    "RelativePath": "api/Feature/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -797,14 +782,14 @@
         "IsRequired": true
       },
       {
-        "Name": "Flight",
-        "Type": "Booking_API.Models.Flight",
+        "Name": "Feature",
+        "Type": "Booking_API.Models.Feature",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Flight, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Feature, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -815,9 +800,9 @@
     ]
   },
   {
-    "ContainingType": "Booking_API.Controllers.FlightController",
-    "Method": "DeleteFlight",
-    "RelativePath": "api/Flight/{id}",
+    "ContainingType": "Booking_API.Controllers.FeatureController",
+    "Method": "DeleteFeature",
+    "RelativePath": "api/Feature/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -830,7 +815,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Flight, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Feature, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -841,9 +826,9 @@
     ]
   },
   {
-    "ContainingType": "Booking_API.Controllers.TicketController",
-    "Method": "GetTickets",
-    "RelativePath": "api/Ticket",
+    "ContainingType": "Booking_API.Controllers.HotelController",
+    "Method": "GetHotels",
+    "RelativePath": "api/Hotel",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -856,7 +841,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.Ticket, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.Hotel, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -867,22 +852,22 @@
     ]
   },
   {
-    "ContainingType": "Booking_API.Controllers.TicketController",
-    "Method": "PostTicket",
-    "RelativePath": "api/Ticket",
+    "ContainingType": "Booking_API.Controllers.HotelController",
+    "Method": "PostHotel",
+    "RelativePath": "api/Hotel",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Ticket",
-        "Type": "Booking_API.Models.Ticket",
+        "Name": "hotelDTO",
+        "Type": "Booking_API.DTOs.HotelDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Ticket, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Hotel, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -893,9 +878,9 @@
     ]
   },
   {
-    "ContainingType": "Booking_API.Controllers.TicketController",
-    "Method": "GetTicket",
-    "RelativePath": "api/Ticket/{id}",
+    "ContainingType": "Booking_API.Controllers.HotelController",
+    "Method": "GetHotel",
+    "RelativePath": "api/Hotel/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -913,7 +898,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Ticket, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Hotel, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -924,10 +909,10 @@
     ]
   },
   {
-    "ContainingType": "Booking_API.Controllers.TicketController",
-    "Method": "PutTicket",
-    "RelativePath": "api/Ticket/{id}",
-    "HttpMethod": "PUT",
+    "ContainingType": "Booking_API.Controllers.HotelController",
+    "Method": "PutHotel",
+    "RelativePath": "api/Hotel/{id}",
+    "HttpMethod": "PATCH",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -937,14 +922,14 @@
         "IsRequired": true
       },
       {
-        "Name": "Ticket",
-        "Type": "Booking_API.Models.Ticket",
+        "Name": "hotelDTO",
+        "Type": "Booking_API.DTOs.HotelDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Ticket, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Hotel, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -955,9 +940,9 @@
     ]
   },
   {
-    "ContainingType": "Booking_API.Controllers.TicketController",
-    "Method": "DeleteTicket",
-    "RelativePath": "api/Ticket/{id}",
+    "ContainingType": "Booking_API.Controllers.HotelController",
+    "Method": "DeleteHotel",
+    "RelativePath": "api/Hotel/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -970,7 +955,987 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Ticket, Booking API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Hotel, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.HotelPhotoController",
+    "Method": "GetHotelPhotos",
+    "RelativePath": "api/HotelPhoto",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "includeProperties",
+        "Type": "System.String[]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.HotelPhoto, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.HotelPhotoController",
+    "Method": "PostHotelPhoto",
+    "RelativePath": "api/HotelPhoto",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "HotelPhoto",
+        "Type": "Booking_API.Models.HotelPhoto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.HotelPhoto, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.HotelPhotoController",
+    "Method": "GetHotelPhoto",
+    "RelativePath": "api/HotelPhoto/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "includeProperties",
+        "Type": "System.String[]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.HotelPhoto, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.HotelPhotoController",
+    "Method": "PutHotelPhoto",
+    "RelativePath": "api/HotelPhoto/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "HotelPhoto",
+        "Type": "Booking_API.Models.HotelPhoto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.HotelPhoto, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.HotelPhotoController",
+    "Method": "DeleteHotelPhoto",
+    "RelativePath": "api/HotelPhoto/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.HotelPhoto, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.PassportController",
+    "Method": "GetPassports",
+    "RelativePath": "api/Passport",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "includeProperties",
+        "Type": "System.String[]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.DTOs.PassportDto, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.PassportController",
+    "Method": "PostPassport",
+    "RelativePath": "api/Passport",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "passportCreateDto",
+        "Type": "Booking_API.DTOs.PassportDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.PassportController",
+    "Method": "GetPassport",
+    "RelativePath": "api/Passport/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "includeProperties",
+        "Type": "System.String[]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.PassportDto, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.PassportController",
+    "Method": "PutPassport",
+    "RelativePath": "api/Passport/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "passportUpdateDto",
+        "Type": "Booking_API.DTOs.PassportDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.PassportDto, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.PassportController",
+    "Method": "DeletePassport",
+    "RelativePath": "api/Passport/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.PassportDto, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.PaymentController",
+    "Method": "GetPayments",
+    "RelativePath": "api/Payment",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "includeProperties",
+        "Type": "System.String[]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.Payment, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.PaymentController",
+    "Method": "PostPayment",
+    "RelativePath": "api/Payment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Payment",
+        "Type": "Booking_API.Models.Payment",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Payment, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.PaymentController",
+    "Method": "GetPayment",
+    "RelativePath": "api/Payment/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "includeProperties",
+        "Type": "System.String[]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Payment, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.PaymentController",
+    "Method": "PutPayment",
+    "RelativePath": "api/Payment/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "Payment",
+        "Type": "Booking_API.Models.Payment",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Payment, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.PaymentController",
+    "Method": "DeletePayment",
+    "RelativePath": "api/Payment/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Payment, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.ReviewController",
+    "Method": "GetReviews",
+    "RelativePath": "api/Review",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "includeProperties",
+        "Type": "System.String[]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.Review, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.ReviewController",
+    "Method": "PostReview",
+    "RelativePath": "api/Review",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Review",
+        "Type": "Booking_API.Models.Review",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Review, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.ReviewController",
+    "Method": "GetReview",
+    "RelativePath": "api/Review/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "includeProperties",
+        "Type": "System.String[]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Review, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.ReviewController",
+    "Method": "PutReview",
+    "RelativePath": "api/Review/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "Review",
+        "Type": "Booking_API.Models.Review",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Review, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.ReviewController",
+    "Method": "DeleteReview",
+    "RelativePath": "api/Review/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Review, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.RoomController",
+    "Method": "GetRooms",
+    "RelativePath": "api/Room",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "includeProperties",
+        "Type": "System.String[]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.Room, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.RoomController",
+    "Method": "PostRoom",
+    "RelativePath": "api/Room",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Room",
+        "Type": "Booking_API.Models.Room",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Room, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.RoomController",
+    "Method": "GetRoom",
+    "RelativePath": "api/Room/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "includeProperties",
+        "Type": "System.String[]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Room, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.RoomController",
+    "Method": "PutRoom",
+    "RelativePath": "api/Room/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "Room",
+        "Type": "Booking_API.Models.Room",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Room, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.RoomController",
+    "Method": "DeleteRoom",
+    "RelativePath": "api/Room/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Room, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.RoomTypeController",
+    "Method": "GetRoomTypes",
+    "RelativePath": "api/RoomType",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "includeProperties",
+        "Type": "System.String[]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.RoomType, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.RoomTypeController",
+    "Method": "PostRoomType",
+    "RelativePath": "api/RoomType",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "RoomType",
+        "Type": "Booking_API.Models.RoomType",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.RoomType, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.RoomTypeController",
+    "Method": "GetRoomType",
+    "RelativePath": "api/RoomType/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "includeProperties",
+        "Type": "System.String[]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.RoomType, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.RoomTypeController",
+    "Method": "PutRoomType",
+    "RelativePath": "api/RoomType/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "RoomType",
+        "Type": "Booking_API.Models.RoomType",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.RoomType, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.RoomTypeController",
+    "Method": "DeleteRoomType",
+    "RelativePath": "api/RoomType/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.RoomType, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.WishListController",
+    "Method": "GetWishLists",
+    "RelativePath": "api/WishList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "includeProperties",
+        "Type": "System.String[]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.WishList, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.WishListController",
+    "Method": "PostWishList",
+    "RelativePath": "api/WishList",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "WishList",
+        "Type": "Booking_API.Models.WishList",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.WishList, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.WishListController",
+    "Method": "GetWishList",
+    "RelativePath": "api/WishList/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "includeProperties",
+        "Type": "System.String[]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.WishList, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.WishListController",
+    "Method": "PutWishList",
+    "RelativePath": "api/WishList/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "WishList",
+        "Type": "Booking_API.Models.WishList",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.WishList, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.WishListController",
+    "Method": "DeleteWishList",
+    "RelativePath": "api/WishList/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.WishList, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

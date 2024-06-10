@@ -4,7 +4,6 @@ using Booking_API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -28,7 +27,7 @@ namespace Booking_API.Controllers
         }
 
         [HttpPost("register/user")]
-        public async Task<ActionResult> RegisterUser([FromBody] RegisterDTO model)
+        public async Task<ActionResult> RegisterUser([FromBody] UserRegisterDTO model)
         {
             if (!ModelState.IsValid)
             {
@@ -50,7 +49,7 @@ namespace Booking_API.Controllers
 
         [HttpPost("register/admin")]
         [Authorize(Roles = "ADMIN")]
-        public async Task<ActionResult> RegisterAdmin([FromBody] RegisterDTO model)
+        public async Task<ActionResult> RegisterAdmin([FromBody] UserRegisterDTO model)
         {
             if (!ModelState.IsValid)
             {

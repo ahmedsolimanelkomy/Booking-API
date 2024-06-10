@@ -910,7 +910,7 @@
   },
   {
     "ContainingType": "Booking_API.Controllers.HotelController",
-    "Method": "PutHotel",
+    "Method": "PatchHotel",
     "RelativePath": "api/Hotel/{id}",
     "HttpMethod": "PATCH",
     "IsController": true,
@@ -1560,8 +1560,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Room",
-        "Type": "Booking_API.Models.Room",
+        "Name": "RoomDTO",
+        "Type": "Booking_API.DTOs.RoomDTO",
         "IsRequired": true
       }
     ],
@@ -1610,9 +1610,9 @@
   },
   {
     "ContainingType": "Booking_API.Controllers.RoomController",
-    "Method": "PutRoom",
+    "Method": "PatchRoom",
     "RelativePath": "api/Room/{id}",
-    "HttpMethod": "PUT",
+    "HttpMethod": "PATCH",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -1622,8 +1622,8 @@
         "IsRequired": true
       },
       {
-        "Name": "Room",
-        "Type": "Booking_API.Models.Room",
+        "Name": "RoomDTO",
+        "Type": "Booking_API.DTOs.RoomDTO",
         "IsRequired": true
       }
     ],

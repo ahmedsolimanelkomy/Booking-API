@@ -1,12 +1,15 @@
-
 using Booking_API.Models;
 using Booking_API.Repository.IRepository;
 using Booking_API.Repository;
-using Microsoft.EntityFrameworkCore;
 using Booking_API.Services;
-using Microsoft.AspNetCore.Identity;
 using Booking_API.Services.IService;
 using Booking_API.Mapping;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Booking_API
 {
@@ -17,9 +20,7 @@ namespace Booking_API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<BookingContext>(option =>
@@ -36,10 +37,9 @@ namespace Booking_API
             builder.Services.AddScoped<IFeatureService, FeatureService>();
             builder.Services.AddScoped<IRoomService, RoomService>();
             builder.Services.AddScoped<IRoomTypeService, RoomTypeService>();
-
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-            .AddEntityFrameworkStores<BookingContext>()
-            .AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<BookingContext>()
+                .AddDefaultTokenProviders();
 
             builder.Services.AddScoped<UserManager<ApplicationUser>>();
             builder.Services.AddScoped<IService<City>, Service<City>>();
@@ -48,7 +48,25 @@ namespace Booking_API
             builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-
+            // Add JWT Authentication
+            var key = Encoding.ASCII.GetBytes(builder.Configuration["JWT:SecKey"]);
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["JWT:ValidIss"],
+                    ValidAudience = builder.Configuration["JWT:ValidAud"],
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+            });
 
             var app = builder.Build();
 
@@ -59,8 +77,12 @@ namespace Booking_API
                 app.UseSwaggerUI();
             }
 
+            app.UseHttpsRedirection();
+            app.UseRouting();
+
+            // Use Authentication and Authorization middleware
+            app.UseAuthentication();
             app.UseAuthorization();
-            
 
             app.MapControllers();
 

@@ -1,8 +1,10 @@
-﻿using Booking_API.DTOs;
+﻿using AutoMapper;
+using Booking_API.DTOs;
 using Booking_API.Models;
 using Booking_API.Services.IService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Booking_API.Controllers
 {
@@ -10,65 +12,71 @@ namespace Booking_API.Controllers
     [ApiController]
     public class PassportController : ControllerBase
     {
+        private readonly IPassportService _passportService;
+        private readonly IMapper _mapper;
 
-
-        private readonly IPassportService passportService;
-
-        public PassportController(IPassportService passportService)
+        public PassportController(IPassportService passportService, IMapper mapper)
         {
-            this.passportService = passportService;
+            _passportService = passportService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<GeneralResponse<IEnumerable<Passport>>>> GetPassports([FromQuery] string[] includeProperties)
+        public async Task<ActionResult<GeneralResponse<IEnumerable<PassportDto>>>> GetPassports([FromQuery] string[] includeProperties)
         {
-            var response = await passportService.GetAllAsync(includeProperties);
-            return Ok(new GeneralResponse<IEnumerable<Passport>>(true, "Passports retrieved successfully", response));
+            var response = await _passportService.GetAllAsync(includeProperties);
+            var passportDtos = _mapper.Map<IEnumerable<PassportDto>>(response);
+            return Ok(new GeneralResponse<IEnumerable<PassportDto>>(true, "Passports retrieved successfully", passportDtos));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GeneralResponse<Passport>>> GetPassport(int id, [FromQuery] string[] includeProperties)
+        public async Task<ActionResult<GeneralResponse<PassportDto>>> GetPassport(int id, [FromQuery] string[] includeProperties)
         {
-            var response = await passportService.GetAsync(b => b.Id == id, includeProperties);
+            var response = await _passportService.GetAsync(p => p.Id == id, includeProperties);
             if (response == null)
             {
-                return NotFound(new GeneralResponse<Passport>(false, "Passport not found", null));
+                return NotFound(new GeneralResponse<PassportDto>(false, "Passport not found", null));
             }
-            return Ok(new GeneralResponse<Passport>(true, "Passport retrieved successfully", response));
+
+            var passportDto = _mapper.Map<PassportDto>(response);
+            return Ok(new GeneralResponse<PassportDto>(true, "Passport retrieved successfully", passportDto));
         }
 
         [HttpPost]
-        public async Task<ActionResult<GeneralResponse<Passport>>> PostPassport(Passport Passport)
+        public async Task<ActionResult<GeneralResponse<string>>> PostPassport(PassportDto passportCreateDto)
         {
-            await passportService.AddAsync(Passport);
-            return CreatedAtAction(nameof(GetPassport), new { id = Passport.Id }, new GeneralResponse<Passport>(true, "Passport added successfully", Passport));
+            var passport = _mapper.Map<Passport>(passportCreateDto);
+            await _passportService.AddAsync(passport);
+            return Ok(new GeneralResponse<string>(true, "Passport added successfully", "Passport added successfully"));
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<GeneralResponse<Passport>>> PutPassport(int id, Passport Passport)
+        public async Task<ActionResult<GeneralResponse<PassportDto>>> PutPassport(int id, PassportDto passportUpdateDto)
         {
-            if (id != Passport.Id)
+            var existingPassport = await _passportService.GetAsync(p => p.Id == id);
+            if (existingPassport == null)
             {
-                return BadRequest(new GeneralResponse<Passport>(false, "Passport ID mismatch", null));
+                return NotFound(new GeneralResponse<PassportDto>(false, "Passport not found", null));
             }
 
-            await passportService.UpdateAsync(Passport);
-            return NoContent();
+            _mapper.Map(passportUpdateDto, existingPassport);
+            await _passportService.UpdateAsync(existingPassport);
+            var updatedPassportDto = _mapper.Map<PassportDto>(existingPassport);
+            return Ok(new GeneralResponse<PassportDto>(true, "Passport updated successfully", updatedPassportDto));
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<GeneralResponse<Passport>>> DeletePassport(int id)
+        public async Task<ActionResult<GeneralResponse<PassportDto>>> DeletePassport(int id)
         {
-            var existingPassport = await passportService.GetAsync(b => b.Id == id);
+            var existingPassport = await _passportService.GetAsync(p => p.Id == id);
             if (existingPassport == null)
             {
-                return NotFound(new GeneralResponse<Passport>(false, "Passport not found", null));
+                return NotFound(new GeneralResponse<PassportDto>(false, "Passport not found", null));
             }
 
-            await passportService.DeleteAsync(id);
-            return Ok(new GeneralResponse<Passport>(true, "Passport deleted successfully", existingPassport));
+            await _passportService.DeleteAsync(id);
+            var passportDto = _mapper.Map<PassportDto>(existingPassport);
+            return Ok(new GeneralResponse<PassportDto>(true, "Passport deleted successfully", passportDto));
         }
-
-
     }
 }

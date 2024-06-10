@@ -27,6 +27,5 @@ namespace Booking_API.DTOs
 
 
 
-
     }
 }

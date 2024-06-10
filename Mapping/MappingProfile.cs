@@ -10,7 +10,10 @@ namespace Booking_API.Mapping
         {
             CreateMap<RegisterDTO, ApplicationUser>();
             CreateMap<HotelDTO, Hotel>();
-                   
+            CreateMap<PassportDto, Passport>();
+            CreateMap<Passport, PassportDto>();
+
+
         }
     }
 }

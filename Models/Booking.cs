@@ -43,7 +43,6 @@ namespace Booking_API.Models
         //Navigation  Properties
         public ApplicationUser? ApplicationUser { get; set; }
         public Room? Room { get; set; }
-        public Flight? Flight { get; set; }
         public Car? Car { get; set; }
         public Review? ReviewList { get; set; }
         public Payment? PaymentList { get; set; }

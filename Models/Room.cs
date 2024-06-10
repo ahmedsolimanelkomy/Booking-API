@@ -3,6 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Booking_API.Models
 {
+
+    public enum View
+    {
+
+    }
     public class Room
     {
         [Key]
@@ -12,14 +17,11 @@ namespace Booking_API.Models
 
         public int Capacity { get; set; }
 
-        [MaxLength(100)]
-        public string? View { get; set; }
-
-        public bool IsBooked { get; set; }
+        public View? View { get; set; }
 
         // Foreign Keys
         [ForeignKey("Hotel")]
-        public int HotelId { get; set; }
+        public int? HotelId { get; set; }
 
         [ForeignKey("RoomType")]
         public int? RoomTypeId { get; set; }
@@ -29,7 +31,7 @@ namespace Booking_API.Models
 
         public RoomType? RoomType { get; set; }
 
-        public ICollection<Booking> Bookings { get; set; } = new HashSet<Booking>();
+        
 
     }
 }

@@ -45,6 +45,6 @@ namespace Booking_API.Models
 
 
         
-        //public virtual ICollection<WishList> WishLists { get; set; } = new HashSet<WishList>();
+        
     }
 }

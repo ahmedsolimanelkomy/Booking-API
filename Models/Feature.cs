@@ -9,7 +9,7 @@ namespace Booking_API.Models
         [Key]
         public int Id { get; set; }
 
-        [Required, MaxLength(100)]
+        [MaxLength(100)]
         public string? Name { get; set; }
 
         //Foreign Keys

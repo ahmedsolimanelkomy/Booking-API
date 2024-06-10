@@ -1,5 +1,6 @@
 ﻿using Booking_API.DTOs;
 using Booking_API.Models;
+using Booking_API.Services;
 using Booking_API.Services.IService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,21 +37,20 @@ namespace Booking_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<GeneralResponse<Room>>> PostRoom(Room Room)
+        public async Task<ActionResult<GeneralResponse<Room>>> PostRoom(RoomDTO RoomDTO)
         {
-            await _RoomService.AddAsync(Room);
+            var Room = await _RoomService.AddDTOAsync(RoomDTO);
             return CreatedAtAction(nameof(GetRoom), new { id = Room.Id }, new GeneralResponse<Room>(true, "Room added successfully", Room));
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<GeneralResponse<Room>>> PutRoom(int id, Room Room)
+        [HttpPatch("{id}")]
+        public async Task<ActionResult<GeneralResponse<Room>>> PatchRoom(int id, RoomDTO RoomDTO)
         {
-            if (id != Room.Id)
+            if (id != RoomDTO.Id)
             {
                 return BadRequest(new GeneralResponse<Room>(false, "Room ID mismatch", null));
             }
-
-            await _RoomService.UpdateAsync(Room);
+            await _RoomService.UpdateDTOAsync(RoomDTO);
             return NoContent();
         }
 

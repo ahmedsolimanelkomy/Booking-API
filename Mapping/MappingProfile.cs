@@ -11,9 +11,16 @@ namespace Booking_API.Mapping
             CreateMap<UserRegisterDTO, ApplicationUser>().ReverseMap();
             CreateMap<AdminDTO, ApplicationUser>().ReverseMap();
             CreateMap<HotelDTO, Hotel>();
+<<<<<<< HEAD
             CreateMap<PassportDto, Passport>().ReverseMap();
 
 
+=======
+            CreateMap<RoomDTO, Room>();
+            CreateMap<PassportDto, Passport>();
+            CreateMap<Passport, PassportDto>();
+            
+>>>>>>> c0cf980c6cb63f78cf498cce24bc5c1f40895346
 
 
         }

@@ -47,7 +47,7 @@ namespace Booking_API.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult<GeneralResponse<Hotel>>> PutHotel(int id, HotelDTO hotelDTO)
+        public async Task<ActionResult<GeneralResponse<Hotel>>> PatchHotel(int id, HotelDTO hotelDTO)
         {
             if (id != hotelDTO.Id)
             {

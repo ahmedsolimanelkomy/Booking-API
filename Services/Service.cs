@@ -20,6 +20,11 @@ namespace Booking_API.Services
             return await _repository.GetAllAsync(includeProperties);
         }
 
+        public async Task<IEnumerable<T>> GetListAsync(Expression<Func<T, bool>> filter,string[]? includeProperties = null)
+        {
+            return await _repository.GetListAsync(filter,includeProperties);
+        }
+
         public async Task<T> GetAsync(Expression<Func<T, bool>> filter, string[]? includeProperties = null)
         {
             return await _repository.GetAsync(filter, includeProperties);

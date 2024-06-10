@@ -22,7 +22,7 @@ namespace Booking_API.Services
 
         public async Task<IEnumerable<T>> GetListAsync(Expression<Func<T, bool>> filter,string[]? includeProperties = null)
         {
-            return await _repository.GetListAsync(filter,includeProperties);
+            return await _repository.GetListAsync(filter, includeProperties);
         }
 
         public async Task<T> GetAsync(Expression<Func<T, bool>> filter, string[]? includeProperties = null)

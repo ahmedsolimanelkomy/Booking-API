@@ -3,11 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Booking_API.Models
 {
-
-    public enum View
-    {
-
-    }
     public class Room
     {
         [Key]
@@ -17,7 +12,7 @@ namespace Booking_API.Models
 
         public int Capacity { get; set; }
 
-        public View? View { get; set; }
+        public string? View { get; set; }
 
         // Foreign Keys
         [ForeignKey("Hotel")]

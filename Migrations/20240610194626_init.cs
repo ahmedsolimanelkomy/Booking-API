@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Booking_API.Migrations
 {
     /// <inheritdoc />
-    public partial class z : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -45,7 +45,7 @@ namespace Booking_API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -58,6 +58,7 @@ namespace Booking_API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     PricePerNight = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
@@ -396,11 +397,9 @@ namespace Booking_API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AvailabilityStatus = table.Column<bool>(type: "bit", nullable: false),
                     Capacity = table.Column<int>(type: "int", nullable: false),
-                    View = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    IsBooked = table.Column<bool>(type: "bit", nullable: false),
-                    HotelId = table.Column<int>(type: "int", nullable: false),
-                    RoomTypeId = table.Column<int>(type: "int", nullable: true),
-                    Room = table.Column<int>(type: "int", nullable: true)
+                    View = table.Column<int>(type: "int", nullable: true),
+                    HotelId = table.Column<int>(type: "int", nullable: true),
+                    RoomTypeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -409,12 +408,6 @@ namespace Booking_API.Migrations
                         name: "FK_Rooms_Hotels_HotelId",
                         column: x => x.HotelId,
                         principalTable: "Hotels",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Rooms_RoomTypes_Room",
-                        column: x => x.Room,
-                        principalTable: "RoomTypes",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Rooms_RoomTypes_RoomTypeId",
@@ -628,11 +621,6 @@ namespace Booking_API.Migrations
                 name: "IX_Rooms_HotelId",
                 table: "Rooms",
                 column: "HotelId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Rooms_Room",
-                table: "Rooms",
-                column: "Room");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rooms_RoomTypeId",

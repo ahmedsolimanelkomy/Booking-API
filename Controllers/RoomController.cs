@@ -4,6 +4,7 @@ using Booking_API.Services;
 using Booking_API.Services.IService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Formats.Tar;
 
 namespace Booking_API.Controllers
 {
@@ -22,6 +23,17 @@ namespace Booking_API.Controllers
         public async Task<ActionResult<GeneralResponse<IEnumerable<Room>>>> GetRooms([FromQuery] string[] includeProperties)
         {
             var response = await _RoomService.GetAllAsync(includeProperties);
+            return Ok(new GeneralResponse<IEnumerable<Room>>(true, "Rooms retrieved successfully", response));
+        }
+
+        [HttpGet("GetHotelRooms/{id:int}")]
+        public async Task<ActionResult<GeneralResponse<IEnumerable<Room>>>> GetHotelRooms(int id, [FromQuery] string[] includeProperties)
+        {
+            var response = await _RoomService.GetListAsync(r => r.HotelId == id, includeProperties);
+            if (response.Count() == 0)
+            {
+                return Ok(new GeneralResponse<IEnumerable<Room>>(false, "Hotel have no rooms", response));
+            }
             return Ok(new GeneralResponse<IEnumerable<Room>>(true, "Rooms retrieved successfully", response));
         }
 

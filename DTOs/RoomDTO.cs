@@ -13,7 +13,7 @@ namespace Booking_API.DTOs
 
         public int Capacity { get; set; }
 
-        public View? View { get; set; }
+        public string? View { get; set; }
 
         
         public int? HotelId { get; set; }

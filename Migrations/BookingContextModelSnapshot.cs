@@ -523,8 +523,8 @@ namespace Booking_API.Migrations
                     b.Property<int?>("RoomTypeId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("View")
-                        .HasColumnType("int");
+                    b.Property<string>("View")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

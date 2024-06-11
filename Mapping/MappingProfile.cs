@@ -32,6 +32,8 @@ namespace Booking_API.Mapping
             .ForMember(dest => dest.TypeName, opt => opt.MapFrom(src => src.RoomType.Name))
             .ForMember(dest => dest.PricePerNight, opt => opt.MapFrom(src => src.RoomType.PricePerNight));
 
+            CreateMap<AddRoomDTO, Room>();
+
 
         }
     }

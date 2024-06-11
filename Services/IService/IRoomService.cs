@@ -5,7 +5,7 @@ namespace Booking_API.Services.IService
 {
     public interface IRoomService : IService<Room>
     {
-        Task<Room> AddDTOAsync(RoomViewDTO entity);
-        Task<Room> UpdateDTOAsync(RoomViewDTO entity);
+        Task<Room> AddDTOAsync(AddRoomDTO entity);
+        Task<Room> UpdateDTOAsync(AddRoomDTO entity);
     }
 }

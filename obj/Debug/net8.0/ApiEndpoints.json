@@ -1561,7 +1561,7 @@
     "Parameters": [
       {
         "Name": "RoomDTO",
-        "Type": "Booking_API.DTOs.RoomDTOS.RoomViewDTO",
+        "Type": "Booking_API.DTOs.RoomDTOS.AddRoomDTO",
         "IsRequired": true
       }
     ],
@@ -1623,7 +1623,7 @@
       },
       {
         "Name": "RoomDTO",
-        "Type": "Booking_API.DTOs.RoomDTOS.RoomViewDTO",
+        "Type": "Booking_API.DTOs.RoomDTOS.AddRoomDTO",
         "IsRequired": true
       }
     ],

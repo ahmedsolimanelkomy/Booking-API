@@ -68,14 +68,14 @@ namespace Booking_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<GeneralResponse<Room>>> PostRoom(RoomViewDTO RoomDTO)
+        public async Task<ActionResult<GeneralResponse<Room>>> PostRoom(AddRoomDTO RoomDTO)
         {
             var Room = await _RoomService.AddDTOAsync(RoomDTO);
             return CreatedAtAction(nameof(GetRoom), new { id = Room.Id }, new GeneralResponse<Room>(true, "Room added successfully", Room));
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult<GeneralResponse<Room>>> PatchRoom(int id, RoomViewDTO RoomDTO)
+        public async Task<ActionResult<GeneralResponse<Room>>> PatchRoom(int id, AddRoomDTO RoomDTO)
         {
             if (id != RoomDTO.Id)
             {

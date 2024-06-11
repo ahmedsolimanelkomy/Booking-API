@@ -1561,7 +1561,7 @@
     "Parameters": [
       {
         "Name": "RoomDTO",
-        "Type": "Booking_API.DTOs.RoomDTO",
+        "Type": "Booking_API.DTOs.RoomDTOS.RoomViewDTO",
         "IsRequired": true
       }
     ],
@@ -1623,7 +1623,7 @@
       },
       {
         "Name": "RoomDTO",
-        "Type": "Booking_API.DTOs.RoomDTO",
+        "Type": "Booking_API.DTOs.RoomDTOS.RoomViewDTO",
         "IsRequired": true
       }
     ],
@@ -1677,16 +1677,11 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "includeProperties",
-        "Type": "System.String[]",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.Room, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.DTOs.RoomDTOS.RoomViewDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

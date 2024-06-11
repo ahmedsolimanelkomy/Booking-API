@@ -14,12 +14,10 @@ namespace Booking_API.Models
     {   
         [Key]
         public int Id { get; set; }
-
         public bool AvailabilityStatus { get; set; }
-
         public int Capacity { get; set; }
-
         public View? View { get; set; }
+        public bool IsBooked { get; set; }
 
         // Foreign Keys
         [ForeignKey("Hotel")]

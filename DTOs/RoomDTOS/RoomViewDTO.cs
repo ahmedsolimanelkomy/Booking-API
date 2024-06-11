@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 using Booking_API.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace Booking_API.DTOs
+namespace Booking_API.DTOs.RoomDTOS
 {
-    public class RoomDTO
+    public class RoomViewDTO
     {
         public int Id { get; set; }
         public bool AvailabilityStatus { get; set; }
@@ -14,5 +14,6 @@ namespace Booking_API.DTOs
         public string? HotelName { get; set; }
         public string? TypeName { get; set; }
         public decimal PricePerNight { get; set; }
+        public bool IsBooked { get; set; }
     }
 }

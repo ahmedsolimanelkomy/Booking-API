@@ -1,4 +1,6 @@
-﻿using Booking_API.DTOs;
+﻿using AutoMapper;
+using Booking_API.DTOs;
+using Booking_API.DTOs.RoomDTOS;
 using Booking_API.Models;
 using Booking_API.Services;
 using Booking_API.Services.IService;
@@ -14,11 +16,13 @@ namespace Booking_API.Controllers
     {
         private readonly IRoomService _RoomService;
         private readonly IHotelService hotelService;
+        private readonly IMapper mapper;
 
-        public RoomController(IRoomService RoomService, IHotelService hotelService)
+        public RoomController(IRoomService RoomService, IHotelService hotelService, IMapper mapper)
         {
             _RoomService = RoomService;
             this.hotelService = hotelService;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -29,20 +33,27 @@ namespace Booking_API.Controllers
         }
 
         [HttpGet("GetHotelRooms/{id:int}")]
-        public async Task<ActionResult<GeneralResponse<IEnumerable<Room>>>> GetHotelRooms(int id, [FromQuery] string[] includeProperties)
+        public async Task<ActionResult<GeneralResponse<IEnumerable<RoomViewDTO>>>> GetHotelRooms(int id)
         {
             Hotel? hotel = await hotelService.GetAsync(h => h.Id == id);
+
             if (hotel == null)
             {
-                return BadRequest(new GeneralResponse<IEnumerable<Room>>(false, "Hotel Not Exist", null));
+                return BadRequest(new GeneralResponse<IEnumerable<RoomViewDTO>>(false, "Hotel Not Exist", null));
             }
 
-            var response = await _RoomService.GetListAsync(r => r.HotelId == id, includeProperties);
+            var response = await _RoomService.GetListAsync(r => r.HotelId == id, ["RoomType","Hotel"]);
+
+            IList<RoomViewDTO> Rooms = new List<RoomViewDTO>();
+
+            mapper.Map(response, Rooms);
+
             if (response.Count() == 0)
             {
-                return NotFound(new GeneralResponse<IEnumerable<Room>>(false, "Hotel have no rooms", null));
+                return NotFound(new GeneralResponse<IEnumerable<RoomViewDTO>>(false, "Hotel have no rooms", null));
             }
-            return Ok(new GeneralResponse<IEnumerable<Room>>(true, "Rooms retrieved successfully", response));
+
+            return Ok(new GeneralResponse<IEnumerable<RoomViewDTO>>(true, "Rooms retrieved successfully", Rooms));
         }
 
         [HttpGet("{id}")]
@@ -57,14 +68,14 @@ namespace Booking_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<GeneralResponse<Room>>> PostRoom(RoomDTO RoomDTO)
+        public async Task<ActionResult<GeneralResponse<Room>>> PostRoom(RoomViewDTO RoomDTO)
         {
             var Room = await _RoomService.AddDTOAsync(RoomDTO);
             return CreatedAtAction(nameof(GetRoom), new { id = Room.Id }, new GeneralResponse<Room>(true, "Room added successfully", Room));
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult<GeneralResponse<Room>>> PatchRoom(int id, RoomDTO RoomDTO)
+        public async Task<ActionResult<GeneralResponse<Room>>> PatchRoom(int id, RoomViewDTO RoomDTO)
         {
             if (id != RoomDTO.Id)
             {

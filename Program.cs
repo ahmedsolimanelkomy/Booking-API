@@ -66,7 +66,20 @@ namespace Booking_API
                     IssuerSigningKey = new SymmetricSecurityKey(key)
                 };
             });
+            // Add CORS services to the container.
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigins",
+                    builder => builder.WithOrigins("https://example.com")
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod()
+                                      .AllowCredentials());
 
+                options.AddPolicy("AllowAllOrigins",
+                    builder => builder.AllowAnyOrigin()
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod());
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -82,7 +95,7 @@ namespace Booking_API
             // Use Authentication and Authorization middleware
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseCors("AllowAllOrigins");
             app.MapControllers();
 
             app.Run();

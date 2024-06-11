@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Booking_API.Migrations
 {
     [DbContext(typeof(BookingContext))]
-    [Migration("20240610090023_a2")]
-    partial class a2
+    [Migration("20240610194626_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,8 +37,8 @@ namespace Booking_API.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<DateOnly?>("BirthDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("CityId")
                         .HasColumnType("int");
@@ -54,13 +54,17 @@ namespace Booking_API.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FullName")
+                    b.Property<string>("FirstName")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Gender")
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -621,20 +625,6 @@ namespace Booking_API.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
 
                     b.UseTphMappingStrategy();
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1",
-                            Name = "ADMIN",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "2",
-                            Name = "USER",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -4,6 +4,7 @@ using Booking_API.Services;
 using Booking_API.Services.IService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Formats.Tar;
 
 namespace Booking_API.Controllers
 {
@@ -12,16 +13,35 @@ namespace Booking_API.Controllers
     public class RoomController : ControllerBase
     {
         private readonly IRoomService _RoomService;
+        private readonly IHotelService hotelService;
 
-        public RoomController(IRoomService RoomService)
+        public RoomController(IRoomService RoomService, IHotelService hotelService)
         {
             _RoomService = RoomService;
+            this.hotelService = hotelService;
         }
 
         [HttpGet]
         public async Task<ActionResult<GeneralResponse<IEnumerable<Room>>>> GetRooms([FromQuery] string[] includeProperties)
         {
             var response = await _RoomService.GetAllAsync(includeProperties);
+            return Ok(new GeneralResponse<IEnumerable<Room>>(true, "Rooms retrieved successfully", response));
+        }
+
+        [HttpGet("GetHotelRooms/{id:int}")]
+        public async Task<ActionResult<GeneralResponse<IEnumerable<Room>>>> GetHotelRooms(int id, [FromQuery] string[] includeProperties)
+        {
+            Hotel? hotel = await hotelService.GetAsync(h => h.Id == id);
+            if (hotel == null)
+            {
+                return BadRequest(new GeneralResponse<IEnumerable<Room>>(false, "Hotel Not Exist", null));
+            }
+
+            var response = await _RoomService.GetListAsync(r => r.HotelId == id, includeProperties);
+            if (response.Count() == 0)
+            {
+                return NotFound(new GeneralResponse<IEnumerable<Room>>(false, "Hotel have no rooms", null));
+            }
             return Ok(new GeneralResponse<IEnumerable<Room>>(true, "Rooms retrieved successfully", response));
         }
 

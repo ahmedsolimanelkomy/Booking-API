@@ -1,15 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Booking_API.Models
 {
-
     public enum View
     {
-
+        view1,
+        view2,
+        view3
     }
     public class Room
-    {
+    {   
         [Key]
         public int Id { get; set; }
 

@@ -32,7 +32,12 @@ namespace Booking_API.Mapping
             .ForMember(dest => dest.TypeName, opt => opt.MapFrom(src => src.RoomType.Name))
             .ForMember(dest => dest.PricePerNight, opt => opt.MapFrom(src => src.RoomType.PricePerNight));
 
-            CreateMap<AddRoomDTO, Room>();
+            CreateMap<Room, AddRoomDTO>()
+                .ForMember(dest => dest.HotelId, opt => opt.MapFrom(src => src.HotelId != null ? (int?)src.HotelId : null))
+                .ForMember(dest => dest.RoomTypeId, opt => opt.MapFrom(src => src.RoomTypeId != null ? (int?)src.RoomTypeId : null))
+                .ForMember(dest => dest.AvailabilityStatus, opt => opt.MapFrom(src => src.AvailabilityStatus))
+                .ForMember(dest => dest.IsBooked, opt => opt.MapFrom(src => src.IsBooked))
+                .ReverseMap();
 
 
         }

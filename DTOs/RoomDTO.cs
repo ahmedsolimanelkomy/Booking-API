@@ -6,8 +6,8 @@ namespace Booking_API.DTOs
 {
     public class RoomDTO
     {
-        [Key]
-        public int Id { get; set; }
+        
+        public int? Id { get; set; }
 
         public bool AvailabilityStatus { get; set; }
 

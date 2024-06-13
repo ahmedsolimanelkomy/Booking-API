@@ -1,11 +1,39 @@
 {
   "Version": 1,
-  "Hash": "VNl7DivWSu4XOq3tiy1ZBDPE3K6ZYY602F9KgZTt/DE=",
+  "Hash": "o2NT5a/qr0onAZT4ciCOvfqdq9GzoTQnGH9fSPv0kQE=",
   "Source": "Booking_API",
   "BasePath": "_content/Booking_API",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "Booking_API\\wwwroot",
+      "Source": "Booking_API",
+      "ContentRoot": "D:\\Graduation Project\\Grade Project\\Booking-API\\wwwroot\\",
+      "BasePath": "_content/Booking_API",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "D:\\Graduation Project\\Grade Project\\Booking-API\\wwwroot\\uploads\\c299e1b2-6b55-471f-b33b-53c74fcd476e.jpg",
+      "SourceId": "Booking_API",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Graduation Project\\Grade Project\\Booking-API\\wwwroot\\",
+      "BasePath": "_content/Booking_API",
+      "RelativePath": "uploads/c299e1b2-6b55-471f-b33b-53c74fcd476e.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\c299e1b2-6b55-471f-b33b-53c74fcd476e.jpg"
+    }
+  ]
 }

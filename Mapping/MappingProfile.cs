@@ -39,6 +39,9 @@ namespace Booking_API.Mapping
                 .ForMember(dest => dest.IsBooked, opt => opt.MapFrom(src => src.IsBooked))
                 .ReverseMap();
 
+            CreateMap<HotelPhotoDTO, HotelPhoto>();
+            CreateMap<HotelPhoto, HotelPhotoDTO>();
+
 
         }
     }

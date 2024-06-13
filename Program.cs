@@ -46,6 +46,8 @@ namespace Booking_API
 
             builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
+            builder.Services.AddScoped<IHotelPhotoService, HotelPhotoService>();
+
 
             // Add JWT Authentication
             var key = Encoding.ASCII.GetBytes(builder.Configuration["JWT:SecKey"]);

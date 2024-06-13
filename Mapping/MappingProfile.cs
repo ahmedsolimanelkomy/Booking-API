@@ -14,6 +14,10 @@ namespace Booking_API.Mapping
             CreateMap<AdminDTO, ApplicationUser>().ReverseMap();
             CreateMap<HotelDTO, Hotel>();
             CreateMap<PassportDto, Passport>().ReverseMap();
+            CreateMap<CountryDTO, Country>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name)).ReverseMap();
+
             CreateMap<RoomViewDTO, Room>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.AvailabilityStatus, opt => opt.MapFrom(src => src.AvailabilityStatus))

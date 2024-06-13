@@ -23,6 +23,12 @@ namespace Booking_API.Controllers
             var response = await _FeatureService.GetAllAsync(includeProperties);
             return Ok(new GeneralResponse<IEnumerable<Feature>>(true, "Features retrieved successfully", response));
         }
+        [HttpGet("GetHotelFeatures")]
+        public async Task<ActionResult<GeneralResponse<IEnumerable<Feature>>>> GetHotelFeatures([FromQuery] string[] includeProperties)
+        {
+            var response = await _FeatureService.GetAllAsync(includeProperties);
+            return Ok(new GeneralResponse<IEnumerable<Feature>>(true, "Features retrieved successfully", response));
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<GeneralResponse<Feature>>> GetFeature(int id, [FromQuery] string[] includeProperties)

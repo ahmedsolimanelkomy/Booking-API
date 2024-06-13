@@ -48,6 +48,37 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Booking_API.Controllers.HotelController",
+    "Method": "AddFeature",
+    "RelativePath": "api/AddFeature/{hotelId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "hotelId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "feature",
+        "Type": "Booking_API.DTOs.HotelDTOS.HotelFeatureDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.HotelDTOS.HotelFeatureDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "Booking_API.Controllers.BookingController",
     "Method": "GetBookings",
     "RelativePath": "api/Booking",
@@ -686,6 +717,37 @@
     ]
   },
   {
+    "ContainingType": "Booking_API.Controllers.HotelController",
+    "Method": "DeleteFeature",
+    "RelativePath": "api/DeleteFeature/{hotelId}/{featureId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "hotelId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "featureId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.HotelDTOS.HotelFeatureDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "Booking_API.Controllers.FeatureController",
     "Method": "GetFeatures",
     "RelativePath": "api/Feature",
@@ -826,6 +888,89 @@
     ]
   },
   {
+    "ContainingType": "Booking_API.Controllers.FeatureController",
+    "Method": "GetHotelFeatures",
+    "RelativePath": "api/Feature/GetHotelFeatures",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "includeProperties",
+        "Type": "System.String[]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.Feature, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.HotelController",
+    "Method": "GetHotelFeatures",
+    "RelativePath": "api/GetHotelFeature/{hotelId}/{featureId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "hotelId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "featureId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.HotelDTOS.HotelFeatureDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.HotelController",
+    "Method": "GetHotelFeatures",
+    "RelativePath": "api/GetHotelFeatures/{hotelId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "hotelId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.DTOs.HotelDTOS.HotelFeatureDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "Booking_API.Controllers.RoomController",
     "Method": "GetHotelRooms",
     "RelativePath": "api/GetHotelRooms/{id}",
@@ -858,7 +1003,7 @@
   },
   {
     "ContainingType": "Booking_API.Controllers.HotelController",
-    "Method": "GetHotels",
+    "Method": "GetAllHotels",
     "RelativePath": "api/Hotel",
     "HttpMethod": "GET",
     "IsController": true,
@@ -1827,6 +1972,37 @@
     "ReturnTypes": [
       {
         "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.RoomType, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.HotelController",
+    "Method": "UpdateFeature",
+    "RelativePath": "api/UpdateFeature/{hotelId}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "hotelId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updatedFeature",
+        "Type": "Booking_API.DTOs.HotelDTOS.HotelFeatureDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.HotelDTOS.HotelFeatureDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Booking_API.DTOs;
+using Booking_API.DTOs.HotelDTOS;
 using Booking_API.DTOs.RoomDTOS;
 using Booking_API.Models;
 
@@ -38,6 +39,13 @@ namespace Booking_API.Mapping
                 .ForMember(dest => dest.AvailabilityStatus, opt => opt.MapFrom(src => src.AvailabilityStatus))
                 .ForMember(dest => dest.IsBooked, opt => opt.MapFrom(src => src.IsBooked))
                 .ReverseMap();
+
+            CreateMap<HotelFeatureDTO, Feature>()
+                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                 .ReverseMap();
+
+
 
 
         }

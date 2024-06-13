@@ -4,6 +4,7 @@ using Booking_API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Booking_API.Migrations
 {
     [DbContext(typeof(BookingContext))]
-    partial class BookingContextModelSnapshot : ModelSnapshot
+    [Migration("20240613093921_featureedit")]
+    partial class featureedit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -310,11 +313,16 @@ namespace Booking_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("HotelId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("HotelId");
 
                     b.ToTable("Feature");
                 });
@@ -576,21 +584,6 @@ namespace Booking_API.Migrations
                     b.ToTable("WishLists");
                 });
 
-            modelBuilder.Entity("FeatureHotel", b =>
-                {
-                    b.Property<int>("FeaturesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HotelsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("FeaturesId", "HotelsId");
-
-                    b.HasIndex("HotelsId");
-
-                    b.ToTable("FeatureHotel");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -813,6 +806,17 @@ namespace Booking_API.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Booking_API.Models.Feature", b =>
+                {
+                    b.HasOne("Booking_API.Models.Hotel", "Hotel")
+                        .WithMany("Features")
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hotel");
+                });
+
             modelBuilder.Entity("Booking_API.Models.Hotel", b =>
                 {
                     b.HasOne("Booking_API.Models.City", "City")
@@ -888,21 +892,6 @@ namespace Booking_API.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("FeatureHotel", b =>
-                {
-                    b.HasOne("Booking_API.Models.Feature", null)
-                        .WithMany()
-                        .HasForeignKey("FeaturesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Booking_API.Models.Hotel", null)
-                        .WithMany()
-                        .HasForeignKey("HotelsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -990,6 +979,8 @@ namespace Booking_API.Migrations
 
             modelBuilder.Entity("Booking_API.Models.Hotel", b =>
                 {
+                    b.Navigation("Features");
+
                     b.Navigation("Photos");
 
                     b.Navigation("Rooms");

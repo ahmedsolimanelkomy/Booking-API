@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Booking_API.DTOs;
+using Booking_API.DTOs.RoomDTOS;
 using Booking_API.Models;
 using Booking_API.Repository.IRepository;
 using Booking_API.Services.IService;
@@ -17,11 +17,10 @@ namespace Booking_API.Services
             _mapper = mapper;
         }
 
-        public async Task<Room> AddDTOAsync(RoomDTO RoomDTO)
+        public async Task<Room> AddDTOAsync(AddRoomDTO RoomDTO)
         {
 
             var Room = _mapper.Map<Room>(RoomDTO);
-
 
             await _unitOfWork.GetRepository<Room>().AddAsync(Room);
             await _unitOfWork.SaveAsync();
@@ -29,9 +28,10 @@ namespace Booking_API.Services
             return Room;
         }
 
-        public async Task<Room> UpdateDTOAsync(RoomDTO RoomDTO)
+        public async Task<Room> UpdateDTOAsync(AddRoomDTO RoomDTO)
         {
             var Room = await _unitOfWork.GetRepository<Room>().GetAsync(h => h.Id == RoomDTO.Id);
+
             if (Room == null)
             {
                 throw new KeyNotFoundException("Room not found");

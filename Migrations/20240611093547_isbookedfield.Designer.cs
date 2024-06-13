@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Booking_API.Migrations
 {
     [DbContext(typeof(BookingContext))]
-    [Migration("20240609140851_a1")]
-    partial class a1
+    [Migration("20240611093547_isbookedfield")]
+    partial class isbookedfield
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,8 +37,8 @@ namespace Booking_API.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<DateOnly?>("BirthDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("CityId")
                         .HasColumnType("int");
@@ -54,13 +54,17 @@ namespace Booking_API.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FullName")
+                    b.Property<string>("FirstName")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Gender")
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -310,7 +314,6 @@ namespace Booking_API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -517,27 +520,21 @@ namespace Booking_API.Migrations
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
 
-                    b.Property<int>("HotelId")
+                    b.Property<int?>("HotelId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsBooked")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("Room")
-                        .HasColumnType("int");
-
                     b.Property<int?>("RoomTypeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("View")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<int?>("View")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("HotelId");
-
-                    b.HasIndex("Room");
 
                     b.HasIndex("RoomTypeId");
 
@@ -551,6 +548,10 @@ namespace Booking_API.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<decimal>("PricePerNight")
                         .HasColumnType("decimal(18,2)");
@@ -770,7 +771,7 @@ namespace Booking_API.Migrations
                         .HasForeignKey("CarId");
 
                     b.HasOne("Booking_API.Models.Room", "Room")
-                        .WithMany("Bookings")
+                        .WithMany()
                         .HasForeignKey("RoomId");
 
                     b.HasOne("Booking_API.Models.ApplicationUser", "ApplicationUser")
@@ -872,16 +873,10 @@ namespace Booking_API.Migrations
                 {
                     b.HasOne("Booking_API.Models.Hotel", "Hotel")
                         .WithMany("Rooms")
-                        .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Booking_API.Models.RoomType", null)
-                        .WithMany("Rooms")
-                        .HasForeignKey("Room");
+                        .HasForeignKey("HotelId");
 
                     b.HasOne("Booking_API.Models.RoomType", "RoomType")
-                        .WithMany()
+                        .WithMany("Rooms")
                         .HasForeignKey("RoomTypeId");
 
                     b.Navigation("Hotel");
@@ -1001,11 +996,6 @@ namespace Booking_API.Migrations
                     b.Navigation("Photos");
 
                     b.Navigation("Rooms");
-                });
-
-            modelBuilder.Entity("Booking_API.Models.Room", b =>
-                {
-                    b.Navigation("Bookings");
                 });
 
             modelBuilder.Entity("Booking_API.Models.RoomType", b =>

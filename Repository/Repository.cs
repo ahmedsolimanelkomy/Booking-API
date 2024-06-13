@@ -46,7 +46,7 @@ namespace Booking_API.Repository
             return await query.FirstOrDefaultAsync(filter);
         }
 
-        public IEnumerable<T> GetList(Expression<Func<T, bool>> filter, string[]? includeProperties = null)
+        public async Task<IEnumerable<T>> GetListAsync(Expression<Func<T, bool>> filter, string[]? includeProperties = null)
         {
             IQueryable<T> query = _dbSet.Where(filter);
 
@@ -58,8 +58,9 @@ namespace Booking_API.Repository
                 }
             }
 
-            return query.ToList();
+            return await query.ToListAsync();
         }
+
 
         public async Task AddAsync(T entity)
         {

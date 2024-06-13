@@ -7,7 +7,9 @@ namespace Booking_API.Models
     public class ApplicationUser : IdentityUser
     {
         [StringLength(100)]
-        public string? FullName { get; set; }
+        public string? FirstName { get; set; }
+        [StringLength(100)]
+        public string? LastName { get; set; }
 
         [StringLength(10)]
         public string? Gender { get; set; }
@@ -17,7 +19,7 @@ namespace Booking_API.Models
         public string? PhotoUrl { get; set; }
 
         [DataType(DataType.Date)]
-        public DateOnly? BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
 
         // Foreign keys
         [ForeignKey("WishList")]

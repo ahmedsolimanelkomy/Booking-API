@@ -1,25 +1,27 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Booking_API.Models
 {
-    public class Room
+    public enum View
     {
+        view1,
+        view2,
+        view3
+    }
+    public class Room
+    {   
         [Key]
         public int Id { get; set; }
-
         public bool AvailabilityStatus { get; set; }
-
         public int Capacity { get; set; }
-
-        [MaxLength(100)]
-        public string? View { get; set; }
-
+        public View? View { get; set; }
         public bool IsBooked { get; set; }
 
         // Foreign Keys
         [ForeignKey("Hotel")]
-        public int HotelId { get; set; }
+        public int? HotelId { get; set; }
 
         [ForeignKey("RoomType")]
         public int? RoomTypeId { get; set; }
@@ -29,7 +31,7 @@ namespace Booking_API.Models
 
         public RoomType? RoomType { get; set; }
 
-        public ICollection<Booking> Bookings { get; set; } = new HashSet<Booking>();
+        
 
     }
 }

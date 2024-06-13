@@ -1,11 +1,14 @@
-
+using Booking_API.Mapping;
 using Booking_API.Models;
-using Booking_API.Repository.IRepository;
 using Booking_API.Repository;
-using Microsoft.EntityFrameworkCore;
+using Booking_API.Repository.IRepository;
 using Booking_API.Services;
-using Microsoft.AspNetCore.Identity;
 using Booking_API.Services.IService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Booking_API
 {
@@ -16,9 +19,7 @@ namespace Booking_API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<BookingContext>(option =>
@@ -27,20 +28,58 @@ namespace Booking_API
             });
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IBookingService, BookingService>();
-            builder.Services.AddScoped<IAirlineService, AirlineService>();
-            builder.Services.AddScoped<IFlightService, FlightService>();
-            builder.Services.AddScoped<ITicketService, TicketService>();
-
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-            .AddEntityFrameworkStores<BookingContext>()
-            .AddDefaultTokenProviders();
+            builder.Services.AddScoped<IPaymentService, PaymentService>();
+            builder.Services.AddScoped<IPassportService, PassportService>();
+            builder.Services.AddScoped<IWishListService, WishListService>();
+            builder.Services.AddScoped<IHotelService, HotelService>();
+            builder.Services.AddScoped<IHotelPhotoService, HotelPhotoService>();
+            builder.Services.AddScoped<IFeatureService, FeatureService>();
+            builder.Services.AddScoped<IRoomService, RoomService>();
+            builder.Services.AddScoped<IRoomTypeService, RoomTypeService>();
+            builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<BookingContext>()
+                .AddDefaultTokenProviders();
 
             builder.Services.AddScoped<UserManager<ApplicationUser>>();
             builder.Services.AddScoped<IService<City>, Service<City>>();
             builder.Services.AddScoped<IService<Country>, Service<Country>>();
 
+            builder.Services.AddScoped<IReviewService, ReviewService>();
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
 
+            // Add JWT Authentication
+            var key = Encoding.ASCII.GetBytes(builder.Configuration["JWT:SecKey"]);
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["JWT:ValidIss"],
+                    ValidAudience = builder.Configuration["JWT:ValidAud"],
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+            });
+            // Add CORS services to the container.
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigins",
+                    builder => builder.WithOrigins("https://example.com")
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod()
+                                      .AllowCredentials());
 
+                options.AddPolicy("AllowAllOrigins",
+                    builder => builder.AllowAnyOrigin()
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod());
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -50,9 +89,13 @@ namespace Booking_API
                 app.UseSwaggerUI();
             }
 
-            app.UseAuthorization();
-            
+            app.UseHttpsRedirection();
+            app.UseRouting();
 
+            // Use Authentication and Authorization middleware
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseCors("AllowAllOrigins");
             app.MapControllers();
 
             app.Run();

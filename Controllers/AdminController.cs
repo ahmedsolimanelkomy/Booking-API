@@ -126,21 +126,5 @@ namespace Booking_API.Controllers
             return Ok("User updated successfully");
         }
 
-
-        //[HttpPost("InsertAdmin")]
-        //public async Task<IActionResult> InsertAdmin(AdminDTO adminDTO)
-        //{
-        //    var user = new ApplicationUser
-        //    { 
-        //        UserName = adminDTO.UserName,
-        //        FirstName = adminDTO.FirstName,
-        //        LastName = adminDTO.LastName,
-        //        Email = adminDTO.Email,
-        //    };
-        //}
-
-
-
-
     }
 }

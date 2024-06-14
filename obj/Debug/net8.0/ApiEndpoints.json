@@ -82,7 +82,7 @@
     "ContainingType": "Booking_API.Controllers.AdminController",
     "Method": "DeleteAdmin",
     "RelativePath": "api/Admin/DeleteAdmin/{id}",
-    "HttpMethod": "GET",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -124,7 +124,7 @@
     "ContainingType": "Booking_API.Controllers.AdminController",
     "Method": "UpdateAdmin",
     "RelativePath": "api/Admin/UpdateAdmin/{id}",
-    "HttpMethod": "GET",
+    "HttpMethod": "PATCH",
     "IsController": true,
     "Order": 0,
     "Parameters": [

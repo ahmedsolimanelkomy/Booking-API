@@ -28,6 +28,7 @@ namespace Booking_API.Controllers
             var Admins = (await UserManager.GetUsersInRoleAsync("Admin")).Select(user =>
             new
             {
+                user.Id,
                 user.FirstName,
                 user.LastName,
                 user.Email,
@@ -53,6 +54,7 @@ namespace Booking_API.Controllers
 
             var Admin = new
             {
+                user.Id,
                 user.FirstName,
                 user.LastName,
                 user.Email,
@@ -64,7 +66,7 @@ namespace Booking_API.Controllers
         }
 
 
-        [HttpGet("DeleteAdmin/{id}")]
+        [HttpDelete("DeleteAdmin/{id}")]
         public async Task<IActionResult> DeleteAdmin(string Id)
         {
             var user = await UserManager.FindByIdAsync(Id);
@@ -95,7 +97,7 @@ namespace Booking_API.Controllers
         }
 
 
-        [HttpGet("UpdateAdmin/{id}")]
+        [HttpPatch("UpdateAdmin/{id}")]
         public async Task<IActionResult> UpdateAdmin(string Id, AdminDTO adminDTO)
         {
             var user = await UserManager.FindByIdAsync(Id);

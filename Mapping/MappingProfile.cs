@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Booking_API.DTOs;
+using Booking_API.DTOs.FeatureDTOS;
 using Booking_API.DTOs.HotelDTOS;
+using Booking_API.DTOs.NewFolder;
 using Booking_API.DTOs.RoomDTOS;
 using Booking_API.Models;
 
@@ -44,6 +46,9 @@ namespace Booking_API.Mapping
                  .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                  .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                  .ReverseMap();
+
+            CreateMap<FeatureDTO, Feature>().ReverseMap();
+            CreateMap<RoomTypeDTO,RoomType>().ReverseMap();
 
 
 

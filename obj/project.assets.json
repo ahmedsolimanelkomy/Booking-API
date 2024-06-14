@@ -4553,19 +4553,37 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "C:\\Users\\anasa\\.nuget\\packages\\": {}
+=======
+    "C:\\Users\\AIO\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+>>>>>>> 902400da61d35afcc4cb4ca3dcd74beead784bcd
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\anasa\\source\\repos\\Booking-API\\Booking_API.csproj",
       "projectName": "Booking_API",
       "projectPath": "C:\\Users\\anasa\\source\\repos\\Booking-API\\Booking_API.csproj",
       "packagesPath": "C:\\Users\\anasa\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\anasa\\source\\repos\\Booking-API\\obj\\",
+=======
+      "projectUniqueName": "C:\\Users\\AIO\\Desktop\\API\\Booking-API\\Booking_API.csproj",
+      "projectName": "Booking_API",
+      "projectPath": "C:\\Users\\AIO\\Desktop\\API\\Booking-API\\Booking_API.csproj",
+      "packagesPath": "C:\\Users\\AIO\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\AIO\\Desktop\\API\\Booking-API\\obj\\",
+>>>>>>> 902400da61d35afcc4cb4ca3dcd74beead784bcd
       "projectStyle": "PackageReference",
       "configFilePaths": [
+<<<<<<< HEAD
         "C:\\Users\\anasa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+        "C:\\Users\\AIO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+>>>>>>> 902400da61d35afcc4cb4ca3dcd74beead784bcd
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4643,7 +4661,11 @@
             "privateAssets": "all"
           }
         },
+<<<<<<< HEAD
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+=======
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+>>>>>>> 902400da61d35afcc4cb4ca3dcd74beead784bcd
       }
     }
   }

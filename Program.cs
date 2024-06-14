@@ -36,6 +36,7 @@ namespace Booking_API
             builder.Services.AddScoped<IFeatureService, FeatureService>();
             builder.Services.AddScoped<IRoomService, RoomService>();
             builder.Services.AddScoped<IRoomTypeService, RoomTypeService>();
+            builder.Services.AddScoped<ICountryService, CountryService>();
             builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<BookingContext>()
                 .AddDefaultTokenProviders();

@@ -19,6 +19,11 @@ namespace Booking_API.Mapping
             CreateMap<CountryDTO, Country>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name)).ReverseMap();
+            CreateMap<CityDTO,City>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.CountryId, opt => opt.MapFrom(src => src.CountryId))
+                .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.Code)).ReverseMap();
 
             CreateMap<RoomViewDTO, Room>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))

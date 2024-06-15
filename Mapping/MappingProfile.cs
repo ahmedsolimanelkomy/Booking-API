@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Booking_API.DTOs;
+using Booking_API.DTOs.AdminDTOS;
 using Booking_API.DTOs.FeatureDTOS;
 using Booking_API.DTOs.HotelDTOS;
 using Booking_API.DTOs.NewFolder;
@@ -14,6 +15,7 @@ namespace Booking_API.Mapping
         {
             CreateMap<UserRegisterDTO, ApplicationUser>().ReverseMap();
             CreateMap<AdminDTO, ApplicationUser>().ReverseMap();
+            CreateMap<CreateAdminDTO, ApplicationUser>().ReverseMap();
             CreateMap<HotelDTO, Hotel>();
             CreateMap<PassportDto, Passport>().ReverseMap();
             CreateMap<CountryDTO, Country>()

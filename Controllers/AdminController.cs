@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Booking_API.DTOs;
+using Booking_API.DTOs.AdminDTOS;
 using Booking_API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -41,9 +42,34 @@ namespace Booking_API.Controllers
             }
             return Ok(Admins);
         }
+        [HttpPost("AddAdmin")]
+        public async Task<IActionResult> AddAdmin([FromBody] CreateAdminDTO createAdminDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = Mapper.Map<ApplicationUser>(createAdminDTO);
+            var result = await UserManager.CreateAsync(user, createAdminDTO.Password);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest("Error creating user");
+            }
+
+            var roleResult = await UserManager.AddToRoleAsync(user, "ADMIN");
+            if (!roleResult.Succeeded)
+            {
+                return BadRequest("Error assigning admin role");
+            }
+
+            return Ok("Admin created successfully");
+        }
+
 
         [HttpGet("GetAdminBYID/{id}")]
-        public async Task<IActionResult> GetAdminBYID(string Id)
+        public async Task<IActionResult> GetAdminById(string Id)
         {
             var user = await UserManager.FindByIdAsync(Id);
 

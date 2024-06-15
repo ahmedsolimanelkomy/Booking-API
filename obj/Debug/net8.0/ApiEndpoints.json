@@ -80,6 +80,22 @@
   },
   {
     "ContainingType": "Booking_API.Controllers.AdminController",
+    "Method": "AddAdmin",
+    "RelativePath": "api/Admin/AddAdmin",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createAdminDTO",
+        "Type": "Booking_API.DTOs.AdminDTOS.CreateAdminDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.AdminController",
     "Method": "DeleteAdmin",
     "RelativePath": "api/Admin/DeleteAdmin/{id}",
     "HttpMethod": "DELETE",
@@ -96,7 +112,7 @@
   },
   {
     "ContainingType": "Booking_API.Controllers.AdminController",
-    "Method": "GetAdminBYID",
+    "Method": "GetAdminById",
     "RelativePath": "api/Admin/GetAdminBYID/{id}",
     "HttpMethod": "GET",
     "IsController": true,

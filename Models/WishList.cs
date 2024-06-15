@@ -10,7 +10,7 @@ namespace Booking_API.Models
 
         // Foreign keys
         [ForeignKey("User")]
-        public string? UserId { get; set; }
+        public int? UserId { get; set; }
 
         // Navigation Properties
         public ApplicationUser? User { get; set; }

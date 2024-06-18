@@ -15,8 +15,8 @@ namespace Booking_API.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(21)", maxLength: 21, nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -45,7 +45,7 @@ namespace Booking_API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -72,7 +72,7 @@ namespace Booking_API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -170,7 +170,7 @@ namespace Booking_API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -186,7 +186,7 @@ namespace Booking_API.Migrations
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -197,8 +197,8 @@ namespace Booking_API.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -215,7 +215,8 @@ namespace Booking_API.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Gender = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
@@ -254,7 +255,7 @@ namespace Booking_API.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -279,10 +280,10 @@ namespace Booking_API.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     NationalId = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: false),
-                    PassportNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    PassportNumber = table.Column<int>(type: "int", maxLength: 20, nullable: false),
                     IssuingCountry = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     ExpiryDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -300,7 +301,7 @@ namespace Booking_API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -349,11 +350,11 @@ namespace Booking_API.Migrations
                 columns: table => new
                 {
                     FeaturesId = table.Column<int>(type: "int", nullable: false),
-                    PhotosId = table.Column<int>(type: "int", nullable: false)
+                    HotelsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FeatureHotel", x => new { x.FeaturesId, x.PhotosId });
+                    table.PrimaryKey("PK_FeatureHotel", x => new { x.FeaturesId, x.HotelsId });
                     table.ForeignKey(
                         name: "FK_FeatureHotel_Feature_FeaturesId",
                         column: x => x.FeaturesId,
@@ -361,8 +362,8 @@ namespace Booking_API.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_FeatureHotel_Hotels_PhotosId",
-                        column: x => x.PhotosId,
+                        name: "FK_FeatureHotel_Hotels_HotelsId",
+                        column: x => x.HotelsId,
                         principalTable: "Hotels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -398,6 +399,7 @@ namespace Booking_API.Migrations
                     AvailabilityStatus = table.Column<bool>(type: "bit", nullable: false),
                     Capacity = table.Column<int>(type: "int", nullable: false),
                     View = table.Column<int>(type: "int", nullable: true),
+                    IsBooked = table.Column<bool>(type: "bit", nullable: false),
                     HotelId = table.Column<int>(type: "int", nullable: true),
                     RoomTypeId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -425,7 +427,7 @@ namespace Booking_API.Migrations
                     BookingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: true),
                     CarId = table.Column<int>(type: "int", nullable: true),
                     RoomId = table.Column<int>(type: "int", nullable: true),
                     FlightId = table.Column<int>(type: "int", nullable: true)
@@ -581,9 +583,9 @@ namespace Booking_API.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FeatureHotel_PhotosId",
+                name: "IX_FeatureHotel_HotelsId",
                 table: "FeatureHotel",
-                column: "PhotosId");
+                column: "HotelsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HotelPhoto_HotelId",

@@ -48,6 +48,116 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Booking_API.Controllers.HotelController",
+    "Method": "AddFeature",
+    "RelativePath": "api/AddFeature/{hotelId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "hotelId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "feature",
+        "Type": "Booking_API.DTOs.HotelDTOS.HotelFeatureDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.HotelDTOS.HotelFeatureDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.AdminController",
+    "Method": "AddAdmin",
+    "RelativePath": "api/Admin/AddAdmin",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createAdminDTO",
+        "Type": "Booking_API.DTOs.AdminDTOS.CreateAdminDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.AdminController",
+    "Method": "DeleteAdmin",
+    "RelativePath": "api/Admin/DeleteAdmin/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.AdminController",
+    "Method": "GetAdminById",
+    "RelativePath": "api/Admin/GetAdminBYID/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.AdminController",
+    "Method": "GetAllAdmins",
+    "RelativePath": "api/Admin/GetAllAdmins",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.AdminController",
+    "Method": "UpdateAdmin",
+    "RelativePath": "api/Admin/UpdateAdmin/{id}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "adminDTO",
+        "Type": "Booking_API.DTOs.AdminDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Booking_API.Controllers.BookingController",
     "Method": "GetBookings",
     "RelativePath": "api/Booking",
@@ -421,7 +531,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.City, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.DTOs.CityDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -440,14 +550,14 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "city",
-        "Type": "Booking_API.Models.City",
+        "Name": "cityDTO",
+        "Type": "Booking_API.DTOs.CityDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.City, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.CityDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -478,7 +588,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.City, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.CityDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -492,7 +602,7 @@
     "ContainingType": "Booking_API.Controllers.CityController",
     "Method": "PutCity",
     "RelativePath": "api/City/{id}",
-    "HttpMethod": "PUT",
+    "HttpMethod": "PATCH",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -502,14 +612,14 @@
         "IsRequired": true
       },
       {
-        "Name": "city",
-        "Type": "Booking_API.Models.City",
+        "Name": "cityDTO",
+        "Type": "Booking_API.DTOs.CityDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.City, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.CityDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -535,7 +645,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.City, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.CityDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -561,7 +671,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.Country, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.DTOs.CountryDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -580,14 +690,14 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "country",
-        "Type": "Booking_API.Models.Country",
+        "Name": "countryDTO",
+        "Type": "Booking_API.DTOs.CountryDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Country, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.CountryDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -618,7 +728,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Country, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.CountryDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -632,7 +742,7 @@
     "ContainingType": "Booking_API.Controllers.CountryController",
     "Method": "PutCountry",
     "RelativePath": "api/Country/{id}",
-    "HttpMethod": "PUT",
+    "HttpMethod": "PATCH",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -642,14 +752,14 @@
         "IsRequired": true
       },
       {
-        "Name": "country",
-        "Type": "Booking_API.Models.Country",
+        "Name": "countryDTO",
+        "Type": "Booking_API.DTOs.CountryDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Country, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.CountryDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -675,7 +785,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Country, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.CountryDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -686,22 +796,27 @@
     ]
   },
   {
-    "ContainingType": "Booking_API.Controllers.FeatureController",
-    "Method": "GetFeatures",
-    "RelativePath": "api/Feature",
-    "HttpMethod": "GET",
+    "ContainingType": "Booking_API.Controllers.HotelController",
+    "Method": "DeleteFeature",
+    "RelativePath": "api/DeleteFeature/{hotelId}/{featureId}",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "includeProperties",
-        "Type": "System.String[]",
-        "IsRequired": false
+        "Name": "hotelId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "featureId",
+        "Type": "System.Int32",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.Feature, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.HotelDTOS.HotelFeatureDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -720,14 +835,14 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Feature",
-        "Type": "Booking_API.Models.Feature",
+        "Name": "featureDTO",
+        "Type": "Booking_API.DTOs.FeatureDTOS.FeatureDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Feature, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.FeatureDTOS.FeatureDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -758,7 +873,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Feature, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.FeatureDTOS.FeatureDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -782,14 +897,14 @@
         "IsRequired": true
       },
       {
-        "Name": "Feature",
-        "Type": "Booking_API.Models.Feature",
+        "Name": "featureDTO",
+        "Type": "Booking_API.DTOs.FeatureDTOS.FeatureDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Feature, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.FeatureDTOS.FeatureDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -815,7 +930,121 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Feature, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.FeatureDTOS.FeatureDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.CityController",
+    "Method": "GetCounrtyCites",
+    "RelativePath": "api/GetCountryCites/{countryId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "countryId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "includeProperties",
+        "Type": "System.String[]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.DTOs.CityDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.FeatureController",
+    "Method": "GetFeatures",
+    "RelativePath": "api/GetFeatures",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "includeProperties",
+        "Type": "System.String[]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.DTOs.FeatureDTOS.FeatureDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.HotelController",
+    "Method": "GetHotelFeatures",
+    "RelativePath": "api/GetHotelFeature/{hotelId}/{featureId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "hotelId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "featureId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.HotelDTOS.HotelFeatureDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.HotelController",
+    "Method": "GetHotelFeatures",
+    "RelativePath": "api/GetHotelFeatures/{hotelId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "hotelId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.DTOs.HotelDTOS.HotelFeatureDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -858,7 +1087,7 @@
   },
   {
     "ContainingType": "Booking_API.Controllers.HotelController",
-    "Method": "GetHotels",
+    "Method": "GetAllHotels",
     "RelativePath": "api/Hotel",
     "HttpMethod": "GET",
     "IsController": true,
@@ -1712,7 +1941,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.RoomType, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.DTOs.NewFolder.RoomTypeDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1731,14 +1960,14 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "RoomType",
-        "Type": "Booking_API.Models.RoomType",
+        "Name": "roomTypeDTO",
+        "Type": "Booking_API.DTOs.NewFolder.RoomTypeDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.RoomType, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.NewFolder.RoomTypeDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1769,7 +1998,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.RoomType, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.NewFolder.RoomTypeDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1793,14 +2022,14 @@
         "IsRequired": true
       },
       {
-        "Name": "RoomType",
-        "Type": "Booking_API.Models.RoomType",
+        "Name": "roomTypeDTO",
+        "Type": "Booking_API.DTOs.NewFolder.RoomTypeDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.RoomType, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.NewFolder.RoomTypeDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1826,7 +2055,38 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.RoomType, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.NewFolder.RoomTypeDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.HotelController",
+    "Method": "UpdateFeature",
+    "RelativePath": "api/UpdateFeature/{hotelId}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "hotelId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updatedFeature",
+        "Type": "Booking_API.DTOs.HotelDTOS.HotelFeatureDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.DTOs.HotelDTOS.HotelFeatureDTO, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

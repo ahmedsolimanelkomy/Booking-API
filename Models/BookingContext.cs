@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Booking_API.Models
 {
-    public class BookingContext : IdentityDbContext<ApplicationUser>
+    public class BookingContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>
     {
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<ApplicationRole> ApplicationRoles { get; set; }
@@ -24,14 +24,14 @@ namespace Booking_API.Models
         {
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    base.OnConfiguring(optionsBuilder);
+        //}
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-        }
+        //protected override void OnModelCreating(ModelBuilder builder)
+        //{
+        //    base.OnModelCreating(builder);
+        //}
     }
 }

@@ -6,7 +6,7 @@ namespace Booking_API.DTOs
 {
     public class HotelDTO
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required, MaxLength(100)]
         public string? Name { get; set; }

@@ -3,8 +3,10 @@ using Booking_API.DTOs;
 using Booking_API.DTOs.AdminDTOS;
 using Booking_API.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Booking_API.Controllers
 {
@@ -24,30 +26,31 @@ namespace Booking_API.Controllers
         }
 
         [HttpGet("GetAllAdmins")]
-        public async Task<IActionResult> GetAllAdmins()
+        public async Task<ActionResult<GeneralResponse<ICollection<AdminDTO>>>> GetAllAdmins()
         {
-            var Admins = (await UserManager.GetUsersInRoleAsync("Admin")).Select(user =>
-            new
-            {
-                user.Id,
-                user.FirstName,
-                user.LastName,
-                user.Email,
-                user.UserName,
-                user.Gender,
-            }).ToList();
+            ICollection<AdminDTO> Admins = (await UserManager.GetUsersInRoleAsync("Admin"))
+                .Select(user => new AdminDTO
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    UserName = user.UserName,
+                    Gender = user.Gender
+                }).ToList();
+
             if (Admins.Any())
             {
-                return NotFound("Admins are null");
+                return NotFound(new GeneralResponse<ICollection<AdminDTO>>(success: false, message: "Admins are null", data: null));
             }
-            return Ok(Admins);
+            return Ok(new GeneralResponse<ICollection<AdminDTO>>(success:true ,message:"Admins fetched succefully and not null",data: Admins));
         }
         [HttpPost("AddAdmin")]
-        public async Task<IActionResult> AddAdmin([FromBody] CreateAdminDTO createAdminDTO)
+        public async Task<ActionResult<GeneralResponse<string>>> AddAdmin([FromBody] CreateAdminDTO createAdminDTO)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                return BadRequest(new GeneralResponse<string>(success: false, message: "Invalid model state", data: string.Join("; ", errors)));
             }
 
             var user = Mapper.Map<ApplicationUser>(createAdminDTO);
@@ -55,51 +58,46 @@ namespace Booking_API.Controllers
 
             if (!result.Succeeded)
             {
-                return BadRequest("Error creating user");
+                var errorMessage = string.Join("; ", result.Errors.Select(e => e.Description));
+                return BadRequest(new GeneralResponse<string>(success: false, message: "Error creating user: " + errorMessage, data: null));
             }
 
             var roleResult = await UserManager.AddToRoleAsync(user, "ADMIN");
             if (!roleResult.Succeeded)
             {
-                return BadRequest("Error assigning admin role");
+                var errorMessage = string.Join("; ", roleResult.Errors.Select(e => e.Description));
+                return BadRequest(new GeneralResponse<string>(success: false, message: "Error assigning admin role: " + errorMessage, data: null));
             }
 
-            return Ok("Admin created successfully");
+            return Ok(new GeneralResponse<string>(success: true, message: "Admin created successfully", data: user.UserName));
         }
 
 
-        [HttpGet("GetAdminBYID/{id}")]
-        public async Task<IActionResult> GetAdminById(string Id)
+        [HttpGet("GetAdminByID/{id}")]
+        public async Task<ActionResult<GeneralResponse<AdminDTO>>> GetAdminById(string id)
         {
-            var user = await UserManager.FindByIdAsync(Id);
+            ApplicationUser user = await UserManager.FindByIdAsync(id);
 
             if (user == null)
             {
-                return NotFound(new { Msg = "Admin not found." });
+                return NotFound(new GeneralResponse<AdminDTO>(success: false, message: "Admin not found", data: null));
             }
 
-            var Admin = new
-            {
-                user.Id,
-                user.FirstName,
-                user.LastName,
-                user.Email,
-                user.UserName,
-                user.Gender,
-            };
+            AdminDTO admin = new AdminDTO();
+            Mapper.Map(user, admin);
 
-            return Ok(Admin);
+            return Ok(new GeneralResponse<AdminDTO>(success: true, message: "Admin fetched successfully", data: admin));
         }
 
 
         [HttpDelete("DeleteAdmin/{id}")]
-        public async Task<IActionResult> DeleteAdmin(string Id)
+        public async Task<ActionResult<GeneralResponse<string>>> DeleteAdmin(string Id)
         {
             var user = await UserManager.FindByIdAsync(Id);
 
             if (user == null)
             {
-                return NotFound(new { Msg = "Admin not found." });
+                return NotFound(new GeneralResponse<string>(success: false, message: "Admin not found", data: null));
             }
             string AdminUserName = user.UserName;
 
@@ -107,30 +105,33 @@ namespace Booking_API.Controllers
 
             if (!isAdmin)
             {
-                return BadRequest($"User {AdminUserName} is not an admin");
+                return BadRequest(new GeneralResponse<string>(success: false, message: "User is not an admin", data: AdminUserName));
             }
 
             // Remove the user
             var result = await UserManager.DeleteAsync(user);
+
             if (result.Succeeded)
             {
-                return Ok(new { Msg = $"Admin {AdminUserName} Deleted" });
+                return Ok(new GeneralResponse<string>(success: true, message: "Admin Deleted", data: AdminUserName));
+                // Removed the duplicate return statement
             }
             else
             {
-                return BadRequest("Error deleting user");
+                return BadRequest(new GeneralResponse<string>(success: false, message: "Error deleting user", data: AdminUserName));
             }
         }
 
 
+
         [HttpPatch("UpdateAdmin/{id}")]
-        public async Task<IActionResult> UpdateAdmin(string Id, AdminDTO adminDTO)
+        public async Task<ActionResult<GeneralResponse<AdminDTO>>> UpdateAdmin(string Id, AdminDTO adminDTO)
         {
             var user = await UserManager.FindByIdAsync(Id);
 
             if (user == null)
             {
-                return NotFound(new { Msg = "Admin not found." });
+                return NotFound(new GeneralResponse<AdminDTO>(success: false, message: "Admin not found", data: null));
             }
             Mapper.Map(adminDTO, user);
 
@@ -138,7 +139,7 @@ namespace Booking_API.Controllers
             var updateResult = await UserManager.UpdateAsync(user);
             if (!updateResult.Succeeded)
             {
-                return BadRequest("Error updating user");
+                return BadRequest(new GeneralResponse<AdminDTO>(success: false, message: "Error updating user", data: null));
             }
 
             // Update the password if provided
@@ -147,11 +148,10 @@ namespace Booking_API.Controllers
                 var passwordChangeResult = await UserManager.ChangePasswordAsync(user, adminDTO.CurrentPassword, adminDTO.NewPassword);
                 if (!passwordChangeResult.Succeeded)
                 {
-                    return BadRequest("Error changing password");
+                    return BadRequest(new GeneralResponse<AdminDTO>(success: false, message: "Error changing password", data: null));
                 }
             }
-
-            return Ok("User updated successfully");
+            return Ok(new GeneralResponse<AdminDTO>(success: true, message: "User updated successfully", data: adminDTO));
         }
 
     }

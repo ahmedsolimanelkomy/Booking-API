@@ -15,11 +15,13 @@ namespace Booking_API.Controllers
     public class HotelController : ControllerBase
     {
         private readonly IHotelService _HotelService;
+        private readonly IFeatureService _FeatureService;
         private readonly IMapper mapper;
 
-        public HotelController(IHotelService HotelService, IMapper mapper)
+        public HotelController(IHotelService HotelService,IFeatureService FeatureService, IMapper mapper)
         {
             _HotelService = HotelService;
+            _FeatureService = FeatureService;
             this.mapper = mapper;
         }
 
@@ -62,7 +64,7 @@ namespace Booking_API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<GeneralResponse<Hotel>>> DeleteHotel(int id)
         {
-            var existingHotel = await _HotelService.GetAsync(b => b.Id == id);
+            var existingHotel = await _HotelService.GetAsync(b => b.Id == id, ["Features","Rooms","Photos"]);
             if (existingHotel == null)
             {
                 return NotFound(new GeneralResponse<Hotel>(false, "Hotel not found", null));
@@ -72,12 +74,11 @@ namespace Booking_API.Controllers
             return Ok(new GeneralResponse<Hotel>(true, "Hotel deleted successfully", existingHotel));
         }
 
-        ////////////
-
+        #region HotelFeatureOperations
         [HttpGet("/api/GetHotelFeatures/{hotelId}")]
         public async Task<ActionResult<GeneralResponse<IEnumerable<HotelFeatureDTO>>>> GetHotelFeatures(int hotelId)
         {
-            var hotel = await _HotelService.GetAsync(h => h.Id == hotelId, new[] { "Features" });
+            var hotel = await _HotelService.GetAsync(h => h.Id == hotelId, ["Features"]);
 
             if (hotel == null)
             {
@@ -99,9 +100,9 @@ namespace Booking_API.Controllers
         }
 
         [HttpGet("/api/GetHotelFeature/{hotelId}/{featureId}")]
-        public async Task<ActionResult<GeneralResponse<HotelFeatureDTO>>> GetHotelFeatures(int hotelId, int featureId)
+        public async Task<ActionResult<GeneralResponse<HotelFeatureDTO>>> GetHotelFeature(int hotelId, int featureId)
         {
-            var hotel = await _HotelService.GetAsync(h => h.Id == hotelId, new[] { "Features" });
+            var hotel = await _HotelService.GetAsync(h => h.Id == hotelId, ["Features"]);
 
             if (hotel == null)
             {
@@ -124,74 +125,88 @@ namespace Booking_API.Controllers
 
 
         [HttpPost("/api/AddFeature/{hotelId}")]
-        public async Task<ActionResult<GeneralResponse<HotelFeatureDTO>>> AddFeature(int hotelId, HotelFeatureDTO feature)
-        {
-            var hotel = await _HotelService.GetAsync(h => h.Id == hotelId, new[] { "Features" });
-
-            if (hotel == null)
-            {
-                return NotFound(new GeneralResponse<Hotel>(false, "Hotel not found", null));
-            }
-
-            Feature hotelFeature = new Feature();
-
-            mapper.Map(feature, hotelFeature);
-
-            hotel.Features.Add(hotelFeature);
-
-            await _HotelService.UpdateAsync(hotel);
-
-            return CreatedAtAction(nameof(GetHotelFeatures), new { hotelId = hotel.Id }, new GeneralResponse<HotelFeatureDTO>(true, "Feature added successfully", feature));
-        }
-
-
-        [HttpPatch("/api/UpdateFeature/{hotelId}")]
-        public async Task<ActionResult<GeneralResponse<HotelFeatureDTO>>> UpdateFeature(int hotelId, HotelFeatureDTO updatedFeature)
+        public async Task<ActionResult<GeneralResponse<HotelFeatureDTO>>> AddFeature(int hotelId, HotelFeatureDTO hotelFeatureDTO)
         {
             var hotel = await _HotelService.GetAsync(h => h.Id == hotelId, ["Features"]);
-
             if (hotel == null)
             {
-                return NotFound(new GeneralResponse<HotelFeatureDTO>(false, "Hotel not found", null));
+                return NotFound(new GeneralResponse<string>(false, "Hotel not found", null));
             }
 
-            var feature = hotel.Features.FirstOrDefault(f => f.Id == updatedFeature.Id);
-
+            var feature = await _FeatureService.GetAsync(f => f.Id == hotelFeatureDTO.Id);
             if (feature == null)
             {
-                return NotFound(new GeneralResponse<HotelFeatureDTO>(false, "Feature not found", null));
+                return NotFound(new GeneralResponse<string>(false, "Feature not found", null));
             }
 
-            feature.Name = updatedFeature.Name;
+            if (hotel.Features == null)
+            {
+                hotel.Features = new List<Feature>();
+            }
 
-            await _HotelService.UpdateAsync(hotel);
+            if (!hotel.Features.Any(f => f.Id == feature.Id))
+            {
+                hotel.Features.Add(feature);
+                await _HotelService.UpdateAsync(hotel);
+            }
+            else
+            {
+                return BadRequest(new GeneralResponse<string>(false, "Feature already exists in hotel", null));
+            }
 
-            return NoContent();
+            return CreatedAtAction(nameof(AddFeature), new GeneralResponse<string>(true, "Feature added successfully", null));
         }
+
+
+
+        //[HttpPatch("/api/UpdateFeature/{hotelId}")]
+        //public async Task<ActionResult<GeneralResponse<HotelFeatureDTO>>> UpdateFeature(int hotelId, HotelFeatureDTO updatedFeature)
+        //{
+        //    var hotel = await _HotelService.GetAsync(h => h.Id == hotelId, ["Features"]);
+
+        //    if (hotel == null)
+        //    {
+        //        return NotFound(new GeneralResponse<HotelFeatureDTO>(false, "Hotel not found", null));
+        //    }
+
+        //    var feature = hotel.Features.FirstOrDefault(f => f.Id == updatedFeature.Id);
+
+        //    if (feature == null)
+        //    {
+        //        return NotFound(new GeneralResponse<HotelFeatureDTO>(false, "Feature not found", null));
+        //    }
+
+        //    feature.Name = updatedFeature.Name;
+
+        //    await _HotelService.UpdateAsync(hotel);
+
+        //    return NoContent();
+        //}
 
 
         [HttpDelete("/api/DeleteFeature/{hotelId}/{featureId}")]
         public async Task<ActionResult<GeneralResponse<HotelFeatureDTO>>> DeleteFeature(int hotelId, int featureId)
         {
-            var hotel = await _HotelService.GetAsync(h => h.Id == hotelId, new[] { "Features" });
+            var hotel = await _HotelService.GetAsync(h => h.Id == hotelId, ["Features"]);
 
             if (hotel == null)
             {
-                return NotFound(new GeneralResponse<HotelFeatureDTO>(false, "Hotel not found", null));
+                return NotFound(new GeneralResponse<string>(false, "Hotel not found", null));
             }
 
             var feature = hotel.Features.FirstOrDefault(f => f.Id == featureId);
 
             if (feature == null)
             {
-                return NotFound(new GeneralResponse<HotelFeatureDTO>(false, "Feature not found", null));
+                return NotFound(new GeneralResponse<string>(false, "Feature not found", null));
             }
 
             hotel.Features.Remove(feature);
             await _HotelService.UpdateAsync(hotel);
 
-            return Ok(new GeneralResponse<HotelFeatureDTO>(true, "Feature deleted successfully", null));
-        }
+            return Ok(new GeneralResponse<string>(true, "Feature deleted successfully", null));
+        } 
+        #endregion
 
     }
 }

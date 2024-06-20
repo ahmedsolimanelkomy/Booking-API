@@ -1,8 +1,15 @@
-﻿using Booking_API.DTOs;
+﻿using AutoMapper;
+using Booking_API.DTOs;
+using Booking_API.DTOs.HotelPhotosDTOS;
 using Booking_API.Models;
+using Booking_API.Services;
 using Booking_API.Services.IService;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Booking_API.Controllers
 {
@@ -10,62 +17,166 @@ namespace Booking_API.Controllers
     [ApiController]
     public class HotelPhotoController : ControllerBase
     {
-        private readonly IHotelPhotoService _HotelPhotoService;
+        private readonly IHotelPhotoService _hotelPhotoService;
+        private readonly IHotelService _hotelService;
+        private readonly IMapper _mapper;
 
-        public HotelPhotoController(IHotelPhotoService HotelPhotoService)
+        public HotelPhotoController(IHotelPhotoService hotelPhotoService,IHotelService hotelService, IMapper mapper)
         {
-            _HotelPhotoService = HotelPhotoService;
+            _hotelPhotoService = hotelPhotoService;
+            _hotelService = hotelService;
+            _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<GeneralResponse<IEnumerable<HotelPhoto>>>> GetHotelPhotos([FromQuery] string[] includeProperties)
+        [HttpGet("/api/GetAllHotelsPhotos")]
+        public async Task<ActionResult<GeneralResponse<IEnumerable<byte[]>>>> GetAllHotelsPhotos([FromQuery] string[] includeProperties)
         {
-            var response = await _HotelPhotoService.GetAllAsync(includeProperties);
-            return Ok(new GeneralResponse<IEnumerable<HotelPhoto>>(true, "HotelPhotos retrieved successfully", response));
+            var photos = await _hotelPhotoService.GetAllPhotos();
+            
+            return Ok(new GeneralResponse<IEnumerable<byte[]>>(true, "All HotelPhotos retrieved successfully", photos));
         }
+
+        [HttpGet("/api/GetHotelPhotos/{hotelId:int}")]
+        public async Task<ActionResult<GeneralResponse<IEnumerable<GetHotelPhotoDTO>>>> GetHotelPhotos(int hotelId)
+        {
+            Hotel hotel = await _hotelService.GetAsync(h => h.Id == hotelId);
+
+            if (hotel == null)
+            {
+                return NotFound(new GeneralResponse<IEnumerable<HotelPhotoDTO>>(false, "Hotel Not Found", null));
+            }
+
+            var hotelPhotos = await _hotelPhotoService.GetListAsync(h => h.HotelId == hotelId);
+            if (hotelPhotos.Count() == 0 || hotelPhotos == null)
+            {
+                return Ok(new GeneralResponse<IEnumerable<HotelPhotoDTO>>(true, "Hotel Have No Photos", null));
+            }
+
+            var responseDTOs = new List<GetHotelPhotoDTO>();
+            foreach (var photo in hotelPhotos)
+            {
+                var photoContent = await _hotelPhotoService.GetPhotoFileContent(photo.PhotoUrl);
+                var photoDTO = _mapper.Map<GetHotelPhotoDTO>(photo);
+                photoDTO.Photo = photoContent;
+                responseDTOs.Add(photoDTO);
+            }
+
+            return Ok(new GeneralResponse<IEnumerable<GetHotelPhotoDTO>>(true, "HotelPhotos retrieved successfully", responseDTOs));
+        }
+
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GeneralResponse<HotelPhoto>>> GetHotelPhoto(int id, [FromQuery] string[] includeProperties)
+        public async Task<ActionResult<GeneralResponse<HotelPhotoDTO>>> GetHotelPhoto(int id, [FromQuery] string[] includeProperties)
         {
-            var response = await _HotelPhotoService.GetAsync(b => b.Id == id, includeProperties);
+            var response = await _hotelPhotoService.GetAsync(p => p.Id == id, includeProperties);
             if (response == null)
             {
-                return NotFound(new GeneralResponse<HotelPhoto>(false, "HotelPhoto not found", null));
+                return NotFound(new GeneralResponse<HotelPhotoDTO>(false, "HotelPhoto not found", null));
             }
-            return Ok(new GeneralResponse<HotelPhoto>(true, "HotelPhoto retrieved successfully", response));
+            var responseDTO = _mapper.Map<HotelPhotoDTO>(response);
+            return Ok(new GeneralResponse<HotelPhotoDTO>(true, "HotelPhoto retrieved successfully", responseDTO));
         }
 
-        [HttpPost]
-        public async Task<ActionResult<GeneralResponse<HotelPhoto>>> PostHotelPhoto(HotelPhoto HotelPhoto)
+        [HttpPost("{hotelId}")]
+        public async Task<ActionResult<GeneralResponse<CreateHotelPhotoDTO>>> PostHotelPhoto(int hotelId, [FromForm] CreateHotelPhotoDTO createHotelPhotoDto)
         {
-            await _HotelPhotoService.AddAsync(HotelPhoto);
-            return CreatedAtAction(nameof(GetHotelPhoto), new { id = HotelPhoto.Id }, new GeneralResponse<HotelPhoto>(true, "HotelPhoto added successfully", HotelPhoto));
+            Hotel hotel = await _hotelService.GetAsync(h => h.Id == hotelId);
+            if (hotel == null)
+            {
+                return NotFound(new GeneralResponse<CreateHotelPhotoDTO>(false, "Hotel Not Found", null));
+            }
+
+            if (createHotelPhotoDto.Photo == null)
+            {
+                return BadRequest(new GeneralResponse<CreateHotelPhotoDTO>(false, "No Photo Received", null));
+            }
+
+            var photoUrl = await _hotelPhotoService.SavePhoto(createHotelPhotoDto.Photo);
+            if (string.IsNullOrEmpty(photoUrl))
+            {
+                return BadRequest(new GeneralResponse<CreateHotelPhotoDTO>(false, "Error Saving Photo", null));
+            }
+
+            var hotelPhoto = _mapper.Map<HotelPhoto>(createHotelPhotoDto);
+            hotelPhoto.PhotoUrl = photoUrl;
+            hotel.Photos.Add(hotelPhoto);
+            await _hotelService.UpdateAsync(hotel);
+
+            return Ok(new GeneralResponse<CreateHotelPhotoDTO>(true, "HotelPhoto added successfully", createHotelPhotoDto));
         }
+
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<GeneralResponse<HotelPhoto>>> PutHotelPhoto(int id, HotelPhoto HotelPhoto)
+        public async Task<ActionResult<GeneralResponse<UpdateHotelPhotoDTO>>> PutHotelPhoto(int id, [FromForm] UpdateHotelPhotoDTO updateHotelPhotoDTO)
         {
-            if (id != HotelPhoto.Id)
+            if (!ModelState.IsValid)
             {
-                return BadRequest(new GeneralResponse<HotelPhoto>(false, "HotelPhoto ID mismatch", null));
+                return BadRequest(new GeneralResponse<UpdateHotelPhotoDTO>(false, "Invalid data", null));
+            }
+            int PhotoId = int.Parse(updateHotelPhotoDTO.Id);
+
+            var existingHotelPhoto = await _hotelPhotoService.GetAsync(h => h.Id == PhotoId);
+            if (existingHotelPhoto == null)
+            {
+                return NotFound(new GeneralResponse<UpdateHotelPhotoDTO>(false, "HotelPhoto not found", null));
             }
 
-            await _HotelPhotoService.UpdateAsync(HotelPhoto);
-            return NoContent();
+            var hotel = await _hotelService.GetAsync(h => h.Id == id);
+            if (hotel == null)
+            {
+                return NotFound(new GeneralResponse<UpdateHotelPhotoDTO>(false, "Hotel not found", null));
+            }
+
+            try
+            {
+                if (updateHotelPhotoDTO.Photo != null)
+                {
+                    _hotelPhotoService.DeletePhoto(existingHotelPhoto.PhotoUrl);
+                    var photoUrl = await _hotelPhotoService.SavePhoto(updateHotelPhotoDTO.Photo);
+                    existingHotelPhoto.PhotoUrl = photoUrl;
+                }
+
+                existingHotelPhoto.Name = updateHotelPhotoDTO.Name;
+                existingHotelPhoto.Description = updateHotelPhotoDTO.Description;
+
+                var updatedPhoto = _mapper.Map<HotelPhoto>(existingHotelPhoto);
+
+                var existingPhoto = hotel.Photos.FirstOrDefault(p => p.Id == id);
+                if (existingPhoto != null)
+                {
+                    existingPhoto.PhotoUrl = updatedPhoto.PhotoUrl;
+                    existingPhoto.Name = updatedPhoto.Name;
+                    existingPhoto.Description = updatedPhoto.Description;
+                }
+                else
+                {
+                    hotel.Photos.Add(updatedPhoto);
+                }
+
+                await _hotelService.UpdateAsync(hotel);
+
+                var updatedPhotoDTO = _mapper.Map<UpdateHotelPhotoDTO>(updatedPhoto);
+                return Ok(new GeneralResponse<UpdateHotelPhotoDTO>(true, "HotelPhoto updated successfully", updatedPhotoDTO));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new GeneralResponse<UpdateHotelPhotoDTO>(false, "An error occurred while updating the photo", null));
+            }
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<GeneralResponse<HotelPhoto>>> DeleteHotelPhoto(int id)
+        public async Task<ActionResult<GeneralResponse<HotelPhotoDTO>>> DeleteHotelPhoto(int id)
         {
-            var existingHotelPhoto = await _HotelPhotoService.GetAsync(b => b.Id == id);
+            var existingHotelPhoto = await _hotelPhotoService.GetAsync(b => b.Id == id);
             if (existingHotelPhoto == null)
             {
-                return NotFound(new GeneralResponse<HotelPhoto>(false, "HotelPhoto not found", null));
+                return NotFound(new GeneralResponse<HotelPhotoDTO>(false, "HotelPhoto not found", null));
             }
 
-            await _HotelPhotoService.DeleteAsync(id);
-            return Ok(new GeneralResponse<HotelPhoto>(true, "HotelPhoto deleted successfully", existingHotelPhoto));
+            _hotelPhotoService.DeletePhoto(existingHotelPhoto.PhotoUrl);
+            await _hotelPhotoService.DeleteAsync(id);
+            var responseDTO = _mapper.Map<HotelPhotoDTO>(existingHotelPhoto);
+            return Ok(new GeneralResponse<HotelPhotoDTO>(true, "HotelPhoto deleted successfully", responseDTO));
         }
     }
 }
-

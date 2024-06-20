@@ -10,11 +10,12 @@ namespace Booking_API.Models
         public int Id { get; set; }
 
         [Required, MaxLength(100)]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         public string? Description { get; set; }
+        [Required]
 
-        public string? PhotoUrl { get; set; }
+        public string PhotoUrl { get; set; }
 
         //Foreign Keys
 

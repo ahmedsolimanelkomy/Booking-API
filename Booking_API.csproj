@@ -27,7 +27,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\Assets\Images\HotelsPhotos\" />
+    <Folder Include="wwwroot\Assets\Photos\HotelsPhotos\" />
     <Folder Include="Migrations\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>

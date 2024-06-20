@@ -6,9 +6,11 @@ namespace Booking_API.Models
 {
     public enum View
     {
-        view1,
-        view2,
-        view3
+        Garden = 1,
+        Sea = 2,
+        City = 3,
+        Mountain = 4,
+        Pool = 5
     }
     public class Room
     {   

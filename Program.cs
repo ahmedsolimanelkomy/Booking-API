@@ -52,6 +52,7 @@ namespace Booking_API
             builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
+
             // Add JWT Authentication
             var key = Encoding.ASCII.GetBytes(builder.Configuration["JWT:SecKey"]);
             builder.Services.AddAuthentication(options =>
@@ -98,6 +99,7 @@ namespace Booking_API
             app.UseRouting();
 
             // Use Authentication and Authorization middleware
+            app.UseStaticFiles();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseCors("AllowAllOrigins");

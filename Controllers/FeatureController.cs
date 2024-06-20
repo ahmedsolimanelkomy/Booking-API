@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Booking_API.DTOs;
 using Booking_API.DTOs.FeatureDTOS;
+using Booking_API.DTOs.HotelDTOS;
 using Booking_API.Models;
+using Booking_API.Services;
 using Booking_API.Services.IService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,11 +14,13 @@ namespace Booking_API.Controllers
     public class FeatureController : ControllerBase
     {
         private readonly IFeatureService _featureService;
+        private readonly IHotelService _hotelService;
         private readonly IMapper _mapper;
 
-        public FeatureController(IFeatureService featureService, IMapper mapper)
+        public FeatureController(IFeatureService featureService, IHotelService hotelService, IMapper mapper)
         {
             _featureService = featureService;
+            _hotelService = hotelService;
             _mapper = mapper;
         }
 
@@ -118,5 +122,6 @@ namespace Booking_API.Controllers
                 return StatusCode(500, new GeneralResponse<FeatureDTO>(false, ex.Message, null));
             }
         }
+
     }
 }

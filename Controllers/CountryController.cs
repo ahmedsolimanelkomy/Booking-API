@@ -3,6 +3,7 @@ using Booking_API.DTOs;
 using Booking_API.Models;
 using Booking_API.Services.IService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Booking_API.Controllers
 {
@@ -12,20 +13,22 @@ namespace Booking_API.Controllers
     {
         private readonly IService<Country> _countryService;
         private readonly IMapper _mapper;
+        private readonly BookingContext bookingContext;
 
-        public CountryController(IService<Country> countryService, IMapper mapper)
+        public CountryController(IService<Country> countryService, IMapper mapper, BookingContext bookingContext)
         {
             _countryService = countryService;
             _mapper = mapper;
+            this.bookingContext = bookingContext;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<GeneralResponse<IEnumerable<CountryDTO>>>> GetCountries([FromQuery] string[] includeProperties = null)
-        {
-            var countries = await _countryService.GetAllAsync(includeProperties);
-            var countriesDTO = _mapper.Map<IEnumerable<CountryDTO>>(countries);
-            return Ok(new GeneralResponse<IEnumerable<CountryDTO>>(true, "Countries retrieved successfully", countriesDTO));
-        }
+        //[HttpGet]
+        //public async Task<ActionResult<GeneralResponse<IEnumerable<CountryDTO>>>> GetCountries([FromQuery] string[] includeProperties = null)
+        //{
+        //    var countries = await _countryService.GetAllAsync(includeProperties);
+        //    var countriesDTO = _mapper.Map<IEnumerable<CountryDTO>>(countries);
+        //    return Ok(new GeneralResponse<IEnumerable<CountryDTO>>(true, "Countries retrieved successfully", countriesDTO));
+        //}
 
         [HttpGet("{id}")]
         public async Task<ActionResult<GeneralResponse<CountryDTO>>> GetCountry(int id, [FromQuery] string[] includeProperties = null)
@@ -72,5 +75,22 @@ namespace Booking_API.Controllers
             var deletedCountryDTO = _mapper.Map<CountryDTO>(existingCountry);
             return Ok(new GeneralResponse<CountryDTO>(true, "Country deleted successfully", deletedCountryDTO));
         }
+
+
+
+        [HttpGet]
+        public async Task<ActionResult<PagedResult<Country>>> GetItems([FromQuery] int pageNumber = 1)
+        {
+            int pageSize = 3;
+            var query = bookingContext.Countries.AsQueryable();
+
+            var count = await query.CountAsync();
+            var items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            var result = new PagedResult<Country>(items, count, pageNumber, pageSize);
+
+            return Ok(result);
+        }
+
     }
 }

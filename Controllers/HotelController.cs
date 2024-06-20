@@ -7,6 +7,7 @@ using Booking_API.Services;
 using Booking_API.Services.IService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Booking_API.Controllers
 {
@@ -16,19 +17,21 @@ namespace Booking_API.Controllers
     {
         private readonly IHotelService _HotelService;
         private readonly IMapper mapper;
+        private readonly BookingContext bookingContext;
 
-        public HotelController(IHotelService HotelService, IMapper mapper)
+        public HotelController(IHotelService HotelService, IMapper mapper ,BookingContext bookingContext)
         {
             _HotelService = HotelService;
             this.mapper = mapper;
+            this.bookingContext = bookingContext;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<GeneralResponse<IEnumerable<Hotel>>>> GetAllHotels([FromQuery] string[] includeProperties)
-        {
-            var response = await _HotelService.GetAllAsync(includeProperties);
-            return Ok(new GeneralResponse<IEnumerable<Hotel>>(true, "Hotels retrieved successfully", response));
-        }
+        //[HttpGet]
+        //public async Task<ActionResult<GeneralResponse<IEnumerable<Hotel>>>> GetAllHotels([FromQuery] string[] includeProperties)
+        //{
+        //    var response = await _HotelService.GetAllAsync(includeProperties);
+        //    return Ok(new GeneralResponse<IEnumerable<Hotel>>(true, "Hotels retrieved successfully", response));
+        //}
 
         [HttpGet("{id}")]
         public async Task<ActionResult<GeneralResponse<Hotel>>> GetHotel(int id, [FromQuery] string[] includeProperties)
@@ -192,6 +195,24 @@ namespace Booking_API.Controllers
 
             return Ok(new GeneralResponse<HotelFeatureDTO>(true, "Feature deleted successfully", null));
         }
+
+        //////////////////////////////////////////////////////////////////////
+        ///
+
+
+        [HttpGet]
+        public async Task<ActionResult<PagedResult<Hotel>>> GetItems([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 3)
+        {
+            var query = bookingContext.Hotels.AsQueryable();
+
+            var count = await query.CountAsync();
+            var items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            var result = new PagedResult<Hotel>(items, count, pageNumber, pageSize);
+
+            return Ok(result);
+        }
+
 
     }
 }

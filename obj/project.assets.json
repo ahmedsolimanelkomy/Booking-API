@@ -4448,23 +4448,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Aio\\.nuget\\packages\\": {},
+    "C:\\Users\\ahmed\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Aio\\Desktop\\BookingBoo\\Booking-API\\Booking_API.csproj",
+      "projectUniqueName": "C:\\Users\\ahmed\\Desktop\\Graduation Project\\Booking API\\Booking-API\\Booking_API.csproj",
       "projectName": "Booking_API",
-      "projectPath": "C:\\Users\\Aio\\Desktop\\BookingBoo\\Booking-API\\Booking_API.csproj",
-      "packagesPath": "C:\\Users\\Aio\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Aio\\Desktop\\BookingBoo\\Booking-API\\obj\\",
+      "projectPath": "C:\\Users\\ahmed\\Desktop\\Graduation Project\\Booking API\\Booking-API\\Booking_API.csproj",
+      "packagesPath": "C:\\Users\\ahmed\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ahmed\\Desktop\\Graduation Project\\Booking API\\Booking-API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Aio\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ahmed\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4543,7 +4543,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

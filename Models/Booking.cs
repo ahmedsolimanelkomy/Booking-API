@@ -29,7 +29,7 @@ namespace Booking_API.Models
 
         //Foreign Keys
         [ForeignKey("ApplicationUser")]
-        public string? UserId { get; set; }
+        public int? UserId { get; set; }
 
         [ForeignKey("Car")]
         public int? CarId { get; set; }

@@ -1,5 +1,9 @@
 ﻿using AutoMapper;
 using Booking_API.DTOs;
+using Booking_API.DTOs.AdminDTOS;
+using Booking_API.DTOs.FeatureDTOS;
+using Booking_API.DTOs.HotelDTOS;
+using Booking_API.DTOs.NewFolder;
 using Booking_API.DTOs.RoomDTOS;
 using Booking_API.Models;
 
@@ -11,8 +15,18 @@ namespace Booking_API.Mapping
         {
             CreateMap<UserRegisterDTO, ApplicationUser>().ReverseMap();
             CreateMap<AdminDTO, ApplicationUser>().ReverseMap();
+            CreateMap<CreateAdminDTO, ApplicationUser>().ReverseMap();
             CreateMap<HotelDTO, Hotel>();
             CreateMap<PassportDto, Passport>().ReverseMap();
+            CreateMap<CountryDTO, Country>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name)).ReverseMap();
+            CreateMap<CityDTO,City>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.CountryId, opt => opt.MapFrom(src => src.CountryId))
+                .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.Code)).ReverseMap();
+
             CreateMap<RoomViewDTO, Room>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.AvailabilityStatus, opt => opt.MapFrom(src => src.AvailabilityStatus))
@@ -38,6 +52,16 @@ namespace Booking_API.Mapping
                 .ForMember(dest => dest.AvailabilityStatus, opt => opt.MapFrom(src => src.AvailabilityStatus))
                 .ForMember(dest => dest.IsBooked, opt => opt.MapFrom(src => src.IsBooked))
                 .ReverseMap();
+
+            CreateMap<HotelFeatureDTO, Feature>()
+                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                 .ReverseMap();
+
+            CreateMap<FeatureDTO, Feature>().ReverseMap();
+            CreateMap<RoomTypeDTO,RoomType>().ReverseMap();
+
+
 
 
         }

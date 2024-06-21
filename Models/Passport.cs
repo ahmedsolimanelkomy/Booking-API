@@ -19,7 +19,7 @@ namespace Booking_API.Models
         public string? NationalId { get; set; }
 
         [Required,StringLength(20)]
-        public string? PassportNumber { get; set; }
+        public int? PassportNumber { get; set; }
 
         [StringLength(50)]
         public string? IssuingCountry { get; set; }
@@ -28,7 +28,7 @@ namespace Booking_API.Models
 
         // Foreign keys
         [ForeignKey("User")]
-        public string? UserId { get; set; }
+        public int? UserId { get; set; }
 
         // Navigation Properties
         public ApplicationUser? User { get; set; }

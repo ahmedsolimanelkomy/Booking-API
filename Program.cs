@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using AutoMapper;
 
 namespace Booking_API
 {
@@ -26,6 +27,15 @@ namespace Booking_API
             {
                 option.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
             });
+            // Configure Identity
+            builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<BookingContext>()
+                .AddDefaultTokenProviders();
+
+            // Register the UserManager and RoleManager services
+            builder.Services.AddScoped<UserManager<ApplicationUser>>();
+            builder.Services.AddScoped<RoleManager<ApplicationRole>>();
+
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IBookingService, BookingService>();
             builder.Services.AddScoped<IPaymentService, PaymentService>();
@@ -36,11 +46,7 @@ namespace Booking_API
             builder.Services.AddScoped<IFeatureService, FeatureService>();
             builder.Services.AddScoped<IRoomService, RoomService>();
             builder.Services.AddScoped<IRoomTypeService, RoomTypeService>();
-            builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddEntityFrameworkStores<BookingContext>()
-                .AddDefaultTokenProviders();
-
-            builder.Services.AddScoped<UserManager<ApplicationUser>>();
+            builder.Services.AddScoped<ICountryService, CountryService>();
             builder.Services.AddScoped<IService<City>, Service<City>>();
             builder.Services.AddScoped<IService<Country>, Service<Country>>();
 

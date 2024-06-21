@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Booking_API.DTOs
+namespace Booking_API.DTOs.AdminDTOS
 {
-    public class AdminDTO
+    public class CreateAdminDTO
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
@@ -11,17 +11,11 @@ namespace Booking_API.DTOs
         [EmailAddress(ErrorMessage = "Invalid email format")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Current password is required")]
+        [Required(ErrorMessage = "password is required")]
         [DataType(DataType.Password)]
-        public string CurrentPassword { get; set; }
-
-        [StringLength(100, MinimumLength = 6, ErrorMessage = "Password must be at least 6 characters long")]
-        [DataType(DataType.Password)]
-        public string? NewPassword { get; set; }
-
+        public string Password { get; set; }
         public string? UserName { get; set; }
 
         public string? Gender { get; set; }
     }
 }
-

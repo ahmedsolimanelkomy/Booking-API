@@ -2,7 +2,7 @@
 
 namespace Booking_API.Models
 {
-    public class ApplicationRole : IdentityRole
+    public class ApplicationRole : IdentityRole<int>
     {
 
     }

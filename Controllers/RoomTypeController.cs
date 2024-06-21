@@ -1,7 +1,8 @@
-﻿using Booking_API.DTOs;
+﻿using AutoMapper;
+using Booking_API.DTOs;
+using Booking_API.DTOs.NewFolder;
 using Booking_API.Models;
 using Booking_API.Services.IService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Booking_API.Controllers
@@ -10,62 +11,113 @@ namespace Booking_API.Controllers
     [ApiController]
     public class RoomTypeController : ControllerBase
     {
-        private readonly IRoomTypeService _RoomTypeService;
+        private readonly IRoomTypeService _roomTypeService;
+        private readonly IMapper _mapper;
 
-        public RoomTypeController(IRoomTypeService RoomTypeService)
+        public RoomTypeController(IRoomTypeService roomTypeService, IMapper mapper)
         {
-            _RoomTypeService = RoomTypeService;
+            _roomTypeService = roomTypeService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<GeneralResponse<IEnumerable<RoomType>>>> GetRoomTypes([FromQuery] string[] includeProperties)
+        public async Task<ActionResult<GeneralResponse<IEnumerable<RoomTypeDTO>>>> GetRoomTypes([FromQuery] string[] includeProperties)
         {
-            var response = await _RoomTypeService.GetAllAsync(includeProperties);
-            return Ok(new GeneralResponse<IEnumerable<RoomType>>(true, "RoomTypes retrieved successfully", response));
+            try
+            {
+                var response = await _roomTypeService.GetAllAsync(includeProperties);
+                var roomTypes = _mapper.Map<IEnumerable<RoomTypeDTO>>(response);
+
+                return Ok(new GeneralResponse<IEnumerable<RoomTypeDTO>>(true, "RoomTypes retrieved successfully", roomTypes));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new GeneralResponse<IEnumerable<RoomTypeDTO>>(false, ex.Message, null));
+            }
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GeneralResponse<RoomType>>> GetRoomType(int id, [FromQuery] string[] includeProperties)
+        public async Task<ActionResult<GeneralResponse<RoomTypeDTO>>> GetRoomType(int id, [FromQuery] string[] includeProperties)
         {
-            var response = await _RoomTypeService.GetAsync(b => b.Id == id, includeProperties);
-            if (response == null)
+            try
             {
-                return NotFound(new GeneralResponse<RoomType>(false, "RoomType not found", null));
+                var response = await _roomTypeService.GetAsync(b => b.Id == id, includeProperties);
+                if (response == null)
+                {
+                    return NotFound(new GeneralResponse<RoomTypeDTO>(false, "RoomType not found", null));
+                }
+
+                var roomType = _mapper.Map<RoomTypeDTO>(response);
+                return Ok(new GeneralResponse<RoomTypeDTO>(true, "RoomType retrieved successfully", roomType));
             }
-            return Ok(new GeneralResponse<RoomType>(true, "RoomType retrieved successfully", response));
+            catch (Exception ex)
+            {
+                return StatusCode(500, new GeneralResponse<RoomTypeDTO>(false, ex.Message, null));
+            }
         }
 
         [HttpPost]
-        public async Task<ActionResult<GeneralResponse<RoomType>>> PostRoomType(RoomType RoomType)
+        public async Task<ActionResult<GeneralResponse<RoomTypeDTO>>> PostRoomType(RoomTypeDTO roomTypeDTO)
         {
-            await _RoomTypeService.AddAsync(RoomType);
-            return CreatedAtAction(nameof(GetRoomType), new { id = RoomType.Id }, new GeneralResponse<RoomType>(true, "RoomType added successfully", RoomType));
+            try
+            {
+                var roomType = _mapper.Map<RoomType>(roomTypeDTO);
+                await _roomTypeService.AddAsync(roomType);
+                var createdRoomTypeDTO = _mapper.Map<RoomTypeDTO>(roomType);
+
+                return CreatedAtAction(nameof(GetRoomType), new { id = createdRoomTypeDTO.Id }, new GeneralResponse<RoomTypeDTO>(true, "RoomType added successfully", createdRoomTypeDTO));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new GeneralResponse<RoomTypeDTO>(false, ex.Message, null));
+            }
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<GeneralResponse<RoomType>>> PutRoomType(int id, RoomType RoomType)
+        public async Task<ActionResult<GeneralResponse<RoomTypeDTO>>> PutRoomType(int id, RoomTypeDTO roomTypeDTO)
         {
-            if (id != RoomType.Id)
+            if (id != roomTypeDTO.Id)
             {
-                return BadRequest(new GeneralResponse<RoomType>(false, "RoomType ID mismatch", null));
+                return BadRequest(new GeneralResponse<RoomTypeDTO>(false, "RoomType ID mismatch", null));
             }
 
-            await _RoomTypeService.UpdateAsync(RoomType);
-            return NoContent();
+            try
+            {
+                var existingRoomType = await _roomTypeService.GetAsync(f => f.Id == id);
+                if (existingRoomType == null)
+                {
+                    return NotFound(new GeneralResponse<RoomTypeDTO>(false, "RoomType not found", null));
+                }
+
+                _mapper.Map(roomTypeDTO, existingRoomType);
+                await _roomTypeService.UpdateAsync(existingRoomType);
+
+                return Ok(new GeneralResponse<RoomTypeDTO>(true, "RoomType updated successfully", roomTypeDTO));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new GeneralResponse<RoomTypeDTO>(false, ex.Message, null));
+            }
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<GeneralResponse<RoomType>>> DeleteRoomType(int id)
+        public async Task<ActionResult<GeneralResponse<RoomTypeDTO>>> DeleteRoomType(int id)
         {
-            var existingRoomType = await _RoomTypeService.GetAsync(b => b.Id == id);
-            if (existingRoomType == null)
+            try
             {
-                return NotFound(new GeneralResponse<RoomType>(false, "RoomType not found", null));
-            }
+                var existingRoomType = await _roomTypeService.GetAsync(f => f.Id == id);
+                if (existingRoomType == null)
+                {
+                    return NotFound(new GeneralResponse<RoomTypeDTO>(false, "RoomType not found", null));
+                }
 
-            await _RoomTypeService.DeleteAsync(id);
-            return Ok(new GeneralResponse<RoomType>(true, "RoomType deleted successfully", existingRoomType));
+                await _roomTypeService.DeleteAsync(id);
+                return Ok(new GeneralResponse<RoomTypeDTO>(true, "RoomType deleted successfully", null));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new GeneralResponse<RoomTypeDTO>(false, ex.Message, null));
+            }
         }
     }
 }
-

@@ -9,16 +9,12 @@ namespace Booking_API.Models
         [Key]
         public int Id { get; set; }
 
-        [MaxLength(100)]
+        [Required,MaxLength(100)]
         public string? Name { get; set; }
 
         //Foreign Keys
-
-
-
         //Navigation Properties
-        [JsonIgnore]
-        public ICollection<Hotel> Photos { get; set; } = new HashSet<Hotel>();
+        public ICollection<Hotel>? Hotels { get; set; } = new HashSet<Hotel>();
 
     }
 }

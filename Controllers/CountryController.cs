@@ -1,9 +1,8 @@
-﻿using Booking_API.DTOs;
+﻿using AutoMapper;
+using Booking_API.DTOs;
 using Booking_API.Models;
 using Booking_API.Services.IService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics.Metrics;
 
 namespace Booking_API.Controllers
 {
@@ -12,59 +11,66 @@ namespace Booking_API.Controllers
     public class CountryController : ControllerBase
     {
         private readonly IService<Country> _countryService;
-        public CountryController(IService<Country> countryService)
+        private readonly IMapper _mapper;
+
+        public CountryController(IService<Country> countryService, IMapper mapper)
         {
             _countryService = countryService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<GeneralResponse<IEnumerable<Country>>>> GetCountries([FromQuery] string[] includeProperties=null)
+        public async Task<ActionResult<GeneralResponse<IEnumerable<CountryDTO>>>> GetCountries([FromQuery] string[] includeProperties = null)
         {
-            var response = await _countryService.GetAllAsync(includeProperties);
-            return Ok(new GeneralResponse<IEnumerable<Country>>(true, "Countries retrieved successfully", response));
+            var countries = await _countryService.GetAllAsync(includeProperties);
+            var countriesDTO = _mapper.Map<IEnumerable<CountryDTO>>(countries);
+            return Ok(new GeneralResponse<IEnumerable<CountryDTO>>(true, "Countries retrieved successfully", countriesDTO));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GeneralResponse<Country>>> GetCountry(int id, [FromQuery] string[] includeProperties)
+        public async Task<ActionResult<GeneralResponse<CountryDTO>>> GetCountry(int id, [FromQuery] string[] includeProperties = null)
         {
-            var response = await _countryService.GetAsync(c => c.Id == id, includeProperties);
-            if (response == null)
+            var country = await _countryService.GetAsync(c => c.Id == id, includeProperties);
+            if (country == null)
             {
-                return NotFound(new GeneralResponse<Country>(false, "Country not found", null));
+                return NotFound(new GeneralResponse<CountryDTO>(false, "Country not found", null));
             }
-            return Ok(new GeneralResponse<Country>(true, "Country retrieved successfully", response));
+            var countryDTO = _mapper.Map<CountryDTO>(country);
+            return Ok(new GeneralResponse<CountryDTO>(true, "Country retrieved successfully", countryDTO));
         }
 
         [HttpPost]
-        public async Task<ActionResult<GeneralResponse<Country>>> PostCountry(Country country)
+        public async Task<ActionResult<GeneralResponse<CountryDTO>>> PostCountry(CountryDTO countryDTO)
         {
+            var country = _mapper.Map<Country>(countryDTO);
             await _countryService.AddAsync(country);
-            return CreatedAtAction(nameof(GetCountry), new { id = country.Id }, new GeneralResponse<Country>(true, "Country added successfully", country));
+            var createdCountryDTO = _mapper.Map<CountryDTO>(country);
+            return CreatedAtAction(nameof(GetCountry), new { id = country.Id }, new GeneralResponse<CountryDTO>(true, "Country added successfully", createdCountryDTO));
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<GeneralResponse<Country>>> PutCountry(int id, Country country)
+        [HttpPatch("{id}")]
+        public async Task<ActionResult<GeneralResponse<CountryDTO>>> PutCountry(int id, CountryDTO countryDTO)
         {
-            if (id != country.Id)
+            if (id != countryDTO.Id)
             {
-                return BadRequest(new GeneralResponse<Country>(false, "Country ID mismatch", null));
+                return BadRequest(new GeneralResponse<CountryDTO>(false, "Country ID mismatch", null));
             }
-
+            var country = _mapper.Map<Country>(countryDTO);
             await _countryService.UpdateAsync(country);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<GeneralResponse<Country>>> DeleteCountry(int id)
+        public async Task<ActionResult<GeneralResponse<CountryDTO>>> DeleteCountry(int id)
         {
             var existingCountry = await _countryService.GetAsync(c => c.Id == id);
             if (existingCountry == null)
             {
-                return NotFound(new GeneralResponse<Country>(false, "Country not found", null));
+                return NotFound(new GeneralResponse<CountryDTO>(false, "Country not found", null));
             }
-
             await _countryService.DeleteAsync(id);
-            return Ok(new GeneralResponse<Country>(true, "Country deleted successfully", existingCountry));
+            var deletedCountryDTO = _mapper.Map<CountryDTO>(existingCountry);
+            return Ok(new GeneralResponse<CountryDTO>(true, "Country deleted successfully", deletedCountryDTO));
         }
     }
 }

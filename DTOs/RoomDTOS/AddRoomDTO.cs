@@ -5,7 +5,11 @@ namespace Booking_API.DTOs.RoomDTOS
 {
     public class AddRoomDTO
     {
-        public int Id { get; set; }
+
+        
+        public int? Id { get; set; }
+
+
         public bool AvailabilityStatus { get; set; }
         public int Capacity { get; set; }
         public View? View { get; set; }

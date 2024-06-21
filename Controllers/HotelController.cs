@@ -26,12 +26,12 @@ namespace Booking_API.Controllers
             this.bookingContext = bookingContext;
         }
 
-        //[HttpGet]
-        //public async Task<ActionResult<GeneralResponse<IEnumerable<Hotel>>>> GetAllHotels([FromQuery] string[] includeProperties)
-        //{
-        //    var response = await _HotelService.GetAllAsync(includeProperties);
-        //    return Ok(new GeneralResponse<IEnumerable<Hotel>>(true, "Hotels retrieved successfully", response));
-        //}
+        [HttpGet]
+        public async Task<ActionResult<GeneralResponse<IEnumerable<Hotel>>>> GetAllHotels([FromQuery] string[] includeProperties)
+        {
+            var response = await _HotelService.GetAllAsync(includeProperties);
+            return Ok(new GeneralResponse<IEnumerable<Hotel>>(true, "Hotels retrieved successfully", response));
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<GeneralResponse<Hotel>>> GetHotel(int id, [FromQuery] string[] includeProperties)
@@ -200,7 +200,7 @@ namespace Booking_API.Controllers
         ///
 
 
-        [HttpGet]
+        [HttpGet("GetItems")]
         public async Task<ActionResult<PagedResult<Hotel>>> GetItems([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 3)
         {
             var query = bookingContext.Hotels.AsQueryable();

@@ -22,13 +22,13 @@ namespace Booking_API.Controllers
             this.bookingContext = bookingContext;
         }
 
-        //[HttpGet]
-        //public async Task<ActionResult<GeneralResponse<IEnumerable<CountryDTO>>>> GetCountries([FromQuery] string[] includeProperties = null)
-        //{
-        //    var countries = await _countryService.GetAllAsync(includeProperties);
-        //    var countriesDTO = _mapper.Map<IEnumerable<CountryDTO>>(countries);
-        //    return Ok(new GeneralResponse<IEnumerable<CountryDTO>>(true, "Countries retrieved successfully", countriesDTO));
-        //}
+        [HttpGet]
+        public async Task<ActionResult<GeneralResponse<IEnumerable<CountryDTO>>>> GetCountries([FromQuery] string[] includeProperties = null)
+        {
+            var countries = await _countryService.GetAllAsync(includeProperties);
+            var countriesDTO = _mapper.Map<IEnumerable<CountryDTO>>(countries);
+            return Ok(new GeneralResponse<IEnumerable<CountryDTO>>(true, "Countries retrieved successfully", countriesDTO));
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<GeneralResponse<CountryDTO>>> GetCountry(int id, [FromQuery] string[] includeProperties = null)
@@ -78,7 +78,7 @@ namespace Booking_API.Controllers
 
 
 
-        [HttpGet]
+        [HttpGet("GetItems")]
         public async Task<ActionResult<PagedResult<Country>>> GetItems([FromQuery] int pageNumber = 1)
         {
             int pageSize = 3;

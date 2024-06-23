@@ -187,7 +187,7 @@ namespace Booking_API.Controllers
         {
             var hotels = await _HotelService.GetFilteredHotelsAsync(filter);
 
-            return Ok(new GeneralResponse<IEnumerable<HotelDTO>>(true, "Hotels Retrieved successfully", hotels));
+            return Ok(new GeneralResponse<IEnumerable<FilteredHotelDTO>>(true, "Hotels Retrieved successfully", hotels));
         }
         #endregion
 

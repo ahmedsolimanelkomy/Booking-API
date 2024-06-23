@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using Booking_API.DTOs.HotelDTOS;
+using Booking_API.DTOs.RoomDTOs;
 using Booking_API.DTOs.RoomDTOS;
 using Booking_API.Models;
+using Booking_API.Repository;
 using Booking_API.Repository.IRepository;
 using Booking_API.Services.IService;
 
@@ -41,5 +44,29 @@ namespace Booking_API.Services
             await base.UpdateAsync(Room);
             return Room;
         }
+
+
+
+        public async Task<IEnumerable<RoomDTO>> GetFilteredRoomsAsync(HotelFilterDTO filter)
+        {
+            var rooms = await _unitOfWork.Rooms.GetAllAsync(["HotelBooking", "RoomType", "Hotel"]);
+
+            var filteredRooms = rooms.Where(room =>
+                (!filter.CheckInDate.HasValue || !filter.CheckOutDate.HasValue ||
+                    room.HotelBooking == null ||
+                    room.HotelBooking.CheckOutDate <= filter.CheckInDate ||
+                    room.HotelBooking.CheckInDate >= filter.CheckOutDate
+                ) &&
+                (!filter.MinPrice.HasValue || room.RoomType.PricePerNight >= filter.MinPrice) &&
+                (!filter.MaxPrice.HasValue || room.RoomType.PricePerNight <= filter.MaxPrice) &&
+                (!filter.RoomView.HasValue || room.View == filter.RoomView) &&
+                (!filter.RoomTypeId.HasValue || room.RoomTypeId == filter.RoomTypeId)
+            ).ToList();
+
+            var distinctHotels = filteredRooms.GroupBy(room => room.HotelId).Select(group => group.First().Hotel).ToList();
+
+            return _mapper.Map<IEnumerable<RoomDTO>>(distinctHotels);
+        } 
+
     }
 }

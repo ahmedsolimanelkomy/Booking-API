@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Booking_API.DTOs;
+using Booking_API.DTOs.HotelDTOS;
+using Booking_API.DTOs.RoomDTOs;
 using Booking_API.DTOs.RoomDTOS;
 using Booking_API.Models;
 using Booking_API.Services;
@@ -99,6 +101,16 @@ namespace Booking_API.Controllers
             await _RoomService.DeleteAsync(id);
             return Ok(new GeneralResponse<Room>(true, "Room deleted successfully", existingRoom));
         }
+
+
+        #region HotelFilteration
+        [HttpGet("filter")]
+        public async Task<IActionResult> GetFilteredHotels([FromQuery] HotelFilterDTO filter)
+        {
+            var rooms = await _RoomService.GetFilteredRoomsAsync(filter);
+            return Ok(rooms);
+        }
+        #endregion
     }
 }
 

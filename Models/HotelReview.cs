@@ -3,27 +3,25 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Booking_API.Models
 {
-    public class Review
+    public class HotelReview
     {
         [Key]
         public int Id { get; set; }
 
-        [Required]
         [Range(1, 5, ErrorMessage = "Rating must be between 1 and 5")]
-        public int Rating { get; set; }
+        public int? Rating { get; set; }
 
         [StringLength(1000, ErrorMessage = "Comment cannot be longer than 1000 characters")]
         public string? Comment { get; set; }
 
         [Required]
-        public DateTime ReviewDate { get; set; }
-        
+        public DateTime ReviewDate { get; set; } = DateTime.Now;
+
         //Foreign Keys
-        public int BookingId { get; set; }
+        [ForeignKey("HotelBooking")]
+        public int HotelBookingId { get; set; }
 
-        //Navigation proprty
-
-        [ForeignKey("BookingId")]
-        public Booking? Booking { get; set; }
+        //Navigation Properties
+        public HotelBooking? HotelBooking { get; set; }
     }
 }

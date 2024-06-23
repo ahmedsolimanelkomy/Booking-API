@@ -223,7 +223,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.Booking, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.HotelBooking, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -243,13 +243,13 @@
     "Parameters": [
       {
         "Name": "booking",
-        "Type": "Booking_API.Models.Booking",
+        "Type": "Booking_API.Models.HotelBooking",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Booking, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.HotelBooking, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -280,7 +280,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Booking, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.HotelBooking, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -305,13 +305,13 @@
       },
       {
         "Name": "booking",
-        "Type": "Booking_API.Models.Booking",
+        "Type": "Booking_API.Models.HotelBooking",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Booking, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.HotelBooking, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -337,7 +337,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Booking, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.HotelBooking, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1328,6 +1328,57 @@
     ]
   },
   {
+    "ContainingType": "Booking_API.Controllers.HotelController",
+    "Method": "GetFilteredHotels",
+    "RelativePath": "api/Hotel/filter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "CityId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "CheckInDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "CheckOutDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "RoomTypeId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "MinPrice",
+        "Type": "System.Nullable\u00601[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "MaxPrice",
+        "Type": "System.Nullable\u00601[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "RoomView",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FeatureIds",
+        "Type": "System.Collections.Generic.List\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Booking_API.Controllers.HotelPhotoController",
     "Method": "PostHotelPhoto",
     "RelativePath": "api/HotelPhoto/{hotelId}",
@@ -1767,7 +1818,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.Review, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.HotelReview, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1787,13 +1838,13 @@
     "Parameters": [
       {
         "Name": "Review",
-        "Type": "Booking_API.Models.Review",
+        "Type": "Booking_API.Models.HotelReview",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Review, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.HotelReview, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1824,7 +1875,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Review, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.HotelReview, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1849,13 +1900,13 @@
       },
       {
         "Name": "Review",
-        "Type": "Booking_API.Models.Review",
+        "Type": "Booking_API.Models.HotelReview",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Review, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.HotelReview, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1881,7 +1932,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.Review, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.HotelReview, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -2030,6 +2081,57 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "Booking_API.Controllers.RoomController",
+    "Method": "GetFilteredHotels",
+    "RelativePath": "api/Room/filter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "CityId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "CheckInDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "CheckOutDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "RoomTypeId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "MinPrice",
+        "Type": "System.Nullable\u00601[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "MaxPrice",
+        "Type": "System.Nullable\u00601[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "RoomView",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FeatureIds",
+        "Type": "System.Collections.Generic.List\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Booking_API.Controllers.RoomTypeController",
@@ -2187,7 +2289,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.WishList, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[System.Collections.Generic.IEnumerable\u00601[[Booking_API.Models.HotelWishList, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -2207,13 +2309,13 @@
     "Parameters": [
       {
         "Name": "WishList",
-        "Type": "Booking_API.Models.WishList",
+        "Type": "Booking_API.Models.HotelWishList",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.WishList, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.HotelWishList, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -2244,7 +2346,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.WishList, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.HotelWishList, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -2269,13 +2371,13 @@
       },
       {
         "Name": "WishList",
-        "Type": "Booking_API.Models.WishList",
+        "Type": "Booking_API.Models.HotelWishList",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.WishList, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.HotelWishList, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -2301,7 +2403,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.WishList, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Booking_API.DTOs.GeneralResponse\u00601[[Booking_API.Models.HotelWishList, Booking_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

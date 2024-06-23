@@ -5,7 +5,6 @@ namespace Booking_API.Validations
     public class CheckOutDateAttribute : ValidationAttribute
     {
         private readonly string _comparisonProperty;
-
         public CheckOutDateAttribute(string comparisonProperty)
         {
             _comparisonProperty = comparisonProperty;

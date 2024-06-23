@@ -1,4 +1,6 @@
-﻿using Booking_API.DTOs.RoomDTOS;
+﻿using Booking_API.DTOs.HotelDTOS;
+using Booking_API.DTOs.RoomDTOs;
+using Booking_API.DTOs.RoomDTOS;
 using Booking_API.Models;
 
 namespace Booking_API.Services.IService
@@ -7,5 +9,7 @@ namespace Booking_API.Services.IService
     {
         Task<Room> AddDTOAsync(AddRoomDTO entity);
         Task<Room> UpdateDTOAsync(AddRoomDTO entity);
+
+        Task<IEnumerable<RoomDTO>> GetFilteredRoomsAsync(HotelFilterDTO filter);
     }
 }

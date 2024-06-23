@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Booking_API.Validations;
 
 namespace Booking_API.Models
 {
@@ -11,7 +12,7 @@ namespace Booking_API.Models
         Completed
     }
 
-    public class Booking
+    public class HotelBooking
     {
 
         [Key]
@@ -26,25 +27,26 @@ namespace Booking_API.Models
         [Required]
         [Range(0, double.MaxValue), DataType(DataType.Currency, ErrorMessage = "Total Price must be a positive number")]
         public decimal TotalPrice { get; set; }
+        public string? Notes { get; set; }
+        [CheckInDate]
+        public DateTime CheckInDate { get; set; }
+        [CheckOutDate("CheckInDate",ErrorMessage = "Check-out date must be after the check-in date.")]
+        public DateTime CheckOutDate { get; set; }
 
         //Foreign Keys
         [ForeignKey("ApplicationUser")]
-        public int? UserId { get; set; }
-
-        [ForeignKey("Car")]
-        public int? CarId { get; set; }
+        public int UserId { get; set; }
 
         [ForeignKey("Room")]
-        public int? RoomId { get; set; }
-
-        [ForeignKey("Flight")]
-        public int? FlightId { get; set; }
+        public int RoomId { get; set; }
+        [ForeignKey("Hotel")]
+        public int HotelId { get; set; }
 
         //Navigation  Properties
         public ApplicationUser? ApplicationUser { get; set; }
         public Room? Room { get; set; }
-        public Car? Car { get; set; }
-        public Review? ReviewList { get; set; }
+        public Hotel? Hotel { get; set; }
+        public HotelReview? ReviewList { get; set; }
         public Payment? PaymentList { get; set; }
     }
 }

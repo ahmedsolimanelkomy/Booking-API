@@ -4,6 +4,7 @@ using Booking_API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Booking_API.Migrations
 {
     [DbContext(typeof(BookingContext))]
-    partial class BookingContextModelSnapshot : ModelSnapshot
+    [Migration("20240623075437_Hotel_models_refactoring")]
+    partial class Hotel_models_refactoring
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -581,21 +584,19 @@ namespace Booking_API.Migrations
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
 
-                    b.Property<int?>("HotelBookingId")
+                    b.Property<int?>("HotelId")
                         .HasColumnType("int");
 
-                    b.Property<int>("HotelId")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsBooked")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("RoomTypeId")
+                    b.Property<int?>("RoomTypeId")
                         .HasColumnType("int");
 
                     b.Property<int?>("View")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("HotelBookingId");
 
                     b.HasIndex("HotelId");
 
@@ -814,7 +815,7 @@ namespace Booking_API.Migrations
                         .HasForeignKey("CarId");
 
                     b.HasOne("Booking_API.Models.Hotel", "Hotel")
-                        .WithMany("HotelBookings")
+                        .WithMany()
                         .HasForeignKey("HotelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -889,25 +890,15 @@ namespace Booking_API.Migrations
 
             modelBuilder.Entity("Booking_API.Models.Room", b =>
                 {
-                    b.HasOne("Booking_API.Models.HotelBooking", "HotelBooking")
-                        .WithMany()
-                        .HasForeignKey("HotelBookingId");
-
                     b.HasOne("Booking_API.Models.Hotel", "Hotel")
                         .WithMany("Rooms")
-                        .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("HotelId");
 
                     b.HasOne("Booking_API.Models.RoomType", "RoomType")
                         .WithMany("Rooms")
-                        .HasForeignKey("RoomTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoomTypeId");
 
                     b.Navigation("Hotel");
-
-                    b.Navigation("HotelBooking");
 
                     b.Navigation("RoomType");
                 });
@@ -1005,8 +996,6 @@ namespace Booking_API.Migrations
 
             modelBuilder.Entity("Booking_API.Models.Hotel", b =>
                 {
-                    b.Navigation("HotelBookings");
-
                     b.Navigation("Photos");
 
                     b.Navigation("Rooms");

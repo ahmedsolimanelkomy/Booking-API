@@ -19,36 +19,36 @@ namespace Booking_API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<GeneralResponse<IEnumerable<Review>>>> GetReviews([FromQuery] string[] includeProperties)
+        public async Task<ActionResult<GeneralResponse<IEnumerable<HotelReview>>>> GetReviews([FromQuery] string[] includeProperties)
         {
             var response = await reviewService.GetAllAsync(includeProperties);
-            return Ok(new GeneralResponse<IEnumerable<Review>>(true, "Reviews retrieved successfully", response));
+            return Ok(new GeneralResponse<IEnumerable<HotelReview>>(true, "Reviews retrieved successfully", response));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GeneralResponse<Review>>> GetReview(int id, [FromQuery] string[] includeProperties)
+        public async Task<ActionResult<GeneralResponse<HotelReview>>> GetReview(int id, [FromQuery] string[] includeProperties)
         {
             var response = await reviewService.GetAsync(b => b.Id == id, includeProperties);
             if (response == null)
             {
-                return NotFound(new GeneralResponse<Review>(false, "Review not found", null));
+                return NotFound(new GeneralResponse<HotelReview>(false, "Review not found", null));
             }
-            return Ok(new GeneralResponse<Review>(true, "Review retrieved successfully", response));
+            return Ok(new GeneralResponse<HotelReview>(true, "Review retrieved successfully", response));
         }
 
         [HttpPost]
-        public async Task<ActionResult<GeneralResponse<Review>>> PostReview(Review Review)
+        public async Task<ActionResult<GeneralResponse<HotelReview>>> PostReview(HotelReview Review)
         {
             await reviewService.AddAsync(Review);
-            return CreatedAtAction(nameof(GetReview), new { id = Review.Id }, new GeneralResponse<Review>(true, "Review added successfully", Review));
+            return CreatedAtAction(nameof(GetReview), new { id = Review.Id }, new GeneralResponse<HotelReview>(true, "Review added successfully", Review));
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<GeneralResponse<Review>>> PutReview(int id, Review Review)
+        public async Task<ActionResult<GeneralResponse<HotelReview>>> PutReview(int id, HotelReview Review)
         {
             if (id != Review.Id)
             {
-                return BadRequest(new GeneralResponse<Review>(false, "Review ID mismatch", null));
+                return BadRequest(new GeneralResponse<HotelReview>(false, "Review ID mismatch", null));
             }
 
             await reviewService.UpdateAsync(Review);
@@ -56,16 +56,16 @@ namespace Booking_API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<GeneralResponse<Review>>> DeleteReview(int id)
+        public async Task<ActionResult<GeneralResponse<HotelReview>>> DeleteReview(int id)
         {
             var existingReview = await reviewService.GetAsync(b => b.Id == id);
             if (existingReview == null)
             {
-                return NotFound(new GeneralResponse<Review>(false, "Review not found", null));
+                return NotFound(new GeneralResponse<HotelReview>(false, "Review not found", null));
             }
 
             await reviewService.DeleteAsync(id);
-            return Ok(new GeneralResponse<Review>(true, "Review deleted successfully", existingReview));
+            return Ok(new GeneralResponse<HotelReview>(true, "Review deleted successfully", existingReview));
         }
     }
 }

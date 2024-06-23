@@ -20,6 +20,7 @@ namespace Booking_API.Models
         public int Capacity { get; set; }
         public View? View { get; set; }
         public bool IsBooked { get; set; }
+        public int RoomNumber { get; set; }
 
         // Foreign Keys
         [ForeignKey("Hotel")]

@@ -328,7 +328,7 @@ namespace Booking_API.Migrations
                     Latitude = table.Column<double>(type: "float", nullable: true),
                     Longitude = table.Column<double>(type: "float", nullable: true),
                     CityId = table.Column<int>(type: "int", nullable: true),
-                    WishListId = table.Column<int>(type: "int", nullable: true)
+                    HotelWishListId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -339,8 +339,8 @@ namespace Booking_API.Migrations
                         principalTable: "Cities",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Hotels_WishLists_WishListId",
-                        column: x => x.WishListId,
+                        name: "FK_Hotels_WishLists_HotelWishListId",
+                        column: x => x.HotelWishListId,
                         principalTable: "WishLists",
                         principalColumn: "Id");
                 });
@@ -377,7 +377,7 @@ namespace Booking_API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HotelId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -400,6 +400,7 @@ namespace Booking_API.Migrations
                     Capacity = table.Column<int>(type: "int", nullable: false),
                     View = table.Column<int>(type: "int", nullable: true),
                     IsBooked = table.Column<bool>(type: "bit", nullable: false),
+                    RoomNumber = table.Column<int>(type: "int", nullable: false),
                     HotelId = table.Column<int>(type: "int", nullable: true),
                     RoomTypeId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -427,10 +428,13 @@ namespace Booking_API.Migrations
                     BookingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    CarId = table.Column<int>(type: "int", nullable: true),
-                    RoomId = table.Column<int>(type: "int", nullable: true),
-                    FlightId = table.Column<int>(type: "int", nullable: true)
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CheckInDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CheckOutDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    RoomId = table.Column<int>(type: "int", nullable: false),
+                    HotelId = table.Column<int>(type: "int", nullable: false),
+                    CarId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -439,17 +443,25 @@ namespace Booking_API.Migrations
                         name: "FK_Bookings_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Bookings_Cars_CarId",
                         column: x => x.CarId,
                         principalTable: "Cars",
                         principalColumn: "Id");
                     table.ForeignKey(
+                        name: "FK_Bookings_Hotels_HotelId",
+                        column: x => x.HotelId,
+                        principalTable: "Hotels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Bookings_Rooms_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Rooms",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -482,17 +494,17 @@ namespace Booking_API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Rating = table.Column<int>(type: "int", nullable: false),
+                    Rating = table.Column<int>(type: "int", nullable: true),
                     Comment = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     ReviewDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BookingId = table.Column<int>(type: "int", nullable: false)
+                    HotelBookingId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reviews_Bookings_BookingId",
-                        column: x => x.BookingId,
+                        name: "FK_Reviews_Bookings_HotelBookingId",
+                        column: x => x.HotelBookingId,
                         principalTable: "Bookings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -558,6 +570,11 @@ namespace Booking_API.Migrations
                 column: "CarId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Bookings_HotelId",
+                table: "Bookings",
+                column: "HotelId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Bookings_RoomId",
                 table: "Bookings",
                 column: "RoomId");
@@ -598,9 +615,9 @@ namespace Booking_API.Migrations
                 column: "CityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Hotels_WishListId",
+                name: "IX_Hotels_HotelWishListId",
                 table: "Hotels",
-                column: "WishListId");
+                column: "HotelWishListId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Passports_UserId",
@@ -614,9 +631,9 @@ namespace Booking_API.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_BookingId",
+                name: "IX_Reviews_HotelBookingId",
                 table: "Reviews",
-                column: "BookingId",
+                column: "HotelBookingId",
                 unique: true);
 
             migrationBuilder.CreateIndex(

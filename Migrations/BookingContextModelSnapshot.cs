@@ -587,6 +587,9 @@ namespace Booking_API.Migrations
                     b.Property<bool>("IsBooked")
                         .HasColumnType("bit");
 
+                    b.Property<int>("RoomNumber")
+                        .HasColumnType("int");
+
                     b.Property<int?>("RoomTypeId")
                         .HasColumnType("int");
 

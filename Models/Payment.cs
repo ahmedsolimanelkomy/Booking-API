@@ -45,6 +45,6 @@ namespace Booking_API.Models
         //Navigation Properties
 
         [ForeignKey("BookingId")]
-        public Booking? Booking { get; set; }
+        public HotelBooking? Booking { get; set; }
     }
 }

@@ -19,36 +19,36 @@ namespace Booking_API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<GeneralResponse<IEnumerable<WishList>>>> GetWishLists([FromQuery] string[] includeProperties)
+        public async Task<ActionResult<GeneralResponse<IEnumerable<HotelWishList>>>> GetWishLists([FromQuery] string[] includeProperties)
         {
             var response = await wishListService.GetAllAsync(includeProperties);
-            return Ok(new GeneralResponse<IEnumerable<WishList>>(true, "WishLists retrieved successfully", response));
+            return Ok(new GeneralResponse<IEnumerable<HotelWishList>>(true, "WishLists retrieved successfully", response));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GeneralResponse<WishList>>> GetWishList(int id, [FromQuery] string[] includeProperties)
+        public async Task<ActionResult<GeneralResponse<HotelWishList>>> GetWishList(int id, [FromQuery] string[] includeProperties)
         {
             var response = await wishListService.GetAsync(b => b.Id == id, includeProperties);
             if (response == null)
             {
-                return NotFound(new GeneralResponse<WishList>(false, "WishList not found", null));
+                return NotFound(new GeneralResponse<HotelWishList>(false, "WishList not found", null));
             }
-            return Ok(new GeneralResponse<WishList>(true, "WishList retrieved successfully", response));
+            return Ok(new GeneralResponse<HotelWishList>(true, "WishList retrieved successfully", response));
         }
 
         [HttpPost]
-        public async Task<ActionResult<GeneralResponse<WishList>>> PostWishList(WishList WishList)
+        public async Task<ActionResult<GeneralResponse<HotelWishList>>> PostWishList(HotelWishList WishList)
         {
             await wishListService.AddAsync(WishList);
-            return CreatedAtAction(nameof(GetWishList), new { id = WishList.Id }, new GeneralResponse<WishList>(true, "WishList added successfully", WishList));
+            return CreatedAtAction(nameof(GetWishList), new { id = WishList.Id }, new GeneralResponse<HotelWishList>(true, "WishList added successfully", WishList));
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<GeneralResponse<WishList>>> PutWishList(int id, WishList WishList)
+        public async Task<ActionResult<GeneralResponse<HotelWishList>>> PutWishList(int id, HotelWishList WishList)
         {
             if (id != WishList.Id)
             {
-                return BadRequest(new GeneralResponse<WishList>(false, "WishList ID mismatch", null));
+                return BadRequest(new GeneralResponse<HotelWishList>(false, "WishList ID mismatch", null));
             }
 
             await wishListService.UpdateAsync(WishList);
@@ -56,16 +56,16 @@ namespace Booking_API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<GeneralResponse<WishList>>> DeleteWishList(int id)
+        public async Task<ActionResult<GeneralResponse<HotelWishList>>> DeleteWishList(int id)
         {
             var existingWishList = await wishListService.GetAsync(b => b.Id == id);
             if (existingWishList == null)
             {
-                return NotFound(new GeneralResponse<WishList>(false, "WishList not found", null));
+                return NotFound(new GeneralResponse<HotelWishList>(false, "WishList not found", null));
             }
 
             await wishListService.DeleteAsync(id);
-            return Ok(new GeneralResponse<WishList>(true, "WishList deleted successfully", existingWishList));
+            return Ok(new GeneralResponse<HotelWishList>(true, "WishList deleted successfully", existingWishList));
         }
 
 

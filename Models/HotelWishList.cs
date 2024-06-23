@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Booking_API.Models
 {
-    public class WishList
+    public class HotelWishList
     {
         [Key]
         public int Id { get; set; }

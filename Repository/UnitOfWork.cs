@@ -14,16 +14,16 @@ namespace Booking_API.Repository
         public IRepository<Feature> Features { get; private set; }
         public IRepository<HotelPhoto> HotelPhotos { get; private set; }
         public IRepository<Room> Rooms { get; private set; }
-        public IRepository<Booking> Bookings { get; private set; }
+        public IRepository<HotelBooking> Bookings { get; private set; }
         public IRepository<CarAgency> CarAgencies { get; private set; }
         public IRepository<Car> Cars { get; private set; }
         public IRepository<City> Cities { get; private set; }
         public IRepository<Country> Countries { get; private set; }
         public IRepository<Passport> Passports { get; private set; }
         public IRepository<Payment> Payments { get; private set; }
-        public IRepository<Review> Reviews { get; private set; }
+        public IRepository<HotelReview> Reviews { get; private set; }
         public IRepository<RoomType> RoomTypes { get; private set; }
-        public IRepository<WishList> WishLists { get; private set; }
+        public IRepository<HotelWishList> WishLists { get; private set; }
         public IRepository<ApplicationUser> ApplicationUsers { get; private set; }
 
         public UnitOfWork(BookingContext context)
@@ -35,16 +35,16 @@ namespace Booking_API.Repository
             Features = new Repository<Feature>(_context);
             HotelPhotos = new Repository<HotelPhoto>(_context);
             Rooms = new Repository<Room>(_context);
-            Bookings = new Repository<Booking>(_context);
+            Bookings = new Repository<HotelBooking>(_context);
             CarAgencies = new Repository<CarAgency>(_context);
             Cars = new Repository<Car>(_context);
             Cities = new Repository<City>(_context);
             Countries = new Repository<Country>(_context);
             Passports = new Repository<Passport>(_context);
             Payments = new Repository<Payment>(_context);
-            Reviews = new Repository<Review>(_context);
+            Reviews = new Repository<HotelReview>(_context);
             RoomTypes = new Repository<RoomType>(_context);
-            WishLists = new Repository<WishList>(_context);
+            WishLists = new Repository<HotelWishList>(_context);
             ApplicationUsers = new Repository<ApplicationUser>(_context);
         }
 

@@ -2,7 +2,7 @@
 
 namespace Booking_API.Repository.IRepository
 {
-    public interface IReviewRepository : IRepository<Review>
+    public interface IReviewRepository : IRepository<HotelReview>
     {
     }
 }

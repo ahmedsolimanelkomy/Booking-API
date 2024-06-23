@@ -30,10 +30,10 @@ namespace Booking_API.Models
         public int? CityId { get; set; }
 
         // Navigation Properties
-        public WishList? WishList { get; set; }
+        public HotelWishList? WishList { get; set; }
         public Passport? Passport { get; set; }
         public City? City { get; set; }
 
-        public ICollection<Booking>? Bookings { get; set; }
+        public ICollection<HotelBooking>? Bookings { get; set; }
     }
 }

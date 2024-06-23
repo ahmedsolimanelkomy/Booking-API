@@ -2,7 +2,7 @@
 
 namespace Booking_API.Services.IService
 {
-    public interface IBookingService : IService<Booking>
+    public interface IBookingService : IService<HotelBooking>
     {
     }
 }

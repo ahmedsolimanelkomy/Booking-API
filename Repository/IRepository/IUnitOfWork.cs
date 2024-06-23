@@ -8,16 +8,16 @@ namespace Booking_API.Repository.IRepository
         IRepository<HotelPhoto> HotelPhotos { get; }
         IRepository<Feature> Features { get; }
         IRepository<Room> Rooms { get; }
-        IRepository<Booking> Bookings { get; }
+        IRepository<HotelBooking> Bookings { get; }
         IRepository<CarAgency> CarAgencies { get; }
         IRepository<Car> Cars { get; }
         IRepository<City> Cities { get; }
         IRepository<Country> Countries { get; }
         IRepository<Passport> Passports { get; }
         IRepository<Payment> Payments { get; }
-        IRepository<Review> Reviews { get; }
+        IRepository<HotelReview> Reviews { get; }
         IRepository<RoomType> RoomTypes { get; }
-        IRepository<WishList> WishLists { get; }
+        IRepository<HotelWishList> WishLists { get; }
 
         IRepository<T> GetRepository<T>() where T : class;
         Task<int> SaveAsync();

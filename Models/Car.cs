@@ -45,7 +45,7 @@ namespace Booking_API.Models
 
         // Navigation Properties
         public virtual CarAgency? CarAgency { get; set; }
-        public virtual ICollection<Booking>? Bookings { get; set; } = new HashSet<Booking>();
+        public virtual ICollection<HotelBooking>? Bookings { get; set; } = new HashSet<HotelBooking>();
 
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Booking_API.Services.IService
 {
-    public interface IWishListService : IService<WishList>
+    public interface IWishListService : IService<HotelWishList>
     {
     }
 }

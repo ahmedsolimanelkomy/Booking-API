@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace Booking_API.Services
 {
-    public class BookingService : Service<Booking>, IBookingService
+    public class BookingService : Service<HotelBooking>, IBookingService
     {
         public BookingService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {

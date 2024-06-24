@@ -15,7 +15,7 @@ namespace Booking_API.Models
         public string? Description { get; set; }
 
         [Range(0, 5)]
-        public int Rating { get; set; }
+        public int? Rating { get; set; }
         
 
         [Phone]

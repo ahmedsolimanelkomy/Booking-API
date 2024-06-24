@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Booking_API.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace Booking_API.DTOs.HotelPhotosDTOS
 {
@@ -6,11 +7,10 @@ namespace Booking_API.DTOs.HotelPhotosDTOS
     {
         public int Id { get; set; }
 
-        [Required, MaxLength(100)]
-        public string Name { get; set; }
-
-        public string? Description { get; set; }
         [Required]
         public byte[] Photo { get; set; }
+
+        [Required]
+        public PhotoCategory Category { get; set; }
     }
 }

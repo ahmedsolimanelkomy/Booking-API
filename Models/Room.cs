@@ -16,8 +16,13 @@ namespace Booking_API.Models
     {   
         [Key]
         public int Id { get; set; }
+
+        public int RoomNumber { get; set; }
+
         public bool AvailabilityStatus { get; set; }
+
         public int Capacity { get; set; }
+
         public View? View { get; set; }
 
         // Foreign Keys
@@ -26,6 +31,7 @@ namespace Booking_API.Models
 
         [ForeignKey("RoomType")]
         public int RoomTypeId { get; set; }
+
         [ForeignKey("HotelBooking")]
         public int? HotelBookingId { get; set; }
 

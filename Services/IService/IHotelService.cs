@@ -9,7 +9,7 @@ namespace Booking_API.Services.IService
     {
         Task<Hotel> AddDTOAsync(HotelDTO entity);
         Task<Hotel> UpdateDTOAsync(HotelDTO entity);
-        Task<IEnumerable<HotelDTO>> GetFilteredHotelsAsync(HotelFilterDTO filter);
+        Task<IEnumerable<FilteredHotelDTO>> GetFilteredHotelsAsync(HotelFilterDTO filter);
 
     }
 }

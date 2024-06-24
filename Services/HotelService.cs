@@ -42,7 +42,7 @@ namespace Booking_API.Services
             return hotel;
         }
 
-        public async Task<IEnumerable<HotelDTO>> GetFilteredHotelsAsync(HotelFilterDTO filter)
+        public async Task<IEnumerable<FilteredHotelDTO>> GetFilteredHotelsAsync(HotelFilterDTO filter)
         {
             var hotels = await _unitOfWork.Hotels.GetAllAsync(["Rooms", "Rooms.HotelBooking", "Rooms.RoomType", "Features", "Photos"]);
             var filteredHotels = hotels.Where(hotel =>
@@ -58,7 +58,7 @@ namespace Booking_API.Services
                 (!filter.RoomTypeId.HasValue || hotel.Rooms.Any(room => room.RoomTypeId == filter.RoomTypeId))
             ).ToList();
 
-            return _mapper.Map<IEnumerable<HotelDTO>>(filteredHotels);
+            return _mapper.Map<IEnumerable<FilteredHotelDTO>>(filteredHotels);
         }
 
 

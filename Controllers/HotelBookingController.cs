@@ -38,12 +38,7 @@ namespace Booking_API.Controllers
             return Ok(booking);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<HotelBookingDTO>> CreateBooking(HotelBookingDTO bookingDTO)
-        {
-            var createdBooking = await _service.CreateBookingAsync(bookingDTO);
-            return CreatedAtAction(nameof(GetBookingByID), new { id = createdBooking.Id }, createdBooking);
-        }
+        
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateBooking(int id, HotelBookingDTO bookingDTO)

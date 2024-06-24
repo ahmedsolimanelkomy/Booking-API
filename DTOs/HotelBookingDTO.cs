@@ -32,19 +32,25 @@ namespace Booking_API.DTOs
         [StringLength(50)]
         public string UserFirstName { get; set; }
 
+
+
         [Required]
         [StringLength(50)]
         public string UserLastName { get; set; }
 
         [Required]
         [StringLength(100)]
-        public string HotelName { get; set; }
+        public string hotelName { get; set; }
 
         [Required]
         [Range(1, int.MaxValue)]
         public int RoomNumber { get; set; }
 
-       
+        public int UserId { get; set; }
+
+        public int RoomId { get; set; }
+
+        public int HotelId { get; set; }
     }
     
 }

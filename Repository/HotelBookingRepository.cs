@@ -40,6 +40,8 @@ namespace Booking_API.Repository
             return await _context.Bookings
                 .Include(b => b.Room)
                 .Include(b => b.ApplicationUser)
+                .Include(h => h.Hotel)
+
                 .ToListAsync();
         }
 
@@ -48,6 +50,7 @@ namespace Booking_API.Repository
             return await _context.Bookings
                 .Include(b => b.Room)
                 .Include(b => b.ApplicationUser)
+                .Include(h => h.Hotel)
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
 

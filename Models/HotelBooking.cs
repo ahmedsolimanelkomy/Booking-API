@@ -48,5 +48,7 @@ namespace Booking_API.Models
         public Hotel? Hotel { get; set; }
         public HotelReview? ReviewList { get; set; }
         public Payment? PaymentList { get; set; }
+
+       
     }
 }

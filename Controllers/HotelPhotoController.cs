@@ -7,6 +7,7 @@ using Booking_API.Services.IService;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -136,8 +137,7 @@ namespace Booking_API.Controllers
                     existingHotelPhoto.PhotoUrl = photoUrl;
                 }
 
-                existingHotelPhoto.Name = updateHotelPhotoDTO.Name;
-                existingHotelPhoto.Description = updateHotelPhotoDTO.Description;
+                existingHotelPhoto.Category = updateHotelPhotoDTO.Category;
 
                 var updatedPhoto = _mapper.Map<HotelPhoto>(existingHotelPhoto);
 
@@ -145,8 +145,7 @@ namespace Booking_API.Controllers
                 if (existingPhoto != null)
                 {
                     existingPhoto.PhotoUrl = updatedPhoto.PhotoUrl;
-                    existingPhoto.Name = updatedPhoto.Name;
-                    existingPhoto.Description = updatedPhoto.Description;
+                    existingPhoto.Category = updatedPhoto.Category;
                 }
                 else
                 {
@@ -177,6 +176,28 @@ namespace Booking_API.Controllers
             await _hotelPhotoService.DeleteAsync(id);
             var responseDTO = _mapper.Map<HotelPhotoDTO>(existingHotelPhoto);
             return Ok(new GeneralResponse<HotelPhotoDTO>(true, "HotelPhoto deleted successfully", responseDTO));
+        }
+
+
+        [HttpGet("category/{category}")]
+        public async Task<ActionResult<GeneralResponse<IEnumerable<HotelPhoto>>>> GetPhotosByCategory(PhotoCategory category)
+        {
+            var photos = await _hotelPhotoService.GetListAsync(p => p.Category == category);
+
+            if (photos == null || !photos.Any())
+            {
+                return NotFound(new GeneralResponse<IEnumerable<HotelPhoto>>(
+                    success: false,
+                    message: "No photos found for the specified category.",
+                    data: null
+                ));
+            }
+
+            return Ok(new GeneralResponse<IEnumerable<HotelPhoto>>(
+                success: true,
+                message: "Photos retrieved successfully.",
+                data: photos
+            ));
         }
     }
 }

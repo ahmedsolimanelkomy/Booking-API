@@ -8,6 +8,7 @@ namespace Booking_API.DTOs.RoomDTOS
     public class RoomViewDTO
     {
         public int Id { get; set; }
+        public int RoomNumber { get; set; }
         public bool AvailabilityStatus { get; set; }
         public int Capacity { get; set; }
         public Models.View? View { get; set; }

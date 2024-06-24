@@ -13,8 +13,8 @@ namespace Booking_API.DTOs
 
         public string? Description { get; set; }
 
-        [Range(0, 5)]
-        public int Rating { get; set; }
+        //[Range(0, 5)]
+        //public int? Rating { get; set; }
 
 
         [Phone]

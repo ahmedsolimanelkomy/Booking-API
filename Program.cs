@@ -49,7 +49,8 @@ namespace Booking_API
             builder.Services.AddScoped<ICountryService, CountryService>();
             builder.Services.AddScoped<IService<City>, Service<City>>();
             builder.Services.AddScoped<IService<Country>, Service<Country>>();
-
+            builder.Services.AddScoped<IHotelBookingService, HotelBookingService>();
+            builder.Services.AddScoped<IHotelBookingRepository, HotelBookingRepository>();
             builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 

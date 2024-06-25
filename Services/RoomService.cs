@@ -47,7 +47,7 @@ namespace Booking_API.Services
 
 
 
-        public async Task<IEnumerable<RoomDTO>> GetFilteredRoomsAsync(HotelFilterDTO filter)
+        public async Task<IEnumerable<FilteredRoomDTO>> GetFilteredRoomsAsync(HotelFilterDTO filter)
         {
             var rooms = await _unitOfWork.Rooms.GetAllAsync(["HotelBooking", "RoomType", "Hotel"]);
 
@@ -61,12 +61,12 @@ namespace Booking_API.Services
                 (!filter.MaxPrice.HasValue || room.RoomType.PricePerNight <= filter.MaxPrice) &&
                 (!filter.RoomView.HasValue || room.View == filter.RoomView) &&
                 (!filter.RoomTypeId.HasValue || room.RoomTypeId == filter.RoomTypeId) &&
-                (!filter.RoomCapacity.HasValue || room.Capacity >= filter.RoomCapacity)
+                (!filter.RoomCapacity.HasValue || room.Capacity == filter.RoomCapacity)
             ).ToList();
 
-            var distinctHotels = filteredRooms.GroupBy(room => room.HotelId).Select(group => group.First().Hotel).ToList();
+            //var distinctHotels = filteredRooms.GroupBy(room => room.HotelId).Select(group => group.First().Hotel).ToList();
 
-            return _mapper.Map<IEnumerable<RoomDTO>>(distinctHotels);
+            return _mapper.Map<IEnumerable<FilteredRoomDTO>>(filteredRooms);
         } 
 
     }

@@ -55,7 +55,8 @@ namespace Booking_API.Services
                 (!filter.MaxPrice.HasValue || hotel.Rooms.Any(room => room.RoomType.PricePerNight <= filter.MaxPrice)) &&
                 (!filter.RoomView.HasValue || hotel.Rooms.Any(room => room.View == filter.RoomView)) &&
                 (filter.FeatureIds == null || !filter.FeatureIds.Any() || filter.FeatureIds.All(id => hotel.Features.Any(feature => feature.Id == id))) &&
-                (!filter.RoomTypeId.HasValue || hotel.Rooms.Any(room => room.RoomTypeId == filter.RoomTypeId))
+                (!filter.RoomTypeId.HasValue || hotel.Rooms.Any(room => room.RoomTypeId == filter.RoomTypeId)) &&
+                (!filter.RoomCapacity.HasValue || hotel.Rooms.Any(room => room.Capacity == filter.RoomCapacity))
             ).ToList();
 
             return _mapper.Map<IEnumerable<FilteredHotelDTO>>(filteredHotels);

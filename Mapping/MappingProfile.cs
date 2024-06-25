@@ -65,8 +65,12 @@ namespace Booking_API.Mapping
             CreateMap<Hotel, HotelDTO>();
 
             CreateMap<Hotel, FilteredHotelDTO>()
-                .ForMember(dest => dest.CityName, opt => opt.MapFrom(src => src.City.Name))
-                .ReverseMap();
+            .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => src.Photos.ToList()))
+            .ForMember(dest => dest.CityName, opt => opt.MapFrom(src => src.City.Name))
+            .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Rating))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));
+            //CreateMap<Hotel, HotelFilterDTO>().ReverseMap();
+
 
 
 

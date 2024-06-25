@@ -60,7 +60,8 @@ namespace Booking_API.Services
                 (!filter.MinPrice.HasValue || room.RoomType.PricePerNight >= filter.MinPrice) &&
                 (!filter.MaxPrice.HasValue || room.RoomType.PricePerNight <= filter.MaxPrice) &&
                 (!filter.RoomView.HasValue || room.View == filter.RoomView) &&
-                (!filter.RoomTypeId.HasValue || room.RoomTypeId == filter.RoomTypeId)
+                (!filter.RoomTypeId.HasValue || room.RoomTypeId == filter.RoomTypeId) &&
+                (!filter.RoomCapacity.HasValue || room.Capacity >= filter.RoomCapacity)
             ).ToList();
 
             var distinctHotels = filteredRooms.GroupBy(room => room.HotelId).Select(group => group.First().Hotel).ToList();

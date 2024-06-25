@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Booking_API.Migrations
 {
     [DbContext(typeof(BookingContext))]
-    [Migration("20240624123620_dina")]
+    [Migration("20240624124015_dina")]
     partial class dina
     {
         /// <inheritdoc />
@@ -350,7 +350,7 @@ namespace Booking_API.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Rating")
+                    b.Property<int?>("Rating")
                         .HasColumnType("int");
 
                     b.Property<string>("WebSiteURL")
@@ -424,16 +424,11 @@ namespace Booking_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
 
                     b.Property<int?>("HotelId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("PhotoUrl")
                         .IsRequired()
@@ -588,6 +583,9 @@ namespace Booking_API.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("HotelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoomNumber")
                         .HasColumnType("int");
 
                     b.Property<int>("RoomTypeId")

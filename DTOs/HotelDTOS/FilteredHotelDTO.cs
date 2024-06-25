@@ -6,16 +6,14 @@ namespace Booking_API.DTOs.HotelDTOS
 {
     public class FilteredHotelDTO
     {
-        
-            
-            public string? Name { get; set; }
+        public int Id { get; set; }
 
-            public int Rating { get; set; }
+        public string? Name { get; set; }
 
-            public ICollection<HotelPhoto> Photos { get; set; } = new HashSet<HotelPhoto>();
+        public int Rating { get; set; }
 
+        public ICollection<HotelPhoto>? Photos { get; set; } = new HashSet<HotelPhoto>();
         public string? Description { get; set; }
-
         public string? CityName { get; set; }
 
         

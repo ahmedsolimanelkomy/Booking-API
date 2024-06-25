@@ -182,7 +182,7 @@ namespace Booking_API.Controllers
         #endregion
 
         #region HotelFilteration
-        [HttpGet("filter")]
+        [HttpGet("/api/GetFilteredHotels")]
         public async Task<IActionResult> GetFilteredHotels([FromQuery] HotelFilterDTO filter)
         {
             var hotels = await _HotelService.GetFilteredHotelsAsync(filter);

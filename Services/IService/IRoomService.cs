@@ -10,6 +10,6 @@ namespace Booking_API.Services.IService
         Task<Room> AddDTOAsync(AddRoomDTO entity);
         Task<Room> UpdateDTOAsync(AddRoomDTO entity);
 
-        Task<IEnumerable<RoomDTO>> GetFilteredRoomsAsync(HotelFilterDTO filter);
+        Task<IEnumerable<FilteredRoomDTO>> GetFilteredRoomsAsync(HotelFilterDTO filter);
     }
 }

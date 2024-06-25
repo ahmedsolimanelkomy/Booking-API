@@ -2,7 +2,7 @@
 
 namespace Booking_API.DTOs.RoomDTOs
 {
-    public class RoomDTO
+    public class FilteredRoomDTO
     {
         public int Id { get; set; }
         public bool AvailabilityStatus { get; set; }

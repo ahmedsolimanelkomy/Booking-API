@@ -12,5 +12,6 @@ namespace Booking_API.DTOs.HotelDTOS
         public decimal? MaxPrice { get; set; }
         public View? RoomView { get; set; }
         public List<int>? FeatureIds { get; set; }
+        public int? RoomCapacity { get; set; }
     }
 }

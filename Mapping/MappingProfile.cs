@@ -5,6 +5,7 @@ using Booking_API.DTOs.FeatureDTOS;
 using Booking_API.DTOs.HotelDTOS;
 using Booking_API.DTOs.HotelPhotosDTOS;
 using Booking_API.DTOs.NewFolder;
+using Booking_API.DTOs.RoomDTOs;
 using Booking_API.DTOs.RoomDTOS;
 using Booking_API.Models;
 
@@ -65,8 +66,13 @@ namespace Booking_API.Mapping
             CreateMap<Hotel, HotelDTO>();
 
             CreateMap<Hotel, FilteredHotelDTO>()
-                .ForMember(dest => dest.CityName, opt => opt.MapFrom(src => src.City.Name))
-                .ReverseMap();
+            .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => src.Photos.ToList()))
+            .ForMember(dest => dest.CityName, opt => opt.MapFrom(src => src.City.Name))
+            .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Rating))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));
+            
+            CreateMap<Room, FilteredRoomDTO>().ReverseMap();
+
 
             CreateMap<HotelBooking, HotelBookingDTO>()
    .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.BookingDate))

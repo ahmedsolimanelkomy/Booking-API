@@ -16,13 +16,15 @@ namespace Booking_API.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
+        private readonly RoleManager<ApplicationRole> roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
 
-        public AccountController(UserManager<ApplicationUser> userManager, IConfiguration configuration, IMapper mapper , IEmailService emailService)
+        public AccountController(RoleManager<ApplicationRole> roleManager, UserManager<ApplicationUser> userManager, IConfiguration configuration, IMapper mapper , IEmailService emailService)
         {
+            this.roleManager = roleManager;
             _userManager = userManager;
             _configuration = configuration;
             _mapper = mapper;
@@ -49,6 +51,7 @@ namespace Booking_API.Controllers
 
             if (result.Succeeded)
             {
+                AddRole();
                 await _userManager.AddToRoleAsync(user, "user");
 
                 await SendConfirmationEmail(model.Email, user);
@@ -60,6 +63,29 @@ namespace Booking_API.Controllers
                 var errors = string.Join("; ", result.Errors.Select(e => e.Description));
                 return BadRequest(new GeneralResponse<string>(false, errors, null));
             }
+        }
+
+        bool AddRole()
+        {
+
+            if (!roleManager.RoleExistsAsync("USER").Result)
+            {
+                var UserRole = new ApplicationRole
+                {
+                    Name = "USER"
+                };
+                roleManager.CreateAsync(UserRole).Wait();
+            }
+
+            if (!roleManager.RoleExistsAsync("ADMIN").Result)
+            {
+                var AdminRole = new ApplicationRole
+                {
+                    Name = "ADMIN"
+                };
+                roleManager.CreateAsync(AdminRole).Wait();
+            }
+            return true;
         }
 
         private async Task SendConfirmationEmail(string? email, ApplicationUser? user)
@@ -168,5 +194,26 @@ namespace Booking_API.Controllers
                 ispass = false
             });
         }
+
+        [HttpDelete("remove-user/{Email}")]
+        //[Authorize(Roles = "ADMIN")]
+        public async Task<ActionResult> RemoveUser(string Email)
+        {
+            var user = await _userManager.FindByEmailAsync(Email);
+            if (user == null)
+            {
+                return NotFound(new GeneralResponse<string>(false, "User not found", null));
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                return Ok(new GeneralResponse<string>(true, "User removed successfully", null));
+            }
+
+            var errors = string.Join("; ", result.Errors.Select(e => e.Description));
+            return BadRequest(new GeneralResponse<string>(false, errors, null));
+        }
+
     }
 }

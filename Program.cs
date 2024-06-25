@@ -15,7 +15,7 @@ namespace Booking_API
 {
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -91,14 +91,7 @@ namespace Booking_API
             });
 
             var app = builder.Build();
-
-            // Ensure roles are created
-            using (var scope = app.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
-                await EnsureRolesCreated(roleManager);
-            }
+            
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -117,20 +110,9 @@ namespace Booking_API
             app.UseCors("AllowAllOrigins");
             app.MapControllers();
 
-            await app.RunAsync();
+            app.Run();
         }
 
-        private static async Task EnsureRolesCreated(RoleManager<ApplicationRole> roleManager)
-        {
-            string[] roleNames = { "USER", "ADMIN" };
 
-            foreach (var roleName in roleNames)
-            {
-                if (!await roleManager.RoleExistsAsync(roleName))
-                {
-                    await roleManager.CreateAsync(new ApplicationRole(roleName));
-                }
-            }
-        }
     }
 }

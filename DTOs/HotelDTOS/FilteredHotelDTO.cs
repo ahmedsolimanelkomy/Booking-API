@@ -16,7 +16,9 @@ namespace Booking_API.DTOs.HotelDTOS
         public string? Description { get; set; }
         public string? CityName { get; set; }
 
-        
+        public decimal? Price { get; set; }
+
+
 
     }
 }

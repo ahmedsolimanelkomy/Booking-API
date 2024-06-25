@@ -69,6 +69,7 @@ namespace Booking_API.Mapping
             .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => src.Photos.ToList()))
             .ForMember(dest => dest.CityName, opt => opt.MapFrom(src => src.City.Name))
             .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Rating))
+            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Rooms.First().RoomType.PricePerNight))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));
             
             CreateMap<Room, FilteredRoomDTO>().ReverseMap();

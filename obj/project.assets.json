@@ -4448,19 +4448,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\zain house\\.nuget\\packages\\": {}
+    "C:\\Users\\anasa\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Graduation Project\\Grade Project\\New folder (2)\\Booking-API\\Booking_API.csproj",
+      "projectUniqueName": "C:\\Users\\anasa\\source\\repos\\Booking-API\\Booking_API.csproj",
       "projectName": "Booking_API",
-      "projectPath": "D:\\Graduation Project\\Grade Project\\New folder (2)\\Booking-API\\Booking_API.csproj",
-      "packagesPath": "C:\\Users\\zain house\\.nuget\\packages\\",
-      "outputPath": "D:\\Graduation Project\\Grade Project\\New folder (2)\\Booking-API\\obj\\",
+      "projectPath": "C:\\Users\\anasa\\source\\repos\\Booking-API\\Booking_API.csproj",
+      "packagesPath": "C:\\Users\\anasa\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\anasa\\source\\repos\\Booking-API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\zain house\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\anasa\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4468,6 +4468,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4537,7 +4538,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

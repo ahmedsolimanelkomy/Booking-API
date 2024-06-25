@@ -15,7 +15,7 @@ namespace Booking_API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +27,7 @@ namespace Booking_API
             {
                 option.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
             });
+
             // Configure Identity
             builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<BookingContext>()
@@ -51,8 +52,8 @@ namespace Booking_API
             builder.Services.AddScoped<IService<Country>, Service<Country>>();
 
             builder.Services.AddScoped<IReviewService, ReviewService>();
+            builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
-
 
             // Add JWT Authentication
             var key = Encoding.ASCII.GetBytes(builder.Configuration["JWT:SecKey"]);
@@ -73,6 +74,7 @@ namespace Booking_API
                     IssuerSigningKey = new SymmetricSecurityKey(key)
                 };
             });
+
             // Add CORS services to the container.
             builder.Services.AddCors(options =>
             {
@@ -87,7 +89,16 @@ namespace Booking_API
                                       .AllowAnyHeader()
                                       .AllowAnyMethod());
             });
+
             var app = builder.Build();
+
+            // Ensure roles are created
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
+                await EnsureRolesCreated(roleManager);
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -106,7 +117,20 @@ namespace Booking_API
             app.UseCors("AllowAllOrigins");
             app.MapControllers();
 
-            app.Run();
+            await app.RunAsync();
+        }
+
+        private static async Task EnsureRolesCreated(RoleManager<ApplicationRole> roleManager)
+        {
+            string[] roleNames = { "USER", "ADMIN" };
+
+            foreach (var roleName in roleNames)
+            {
+                if (!await roleManager.RoleExistsAsync(roleName))
+                {
+                    await roleManager.CreateAsync(new ApplicationRole(roleName));
+                }
+            }
         }
     }
 }

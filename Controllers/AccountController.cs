@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Booking_API.DTOs;
 using Booking_API.Models;
+using Booking_API.Services.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,12 +19,14 @@ namespace Booking_API.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
+        private readonly IEmailService _emailService;
 
-        public AccountController(UserManager<ApplicationUser> userManager, IConfiguration configuration, IMapper mapper)
+        public AccountController(UserManager<ApplicationUser> userManager, IConfiguration configuration, IMapper mapper , IEmailService emailService)
         {
             _userManager = userManager;
             _configuration = configuration;
             _mapper = mapper;
+            _emailService = emailService;
         }
 
         [HttpPost("register/user")]
@@ -34,18 +37,62 @@ namespace Booking_API.Controllers
                 return BadRequest(new GeneralResponse<string>(false, "Invalid model data", null));
             }
 
+            var userExist = await _userManager.FindByEmailAsync(model.Email);
+            if (userExist != null)
+            {
+                return Conflict(new GeneralResponse<string>(false, "User with this email already exists", null));
+            }
+
             var user = _mapper.Map<ApplicationUser>(model);
+
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, "USER");
+                await _userManager.AddToRoleAsync(user, "user");
+
+                await SendConfirmationEmail(model.Email, user);
+
                 return Ok(new GeneralResponse<string>(true, "User registered successfully", null));
+            }
+            else
+            {
+                var errors = string.Join("; ", result.Errors.Select(e => e.Description));
+                return BadRequest(new GeneralResponse<string>(false, errors, null));
+            }
+        }
+
+        private async Task SendConfirmationEmail(string? email, ApplicationUser? user)
+        {
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var confirmationLink = $"https://BookingBoo.com/confirm-email?UserId={user.Id}&Token={token}";
+            await _emailService.SendEmailAsync(email, "Confirm Your Email", $"Please confirm your account by <a href='{confirmationLink}'>clicking here</a>.", true);
+        }
+         
+        [HttpGet("confirm-email")]
+        public async Task<ActionResult> ConfirmEmail(string userId, string token)
+        {
+            if (userId == null || token == null)
+            {
+                return BadRequest(new GeneralResponse<string>(false, "UserId or token is null", null));
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound(new GeneralResponse<string>(false, $"User with Id '{userId}' not found", null));
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            if (result.Succeeded)
+            {
+                return Ok(new GeneralResponse<string>(true, "Email confirmed successfully", null));
             }
 
             var errors = string.Join("; ", result.Errors.Select(e => e.Description));
             return BadRequest(new GeneralResponse<string>(false, errors, null));
         }
+
 
         [HttpPost("register/admin")]
         [Authorize(Roles = "ADMIN")]

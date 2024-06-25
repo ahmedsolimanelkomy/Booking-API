@@ -14,7 +14,6 @@ namespace Booking_API.Models
 
     public class HotelBooking
     {
-
         [Key]
         public int Id { get; set; }
 

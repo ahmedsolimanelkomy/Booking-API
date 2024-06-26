@@ -105,6 +105,10 @@ namespace Booking_API.Mapping
        RoomNumber = src.RoomNumber
    }));
 
+            CreateMap<Room, FilteredRoomHotelDTO>().ForMember(dest => dest.TypeName, opt => opt.MapFrom(src=>src.RoomType.Name))
+                .ForMember(dest => dest.PricePerNight, opt => opt.MapFrom(src => src.RoomType.PricePerNight))
+                .ReverseMap();
+
 
 
 

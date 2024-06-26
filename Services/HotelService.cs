@@ -44,15 +44,15 @@ namespace Booking_API.Services
 
         public async Task<IEnumerable<FilteredHotelDTO>> GetFilteredHotelsAsync(HotelFilterDTO filter)
         {
-            var hotels = await _unitOfWork.Hotels.GetAllAsync(["Rooms", "Rooms.HotelBooking", "Rooms.RoomType", "Features", "Photos"]);
+            var hotels = await _unitOfWork.Hotels.GetAllAsync(["Rooms", "Rooms.HotelBooking", "Rooms.RoomType", "Features", "Photos","City"]);
             var filteredHotels = hotels.Where(hotel =>
                 (!filter.CityId.HasValue || hotel.CityId == filter.CityId) &&
                 (!filter.CheckInDate.HasValue || !filter.CheckOutDate.HasValue || hotel.Rooms.Any(room =>
                     room.HotelBooking == null ||
                     room.HotelBooking.CheckOutDate <= filter.CheckInDate ||
                     room.HotelBooking.CheckInDate >= filter.CheckOutDate)) &&
-                (!filter.MinPrice.HasValue || hotel.Rooms.Any(room => room.RoomType.PricePerNight >= filter.MinPrice)) &&
-                (!filter.MaxPrice.HasValue || hotel.Rooms.Any(room => room.RoomType.PricePerNight <= filter.MaxPrice)) &&
+                (!filter.MinPrice.HasValue || hotel.Rooms.Any(room => room.RoomType?.PricePerNight >= filter.MinPrice)) &&
+                (!filter.MaxPrice.HasValue || hotel.Rooms.Any(room => room.RoomType?.PricePerNight <= filter.MaxPrice)) &&
                 (!filter.RoomView.HasValue || hotel.Rooms.Any(room => room.View == filter.RoomView)) &&
                 (filter.FeatureIds == null || !filter.FeatureIds.Any() || filter.FeatureIds.All(id => hotel.Features.Any(feature => feature.Id == id))) &&
                 (!filter.RoomTypeId.HasValue || hotel.Rooms.Any(room => room.RoomTypeId == filter.RoomTypeId)) &&

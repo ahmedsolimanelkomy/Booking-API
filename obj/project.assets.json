@@ -4453,11 +4453,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Graduation Project\\Grade Project\\New folder (2)\\Booking-API\\Booking_API.csproj",
+      "projectUniqueName": "D:\\Graduation Project\\Grade Project\\New folder\\Booking-API\\Booking_API.csproj",
       "projectName": "Booking_API",
-      "projectPath": "D:\\Graduation Project\\Grade Project\\New folder (2)\\Booking-API\\Booking_API.csproj",
+      "projectPath": "D:\\Graduation Project\\Grade Project\\New folder\\Booking-API\\Booking_API.csproj",
       "packagesPath": "C:\\Users\\zain house\\.nuget\\packages\\",
-      "outputPath": "D:\\Graduation Project\\Grade Project\\New folder (2)\\Booking-API\\obj\\",
+      "outputPath": "D:\\Graduation Project\\Grade Project\\New folder\\Booking-API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\zain house\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -11,5 +11,6 @@ namespace Booking_API.Repository.IRepository
         Task<HotelBooking> CreateBookingAsync(HotelBooking booking);
         Task<HotelBooking> UpdateBookingAsync(int id, HotelBooking booking);
         Task DeleteBookingAsync(int id);
+
     }
 }

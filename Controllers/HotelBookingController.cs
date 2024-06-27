@@ -1,4 +1,5 @@
 ﻿using Booking_API.DTOs;
+using Booking_API.DTOs.HotelDTOS;
 using Booking_API.Models;
 using Booking_API.Services;
 using Booking_API.Services.IService;
@@ -57,6 +58,28 @@ namespace Booking_API.Controllers
             await _service.DeleteBookingAsync(id);
             return NoContent();
         }
+
+        [HttpGet("filtered")]
+        public async Task<ActionResult<GeneralResponse<IEnumerable<FilteredBookingDTO>>>> GetFilteredHotelsAsync([FromQuery] HotelBookingFilterDTO filter)
+        {
+            var filteredBookings = await _service.GetFilteredBookingsAsync(filter);
+
+            if (filteredBookings == null || !filteredBookings.Any())
+            {
+                return Ok(new GeneralResponse<IEnumerable<FilteredBookingDTO>>(
+                    success: false,
+                    message: "No bookings found matching the filter criteria.",
+                    data: filteredBookings
+                ));
+            }
+
+            return Ok(new GeneralResponse<IEnumerable<FilteredBookingDTO>>(
+                success: true,
+                message: "Bookings retrieved successfully.",
+                data: filteredBookings
+            ));
+        }
+
     }
 
 }

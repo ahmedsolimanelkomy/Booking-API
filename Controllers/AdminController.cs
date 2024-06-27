@@ -44,13 +44,23 @@ namespace Booking_API.Controllers
             }
             return Ok(new GeneralResponse<ICollection<AdminDTO>>(success:true ,message:"Admins fetched succefully and not null",data: Admins));
         }
+
         [HttpPost("AddAdmin")]
         public async Task<ActionResult<GeneralResponse<string>>> AddAdmin([FromBody] CreateAdminDTO createAdminDTO)
         {
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                return BadRequest(new GeneralResponse<string>(success: false, message: "Invalid model state", data: string.Join("; ", errors)));
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+                return BadRequest(new GeneralResponse<string>(false, "Invalid model state", string.Join("; ", errors)));
+            }
+
+            var existingUser = await UserManager.FindByEmailAsync(createAdminDTO.Email);
+            if (existingUser != null)
+            {
+                return BadRequest(new GeneralResponse<string>(false, "Email address already exists", null));
             }
 
             var user = Mapper.Map<ApplicationUser>(createAdminDTO);
@@ -59,17 +69,17 @@ namespace Booking_API.Controllers
             if (!result.Succeeded)
             {
                 var errorMessage = string.Join("; ", result.Errors.Select(e => e.Description));
-                return BadRequest(new GeneralResponse<string>(success: false, message: "Error creating user: " + errorMessage, data: null));
+                return BadRequest(new GeneralResponse<string>(false, "Error creating user: " + errorMessage, null));
             }
 
             var roleResult = await UserManager.AddToRoleAsync(user, "ADMIN");
             if (!roleResult.Succeeded)
             {
                 var errorMessage = string.Join("; ", roleResult.Errors.Select(e => e.Description));
-                return BadRequest(new GeneralResponse<string>(success: false, message: "Error assigning admin role: " + errorMessage, data: null));
+                return BadRequest(new GeneralResponse<string>(false, "Error assigning admin role: " + errorMessage, null));
             }
 
-            return Ok(new GeneralResponse<string>(success: true, message: "Admin created successfully", data: user.UserName));
+            return Ok(new GeneralResponse<string>(true, "Admin created successfully", user.UserName));
         }
 
 

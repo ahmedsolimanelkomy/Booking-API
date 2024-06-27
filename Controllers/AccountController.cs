@@ -16,7 +16,7 @@ namespace Booking_API.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly RoleManager<ApplicationRole> roleManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
@@ -24,7 +24,7 @@ namespace Booking_API.Controllers
 
         public AccountController(RoleManager<ApplicationRole> roleManager, UserManager<ApplicationUser> userManager, IConfiguration configuration, IMapper mapper, IEmailService emailService)
         {
-            this.roleManager = roleManager;
+            _roleManager = roleManager;
             _userManager = userManager;
             _configuration = configuration;
             _mapper = mapper;
@@ -68,22 +68,22 @@ namespace Booking_API.Controllers
         bool AddRole()
         {
 
-            if (!roleManager.RoleExistsAsync("USER").Result)
+            if (!_roleManager.RoleExistsAsync("USER").Result)
             {
                 var UserRole = new ApplicationRole
                 {
                     Name = "USER"
                 };
-                roleManager.CreateAsync(UserRole).Wait();
+                _roleManager.CreateAsync(UserRole).Wait();
             }
 
-            if (!roleManager.RoleExistsAsync("ADMIN").Result)
+            if (!_roleManager.RoleExistsAsync("ADMIN").Result)
             {
                 var AdminRole = new ApplicationRole
                 {
                     Name = "ADMIN"
                 };
-                roleManager.CreateAsync(AdminRole).Wait();
+                _roleManager.CreateAsync(AdminRole).Wait();
             }
             return true;
         }

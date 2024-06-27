@@ -2,9 +2,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Booking_API.DTOs
+namespace Booking_API.DTOs.HotelBookingDTOS
 {
-    public class HotelBookingDTO
+    public class HotelBookingViewDTO
 
     {
         public int Id { get; set; }
@@ -25,7 +25,7 @@ namespace Booking_API.DTOs
         public DateTime CheckIn { get; set; }
 
         [Required]
-        
+
         public DateTime CheckOut { get; set; }
 
         [Required]
@@ -52,5 +52,5 @@ namespace Booking_API.DTOs
 
         public int HotelId { get; set; }
     }
-    
+
 }

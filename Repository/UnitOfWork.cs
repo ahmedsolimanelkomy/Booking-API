@@ -14,7 +14,7 @@ namespace Booking_API.Repository
         public IRepository<Feature> Features { get; private set; }
         public IRepository<HotelPhoto> HotelPhotos { get; private set; }
         public IRepository<Room> Rooms { get; private set; }
-        public IRepository<HotelBooking> Bookings { get; private set; }
+        public IRepository<HotelBooking> HotelBookings { get; private set; }
         public IRepository<CarAgency> CarAgencies { get; private set; }
         public IRepository<Car> Cars { get; private set; }
         public IRepository<City> Cities { get; private set; }
@@ -35,7 +35,7 @@ namespace Booking_API.Repository
             Features = new Repository<Feature>(_context);
             HotelPhotos = new Repository<HotelPhoto>(_context);
             Rooms = new Repository<Room>(_context);
-            Bookings = new Repository<HotelBooking>(_context);
+            HotelBookings = new Repository<HotelBooking>(_context);
             CarAgencies = new Repository<CarAgency>(_context);
             Cars = new Repository<Car>(_context);
             Cities = new Repository<City>(_context);

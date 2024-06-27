@@ -33,12 +33,10 @@ namespace Booking_API
                 .AddEntityFrameworkStores<BookingContext>()
                 .AddDefaultTokenProviders();
 
-            // Register the UserManager and RoleManager services
             builder.Services.AddScoped<UserManager<ApplicationUser>>();
             builder.Services.AddScoped<RoleManager<ApplicationRole>>();
-
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddScoped<IBookingService, BookingService>();
+            builder.Services.AddScoped<IHotelBookingService, HotelBookingService>();
             builder.Services.AddScoped<IPaymentService, PaymentService>();
             builder.Services.AddScoped<IPassportService, PassportService>();
             builder.Services.AddScoped<IWishListService, WishListService>();
@@ -50,10 +48,11 @@ namespace Booking_API
             builder.Services.AddScoped<ICountryService, CountryService>();
             builder.Services.AddScoped<IService<City>, Service<City>>();
             builder.Services.AddScoped<IService<Country>, Service<Country>>();
-
             builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
+            builder.Services.AddSingleton<BraintreeService>();
+
 
             // Add JWT Authentication
             var key = Encoding.ASCII.GetBytes(builder.Configuration["JWT:SecKey"]);

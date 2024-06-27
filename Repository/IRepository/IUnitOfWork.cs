@@ -8,7 +8,7 @@ namespace Booking_API.Repository.IRepository
         IRepository<HotelPhoto> HotelPhotos { get; }
         IRepository<Feature> Features { get; }
         IRepository<Room> Rooms { get; }
-        IRepository<HotelBooking> Bookings { get; }
+        IRepository<HotelBooking> HotelBookings { get; }
         IRepository<CarAgency> CarAgencies { get; }
         IRepository<Car> Cars { get; }
         IRepository<City> Cities { get; }

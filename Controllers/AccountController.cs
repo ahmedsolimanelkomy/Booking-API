@@ -91,6 +91,7 @@ namespace Booking_API.Controllers
         private async Task SendConfirmationEmail(string? email, ApplicationUser? user)
         {
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            //var encodedToken = Uri.EscapeDataString(token); // Encode the token
             var confirmationLink = $"https://BookingBoo.com/confirm-email?UserId={user.Id}&Token={token}";
             await _emailService.SendEmailAsync(email, "Confirm Your Email", $"Please confirm your account by <a href='{confirmationLink}'>clicking here</a>.", true);
         }
@@ -108,6 +109,9 @@ namespace Booking_API.Controllers
             {
                 return NotFound(new GeneralResponse<string>(false, $"User with Id '{userId}' not found", null));
             }
+
+            token = token.Replace(" ", "+");
+            token = Uri.UnescapeDataString(token); // Decode the token
 
             var result = await _userManager.ConfirmEmailAsync(user, token);
             if (result.Succeeded)

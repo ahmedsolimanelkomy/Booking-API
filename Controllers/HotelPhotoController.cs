@@ -93,6 +93,7 @@ namespace Booking_API.Controllers
             }
 
             var photoUrl = await _hotelPhotoService.SavePhoto(createHotelPhotoDto.Photo);
+
             if (string.IsNullOrEmpty(photoUrl))
             {
                 return BadRequest(new GeneralResponse<CreateHotelPhotoDTO>(false, "Error Saving Photo", null));
@@ -106,6 +107,44 @@ namespace Booking_API.Controllers
             return Ok(new GeneralResponse<CreateHotelPhotoDTO>(true, "HotelPhoto added successfully", createHotelPhotoDto));
         }
 
+        [HttpPost("{hotelId}/bulk")]
+        public async Task<ActionResult<GeneralResponse<BulkHotelPhotoDTO>>> PostBulkHotelPhotos(int hotelId, [FromForm] BulkHotelPhotoDTO bulkHotelPhotoDto)
+        {
+            Hotel hotel = await _hotelService.GetAsync(h => h.Id == hotelId);
+            if (hotel == null)
+            {
+                return NotFound(new GeneralResponse<BulkHotelPhotoDTO>(false, "Hotel Not Found", null));
+            }
+
+            if (bulkHotelPhotoDto.PhotoList == null || !bulkHotelPhotoDto.PhotoList.Any())
+            {
+                return BadRequest(new GeneralResponse<BulkHotelPhotoDTO>(false, "No Photos Received", null));
+            }
+
+            var photoUrls = new List<string>();
+            foreach (var photo in bulkHotelPhotoDto.PhotoList)
+            {
+                var photoUrl = await _hotelPhotoService.SavePhoto(photo);
+
+                if (string.IsNullOrEmpty(photoUrl))
+                {
+                    return BadRequest(new GeneralResponse<BulkHotelPhotoDTO>(false, "Error Saving One or More Photos", null));
+                }
+
+                var hotelPhoto = new HotelPhoto
+                {
+                    PhotoUrl = photoUrl,
+                    Category = bulkHotelPhotoDto.Category
+                };
+
+                hotel.Photos.Add(hotelPhoto);
+                photoUrls.Add(photoUrl);
+            }
+
+            await _hotelService.UpdateAsync(hotel);
+
+            return Ok(new GeneralResponse<BulkHotelPhotoDTO>(true, "Hotel Photos added successfully", bulkHotelPhotoDto));
+        }
 
         [HttpPut("{id}")]
         public async Task<ActionResult<GeneralResponse<UpdateHotelPhotoDTO>>> PutHotelPhoto(int id, [FromForm] UpdateHotelPhotoDTO updateHotelPhotoDTO)

@@ -38,7 +38,7 @@ namespace Booking_API.Controllers
                     Gender = user.Gender
                 }).ToList();
 
-            if (Admins.Any())
+            if (!Admins.Any())
             {
                 return NotFound(new GeneralResponse<ICollection<AdminDTO>>(success: false, message: "Admins are null", data: null));
             }
@@ -153,6 +153,39 @@ namespace Booking_API.Controllers
             }
             return Ok(new GeneralResponse<AdminDTO>(success: true, message: "User updated successfully", data: adminDTO));
         }
+
+        [HttpPatch("UpdateAdminByEmail/{email}")]
+        public async Task<ActionResult<GeneralResponse<AdminDTO>>> UpdateAdminByEmail(string email, AdminDTO adminDTO)
+        {
+            var user = await UserManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return NotFound(new GeneralResponse<AdminDTO>(success: false, message: "Admin not found", data: null));
+            }
+
+            Mapper.Map(adminDTO, user);
+
+            // Update user in the database
+            var updateResult = await UserManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                return BadRequest(new GeneralResponse<AdminDTO>(success: false, message: "Error updating user", data: null));
+            }
+
+            // Update the password if provided
+            if (!string.IsNullOrEmpty(adminDTO.NewPassword))
+            {
+                var passwordChangeResult = await UserManager.ChangePasswordAsync(user, adminDTO.CurrentPassword, adminDTO.NewPassword);
+                if (!passwordChangeResult.Succeeded)
+                {
+                    return BadRequest(new GeneralResponse<AdminDTO>(success: false, message: "Error changing password", data: null));
+                }
+            }
+
+            return Ok(new GeneralResponse<AdminDTO>(success: true, message: "User updated successfully", data: adminDTO));
+        }
+
 
     }
 }

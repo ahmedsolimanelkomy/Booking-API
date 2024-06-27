@@ -121,7 +121,7 @@ namespace Booking_API.Controllers
 
 
         [HttpPost("register/admin")]
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         public async Task<ActionResult> RegisterAdmin([FromBody] UserRegisterDTO model)
         {
             if (!ModelState.IsValid)

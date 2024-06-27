@@ -88,7 +88,7 @@ namespace Booking_API.Controllers
             return true;
         }
 
-        private async Task SendConfirmationEmail(string email, ApplicationUser user)
+        public async Task SendConfirmationEmail(string email, ApplicationUser user)
         {
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             //var encodedToken = Uri.EscapeDataString(token); // Encode the token

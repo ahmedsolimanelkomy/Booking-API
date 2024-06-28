@@ -1,5 +1,4 @@
-﻿using Booking_API.DTOs;
-using Booking_API.DTOs.HotelDTOS;
+﻿using Booking_API.DTOs.HotelDTOS;
 using Booking_API.Models;
 using System.Linq.Expressions;
 

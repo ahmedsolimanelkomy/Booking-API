@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Booking_API.DTOs
+namespace Booking_API.DTOs.AdminDTOS
 {
     public class AdminDTO
     {

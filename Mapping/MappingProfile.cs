@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using Booking_API.DTOs;
+using Booking_API.DTOs.AccountDTOS;
 using Booking_API.DTOs.AdminDTOS;
+using Booking_API.DTOs.CityDTOS;
+using Booking_API.DTOs.CountryDTOS;
 using Booking_API.DTOs.FeatureDTOS;
 using Booking_API.DTOs.HotelBookingDTOS;
 using Booking_API.DTOs.HotelDTOS;
 using Booking_API.DTOs.HotelPhotosDTOS;
 using Booking_API.DTOs.NewFolder;
-using Booking_API.DTOs.RoomDTOs;
 using Booking_API.DTOs.RoomDTOS;
 using Booking_API.Models;
 
@@ -110,7 +112,10 @@ namespace Booking_API.Mapping
                 .ForMember(dest => dest.PricePerNight, opt => opt.MapFrom(src => src.RoomType.PricePerNight))
                 .ReverseMap();
 
-            CreateMap<HotelBookingDto, HotelBooking>().ReverseMap();
+            CreateMap<HotelBookingDTO, HotelBooking>().ReverseMap();
+            CreateMap<HotelFilterDTO, HotelBookingViewDTO>().ReverseMap();
+            CreateMap<Hotel,HotelViewDTO>()
+                .ForMember(dest => dest.CityId, opt => opt.MapFrom(src => src.City.Id)).ReverseMap();
 
 
 

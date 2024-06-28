@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
 using Booking_API.DTOs;
 using Booking_API.DTOs.HotelDTOS;
-using Booking_API.DTOs.RoomDTOs;
 using Booking_API.DTOs.RoomDTOS;
 using Booking_API.Models;
-using Booking_API.Services;
 using Booking_API.Services.IService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Formats.Tar;
 
 namespace Booking_API.Controllers
 {

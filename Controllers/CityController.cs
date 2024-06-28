@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Booking_API.DTOs;
+using Booking_API.DTOs.CityDTOS;
 using Booking_API.DTOs.RoomDTOS;
 using Booking_API.Models;
 using Booking_API.Services;

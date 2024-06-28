@@ -1,6 +1,6 @@
 ﻿using Booking_API.Models;
 
-namespace Booking_API.DTOs.RoomDTOs
+namespace Booking_API.DTOs.RoomDTOS
 {
     public class FilteredRoomDTO
     {

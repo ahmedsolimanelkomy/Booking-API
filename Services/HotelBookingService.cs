@@ -20,38 +20,22 @@ namespace Booking_API.Services
             _mapper = mapper;
         }
 
-        //public async Task<IEnumerable<HotelBookingDTO>> GetAllBookingsAsync(string[] includeProperties = null)
-        //{
-        //    var bookings = await _unitOfWork.HotelBookings.GetAllAsync(includeProperties);
-        //    return _mapper.Map<IEnumerable<HotelBookingDTO>>(bookings);
-        //}
+        public async Task<IEnumerable<HotelBookingViewDTO>> GetFilteredBookingsAsync(HotelBookingFilterDTO filter)
+        {
+            var bookings = await _unitOfWork.HotelBookings.GetAllAsync(["Room", "ApplicationUser", "Hotel"]);
 
-        //public async Task<HotelBookingDTO> GetBookingByIdAsync(int id, string[] includeProperties = null)
-        //{
-        //    var booking = await _unitOfWork.HotelBookings.GetAsync(b => b.Id == id, includeProperties);
-        //    return _mapper.Map<HotelBookingDTO>(booking);
-        //}
+            var filteredBookings = bookings.Where(booking =>
+                (filter.HotelId == null || booking.HotelId == filter.HotelId) &&
+                (!filter.CheckIn.HasValue || !filter.CheckOut.HasValue ||
+                    booking.CheckOutDate < filter.CheckIn ||
+                    booking.CheckInDate > filter.CheckOut) &&
+                (filter.RoomNumber == null || booking.Room?.RoomNumber == filter.RoomNumber) &&
+                (filter.UserId == null || booking.UserId == filter.UserId) &&
+                (filter.RoomId == null || booking.RoomId == filter.RoomId) &&
+                (filter.Status == null || booking.Status == filter.Status)
+            ).ToList();
 
-        //public async Task<HotelBookingDto> CreateBookingAsync(HotelBookingDto bookingDTO)
-        //{
-        //    var booking = _mapper.Map<HotelBooking>(bookingDTO);
-        //    await _unitOfWork.HotelBookings.AddAsync(booking);
-        //    await _unitOfWork.SaveAsync();
-        //    return bookingDTO;
-        //}
-
-        //public async Task<HotelBookingDTO> UpdateBookingAsync(int id, HotelBookingDTO bookingDTO)
-        //{
-        //    var booking = _mapper.Map<HotelBooking>(bookingDTO);
-        //    await _unitOfWork.HotelBookings.UpdateAsync(booking);
-        //    await _unitOfWork.SaveAsync();
-        //    return bookingDTO;
-        //}
-
-        //public async Task DeleteBookingAsync(int id)
-        //{
-        //    await _unitOfWork.HotelBookings.DeleteAsync(id);
-        //    await _unitOfWork.SaveAsync();
-        //}
+            return _mapper.Map<IEnumerable<HotelBookingViewDTO>>(filteredBookings);
+        }
     }
 }

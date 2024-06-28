@@ -1,5 +1,4 @@
 ﻿using Booking_API.DTOs.HotelDTOS;
-using Booking_API.DTOs.RoomDTOs;
 using Booking_API.DTOs.RoomDTOS;
 using Booking_API.Models;
 

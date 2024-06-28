@@ -7,7 +7,7 @@ namespace Booking_API.DTOs.HotelPhotosDTOS
     {
 
         [Required]
-        public ICollection<IFormFile> PhotoList { get; set; }
+        public IFormFile[] Photos { get; set; }
 
         [Required]
         public PhotoCategory Category { get; set; }

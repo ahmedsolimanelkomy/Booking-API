@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Booking_API.DTOs.HotelBookingDTOS
 {
-    public class HotelBookingDto
+    public class HotelBookingDTO
     {
         public int Id { get; set; }
 
@@ -12,7 +12,7 @@ namespace Booking_API.DTOs.HotelBookingDTOS
         public DateTime BookingDate { get; set; }
 
         [Required]
-        public BookingStatus Status { get; set; }
+        public BookingStatus Status { get; set; } = BookingStatus.Pending;
 
         [Required]
         [Range(0, double.MaxValue), DataType(DataType.Currency, ErrorMessage = "Total Price must be a positive number")]
@@ -22,5 +22,11 @@ namespace Booking_API.DTOs.HotelBookingDTOS
         public DateTime CheckInDate { get; set; }
         [CheckOutDate("CheckInDate", ErrorMessage = "Check-out date must be after the check-in date.")]
         public DateTime CheckOutDate { get; set; }
+        [Required]
+        public int UserId { get; set; }
+        [Required]
+        public int HotelId { get; set; }
+        [Required]
+        public int RoomId { get; set; }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Booking_API.DTOs
+namespace Booking_API.DTOs.CityDTOS
 {
     public class CityDTO
     {
         public int Id { get; set; }
-        [Required,MaxLength(50)]
+        [Required, MaxLength(50)]
         public string? Name { get; set; }
         [Required]
         public string? Code { get; set; }

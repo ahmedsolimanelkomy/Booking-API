@@ -26,10 +26,11 @@ namespace Booking_API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<GeneralResponse<IEnumerable<Hotel>>>> GetAllHotels([FromQuery] string[] includeProperties)
+        public async Task<ActionResult<GeneralResponse<IEnumerable<HotelViewDTO>>>> GetAllHotels([FromQuery] string[] includeProperties)
         {
             var response = await _HotelService.GetAllAsync(includeProperties);
-            return Ok(new GeneralResponse<IEnumerable<Hotel>>(true, "Hotels retrieved successfully", response));
+            var res = mapper.Map<IEnumerable<HotelViewDTO>>(response);
+            return Ok(new GeneralResponse<IEnumerable<HotelViewDTO>>(true, "Hotels retrieved successfully", res));
         }
 
         [HttpGet("{id}")]

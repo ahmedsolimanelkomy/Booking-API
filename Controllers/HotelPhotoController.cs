@@ -78,7 +78,7 @@ namespace Booking_API.Controllers
             return Ok(new GeneralResponse<HotelPhotoDTO>(true, "HotelPhoto retrieved successfully", responseDTO));
         }
 
-        [HttpPost("{hotelId}")]
+        [HttpPost("/api/PostHotelPhoto/{hotelId}")]
         public async Task<ActionResult<GeneralResponse<CreateHotelPhotoDTO>>> PostHotelPhoto(int hotelId, [FromForm] CreateHotelPhotoDTO createHotelPhotoDto)
         {
             Hotel hotel = await _hotelService.GetAsync(h => h.Id == hotelId);
@@ -107,7 +107,7 @@ namespace Booking_API.Controllers
             return Ok(new GeneralResponse<CreateHotelPhotoDTO>(true, "HotelPhoto added successfully", createHotelPhotoDto));
         }
 
-        [HttpPost("{hotelId}/bulk")]
+        [HttpPost("/api/PostBulkHotelPhotos/{hotelId}")]
         public async Task<ActionResult<GeneralResponse<BulkHotelPhotoDTO>>> PostBulkHotelPhotos(int hotelId, [FromForm] BulkHotelPhotoDTO bulkHotelPhotoDto)
         {
             Hotel hotel = await _hotelService.GetAsync(h => h.Id == hotelId);
@@ -116,13 +116,13 @@ namespace Booking_API.Controllers
                 return NotFound(new GeneralResponse<BulkHotelPhotoDTO>(false, "Hotel Not Found", null));
             }
 
-            if (bulkHotelPhotoDto.PhotoList == null || !bulkHotelPhotoDto.PhotoList.Any())
+            if (bulkHotelPhotoDto.Photos == null || !bulkHotelPhotoDto.Photos.Any())
             {
                 return BadRequest(new GeneralResponse<BulkHotelPhotoDTO>(false, "No Photos Received", null));
             }
 
             var photoUrls = new List<string>();
-            foreach (var photo in bulkHotelPhotoDto.PhotoList)
+            foreach (var photo in bulkHotelPhotoDto.Photos)
             {
                 var photoUrl = await _hotelPhotoService.SavePhoto(photo);
 
@@ -193,8 +193,8 @@ namespace Booking_API.Controllers
 
                 await _hotelService.UpdateAsync(hotel);
 
-                var updatedPhotoDTO = _mapper.Map<UpdateHotelPhotoDTO>(updatedPhoto);
-                return Ok(new GeneralResponse<UpdateHotelPhotoDTO>(true, "HotelPhoto updated successfully", updatedPhotoDTO));
+                //var updatedPhotoDTO = _mapper.Map<UpdateHotelPhotoDTO>(updatedPhoto);
+                return Ok(new GeneralResponse<UpdateHotelPhotoDTO>(true, "HotelPhoto updated successfully", updateHotelPhotoDTO));
             }
             catch (Exception ex)
             {

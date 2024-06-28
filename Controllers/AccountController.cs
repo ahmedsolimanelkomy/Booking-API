@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Booking_API.DTOs;
+using Booking_API.DTOs.AccountDTOS;
 using Booking_API.Models;
 using Booking_API.Services.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -46,13 +48,12 @@ namespace Booking_API.Controllers
             }
 
             var user = _mapper.Map<ApplicationUser>(model);
-
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
-                AddRole();
-                await _userManager.AddToRoleAsync(user, "user");
+                await AddRole("USER");
+                await _userManager.AddToRoleAsync(user, "USER");
 
                 await SendConfirmationEmail(model.Email, user);
 
@@ -65,66 +66,7 @@ namespace Booking_API.Controllers
             }
         }
 
-        bool AddRole()
-        {
-
-            if (!_roleManager.RoleExistsAsync("USER").Result)
-            {
-                var UserRole = new ApplicationRole
-                {
-                    Name = "USER"
-                };
-                _roleManager.CreateAsync(UserRole).Wait();
-            }
-
-            if (!_roleManager.RoleExistsAsync("ADMIN").Result)
-            {
-                var AdminRole = new ApplicationRole
-                {
-                    Name = "ADMIN"
-                };
-                _roleManager.CreateAsync(AdminRole).Wait();
-            }
-            return true;
-        }
-
-        private async Task SendConfirmationEmail(string email, ApplicationUser user)
-        {
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            //var encodedToken = Uri.EscapeDataString(token); // Encode the token
-            var confirmationLink = $"http://localhost:4200/confirm-email?UserId={user.Id}&Token={token}";
-            await _emailService.SendEmailAsync(email, "Confirm Your Email", $"Please confirm your account by <a href='{confirmationLink}'>clicking here</a>.", true);
-        }
-
-        [HttpGet("confirm-email")]
-        public async Task<ActionResult> ConfirmEmail(string userId, string token)
-        {
-            if (userId == null || token == null)
-            {
-                return BadRequest(new GeneralResponse<string>(false, "UserId or token is null", null));
-            }
-
-
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound(new GeneralResponse<string>(false, $"User with Id '{userId}' not found", null));
-            }
-            token = token.Replace(" ", "+");
-            token = Uri.UnescapeDataString(token); // Decode the token
-            var result = await _userManager.ConfirmEmailAsync(user, token);
-            if (result.Succeeded)
-            {
-                return Ok(new GeneralResponse<string>(true, "Email confirmed successfully", null));
-            }
-
-            var errors = string.Join("; ", result.Errors.Select(e => e.Description));
-            return BadRequest(new GeneralResponse<string>(false, errors, null));
-        }
-
-
         [HttpPost("register/admin")]
-        //[Authorize(Roles = "ADMIN")]
         public async Task<ActionResult> RegisterAdmin([FromBody] UserRegisterDTO model)
         {
             if (!ModelState.IsValid)
@@ -137,6 +79,7 @@ namespace Booking_API.Controllers
 
             if (result.Succeeded)
             {
+                await AddRole("ADMIN");
                 await _userManager.AddToRoleAsync(user, "ADMIN");
                 return Ok(new GeneralResponse<string>(true, "Admin registered successfully", null));
             }
@@ -199,7 +142,6 @@ namespace Booking_API.Controllers
         }
 
         [HttpDelete("remove-user/{Email}")]
-        //[Authorize(Roles = "ADMIN")]
         public async Task<ActionResult> RemoveUser(string Email)
         {
             var user = await _userManager.FindByEmailAsync(Email);
@@ -217,6 +159,78 @@ namespace Booking_API.Controllers
             var errors = string.Join("; ", result.Errors.Select(e => e.Description));
             return BadRequest(new GeneralResponse<string>(false, errors, null));
         }
+
+        [HttpPost("AddRole")]
+        public async Task<IActionResult> AddRole(string roleName)
+        {
+            var result = await AddRoleIfNotExists(roleName);
+            if (result)
+            {
+                return Ok(new { Msg = "Role created successfully" });
+            }
+            return BadRequest(new { Msg = "Role already exists" });
+        }
+
+        [HttpGet("GetRoles")]
+        public async Task<ActionResult> GetRoles()
+        {
+            try
+            {
+                var roles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
+                return Ok(new GeneralResponse<IEnumerable<string>>(true, "Roles retrieved successfully", roles));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new GeneralResponse<string>(false, $"An error occurred while retrieving roles {ex.Message}", null));
+            }
+        }
+
+        private async Task<bool> AddRoleIfNotExists(string roleName)
+        {
+            if (!await _roleManager.RoleExistsAsync(roleName))
+            {
+                var role = new ApplicationRole { Name = roleName };
+                var result = await _roleManager.CreateAsync(role);
+                return result.Succeeded;
+            }
+            return false;
+        }
+
+        #region Mail Confirmation
+        private async Task SendConfirmationEmail(string email, ApplicationUser user)
+        {
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var encodedToken = Uri.EscapeDataString(token); // Encode the token
+            var confirmationLink = $"http://localhost:4200/confirm-email?UserId={user.Id}&Token={token}";
+            await _emailService.SendEmailAsync(email, "Confirm Your Email", $"Please confirm your account by <a href='{confirmationLink}'>clicking here</a>.", true);
+        }
+
+        [HttpGet("confirm-email")]
+        public async Task<ActionResult> ConfirmEmail(string userId, string token)
+        {
+            if (userId == null || token == null)
+            {
+                return BadRequest(new GeneralResponse<string>(false, "UserId or token is null", null));
+            }
+
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound(new GeneralResponse<string>(false, $"User with Id '{userId}' not found", null));
+            }
+            token = token.Replace(" ", "+");
+            token = Uri.UnescapeDataString(token); // Decode the token
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            if (result.Succeeded)
+            {
+                return Ok(new GeneralResponse<string>(true, "Email confirmed successfully", null));
+            }
+
+            var errors = string.Join("; ", result.Errors.Select(e => e.Description));
+            return BadRequest(new GeneralResponse<string>(false, errors, null));
+        } 
+        #endregion
 
     }
 }

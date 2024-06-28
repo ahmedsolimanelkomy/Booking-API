@@ -60,11 +60,32 @@ namespace Booking_API.Controllers
             }
         }
 
+        //[HttpPost]
+        //public async Task<ActionResult<GeneralResponse<FeatureDTO>>> PostFeature(FeatureDTO featureDTO)
+        //{
+        //    try
+        //    {
+        //        var feature = _mapper.Map<Feature>(featureDTO);
+        //        await _featureService.AddAsync(feature);
+        //        return Ok(new GeneralResponse<FeatureDTO>(true, "Feature added successfully", featureDTO));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, new GeneralResponse<FeatureDTO>(false, ex.Message, null));
+        //    }
+        //}
+
         [HttpPost]
         public async Task<ActionResult<GeneralResponse<FeatureDTO>>> PostFeature(FeatureDTO featureDTO)
         {
             try
             {
+                var existingFeature = await _featureService.GetByNameAsync(featureDTO.Name);
+                if (existingFeature != null)
+                {
+                    return Conflict(new GeneralResponse<FeatureDTO>(false, "Feature with this name already exists", null));
+                }
+
                 var feature = _mapper.Map<Feature>(featureDTO);
                 await _featureService.AddAsync(feature);
                 return Ok(new GeneralResponse<FeatureDTO>(true, "Feature added successfully", featureDTO));

@@ -123,6 +123,38 @@ namespace Booking_API.Controllers
         }
 
 
+        [HttpDelete("DeleteAdminByUserName/{userName}")]
+        public async Task<ActionResult<GeneralResponse<string>>> DeleteAdminByUserName(string userName)
+        {
+            var user = await UserManager.FindByNameAsync(userName);
+
+            if (user == null)
+            {
+                return NotFound(new GeneralResponse<string>(success: false, message: "Admin not found", data: null));
+            }
+
+            var isAdmin = await UserManager.IsInRoleAsync(user, "Admin");
+
+            if (!isAdmin)
+            {
+                return BadRequest(new GeneralResponse<string>(success: false, message: "User is not an admin", data: user.UserName));
+            }
+
+            // Remove the user
+            var result = await UserManager.DeleteAsync(user);
+
+            if (result.Succeeded)
+            {
+                return Ok(new GeneralResponse<string>(success: true, message: "Admin Deleted", data: user.UserName));
+            }
+            else
+            {
+                return BadRequest(new GeneralResponse<string>(success: false, message: "Error deleting user", data: user.UserName));
+            }
+        }
+
+
+
 
         [HttpPatch("UpdateAdmin/{id}")]
         public async Task<ActionResult<GeneralResponse<AdminDTO>>> UpdateAdmin(string Id, AdminDTO adminDTO)
@@ -154,16 +186,17 @@ namespace Booking_API.Controllers
             return Ok(new GeneralResponse<AdminDTO>(success: true, message: "User updated successfully", data: adminDTO));
         }
 
-        [HttpPatch("UpdateAdminByEmail/{email}")]
-        public async Task<ActionResult<GeneralResponse<AdminDTO>>> UpdateAdminByEmail(string email, AdminDTO adminDTO)
+
+
+        [HttpPatch("UpdateAdminByUserName/{userName}")]
+        public async Task<ActionResult<GeneralResponse<AdminDTO>>> UpdateAdminByUserName(string userName, AdminDTO adminDTO)
         {
-            var user = await UserManager.FindByEmailAsync(email);
+            var user = await UserManager.FindByNameAsync(userName);
 
             if (user == null)
             {
                 return NotFound(new GeneralResponse<AdminDTO>(success: false, message: "Admin not found", data: null));
             }
-
             Mapper.Map(adminDTO, user);
 
             // Update user in the database
@@ -182,9 +215,11 @@ namespace Booking_API.Controllers
                     return BadRequest(new GeneralResponse<AdminDTO>(success: false, message: "Error changing password", data: null));
                 }
             }
-
             return Ok(new GeneralResponse<AdminDTO>(success: true, message: "User updated successfully", data: adminDTO));
         }
+
+
+
 
 
     }

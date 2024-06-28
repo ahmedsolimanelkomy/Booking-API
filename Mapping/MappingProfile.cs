@@ -98,7 +98,30 @@ namespace Booking_API.Mapping
                        RoomNumber = src.RoomNumber
                    }));
 
-           
+            CreateMap<HotelBooking, FilteredBookingDTO>()
+               .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+               .ForMember(dest => dest.BookingDate, opt => opt.MapFrom(src => src.BookingDate))
+               .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+               .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.TotalPrice))
+               .ForMember(dest => dest.Notes, opt => opt.MapFrom(src => src.Notes))
+               .ForMember(dest => dest.CheckInDate, opt => opt.MapFrom(src => src.CheckInDate))
+               .ForMember(dest => dest.CheckOutDate, opt => opt.MapFrom(src => src.CheckOutDate))
+               .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+               .ForMember(dest => dest.RoomId, opt => opt.MapFrom(src => src.RoomId))
+               .ForMember(dest => dest.HotelId, opt => opt.MapFrom(src => src.HotelId));
+
+            CreateMap<FilteredBookingDTO, HotelBooking>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.BookingDate, opt => opt.MapFrom(src => src.BookingDate))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.TotalPrice))
+                .ForMember(dest => dest.Notes, opt => opt.MapFrom(src => src.Notes))
+                .ForMember(dest => dest.CheckInDate, opt => opt.MapFrom(src => src.CheckInDate))
+                .ForMember(dest => dest.CheckOutDate, opt => opt.MapFrom(src => src.CheckOutDate))
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+                .ForMember(dest => dest.RoomId, opt => opt.MapFrom(src => src.RoomId))
+                .ForMember(dest => dest.HotelId, opt => opt.MapFrom(src => src.HotelId));
+
 
 
         }

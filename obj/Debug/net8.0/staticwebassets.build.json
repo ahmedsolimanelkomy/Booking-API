@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ML0q/pL/vfoDiYoGJ2P2+aqy9p7s0yzrGPwO+Y3bq0E=",
+  "Hash": "7HJszzR1wJEAaAinV35sB8VPzouDyekGcBuWsJjH114=",
   "Source": "Booking_API",
   "BasePath": "_content/Booking_API",
   "Mode": "Default",
@@ -492,6 +492,25 @@
       "OriginalItemSpec": "wwwroot\\Assets\\Images\\HotelsPhotos\\9ac537c8-3449-4f9a-930e-86d7071c4473_m.jpg"
     },
     {
+      "Identity": "C:\\Users\\ahmed\\Desktop\\Graduation Project\\Booking API\\Booking-API\\wwwroot\\Assets\\Images\\HotelsPhotos\\a1301c08-cf3f-4722-8d1b-8c7eabefcba1_blob",
+      "SourceId": "Booking_API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ahmed\\Desktop\\Graduation Project\\Booking API\\Booking-API\\wwwroot\\",
+      "BasePath": "_content/Booking_API",
+      "RelativePath": "Assets/Images/HotelsPhotos/a1301c08-cf3f-4722-8d1b-8c7eabefcba1_blob",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Assets\\Images\\HotelsPhotos\\a1301c08-cf3f-4722-8d1b-8c7eabefcba1_blob"
+    },
+    {
       "Identity": "C:\\Users\\ahmed\\Desktop\\Graduation Project\\Booking API\\Booking-API\\wwwroot\\Assets\\Images\\HotelsPhotos\\a17e521a-2185-4511-a594-3afad4f6ec72_m.jpg",
       "SourceId": "Booking_API",
       "SourceType": "Discovered",
@@ -794,25 +813,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Assets\\Images\\HotelsPhotos\\e7f003bb-53d1-46fd-bbe4-1b14669c3f1c_m.jpg"
-    },
-    {
-      "Identity": "C:\\Users\\ahmed\\Desktop\\Graduation Project\\Booking API\\Booking-API\\wwwroot\\Assets\\Images\\HotelsPhotos\\ed4de619-1bb4-406f-9f27-23996391bb10_m.jpg",
-      "SourceId": "Booking_API",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ahmed\\Desktop\\Graduation Project\\Booking API\\Booking-API\\wwwroot\\",
-      "BasePath": "_content/Booking_API",
-      "RelativePath": "Assets/Images/HotelsPhotos/ed4de619-1bb4-406f-9f27-23996391bb10_m.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Assets\\Images\\HotelsPhotos\\ed4de619-1bb4-406f-9f27-23996391bb10_m.jpg"
     },
     {
       "Identity": "C:\\Users\\ahmed\\Desktop\\Graduation Project\\Booking API\\Booking-API\\wwwroot\\Assets\\Images\\HotelsPhotos\\ff8f485f-87c1-4301-ac35-cae775744689_m.jpg",

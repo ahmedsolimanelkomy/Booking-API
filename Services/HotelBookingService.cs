@@ -22,20 +22,20 @@ namespace Booking_API.Services
 
         public async Task<IEnumerable<HotelBookingViewDTO>> GetFilteredBookingsAsync(HotelBookingFilterDTO filter)
         {
-            var bookings = await _unitOfWork.HotelBookings.GetAllAsync(["Room", "ApplicationUser", "Hotel"]);
+            var bookings = await _unitOfWork.HotelBookings.GetAllAsync(new[] { "Room", "ApplicationUser", "Hotel" });
 
             var filteredBookings = bookings.Where(booking =>
-                (filter.HotelId == null || booking.HotelId == filter.HotelId) &&
+                (string.IsNullOrEmpty(filter.HotelName) || booking.Hotel.Name.Contains(filter.HotelName, StringComparison.OrdinalIgnoreCase)) &&
+                (string.IsNullOrEmpty(filter.UserName) || (booking.ApplicationUser?.FirstName + " " + booking.ApplicationUser?.LastName).Contains(filter.UserName, StringComparison.OrdinalIgnoreCase)) &&
                 (!filter.CheckIn.HasValue || !filter.CheckOut.HasValue ||
-                    booking.CheckOutDate < filter.CheckIn ||
-                    booking.CheckInDate > filter.CheckOut) &&
+                    (booking.CheckInDate.Date == filter.CheckIn.Value.Date || booking.CheckOutDate.Date == filter.CheckOut.Value.Date)) &&
                 (filter.RoomNumber == null || booking.Room?.RoomNumber == filter.RoomNumber) &&
-                (filter.UserId == null || booking.UserId == filter.UserId) &&
-                (filter.RoomId == null || booking.RoomId == filter.RoomId) &&
-                (filter.Status == null || booking.Status == filter.Status)
+                (filter.Status == null || booking.Status == filter.Status) &&
+                (filter.Price == null || booking.TotalPrice == filter.Price) // Add price filter here
             ).ToList();
 
             return _mapper.Map<IEnumerable<HotelBookingViewDTO>>(filteredBookings);
         }
+
     }
 }

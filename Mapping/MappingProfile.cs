@@ -112,7 +112,7 @@ namespace Booking_API.Mapping
                 .ForMember(dest => dest.PricePerNight, opt => opt.MapFrom(src => src.RoomType.PricePerNight))
                 .ReverseMap();
 
-            CreateMap<HotelBookingDTO, HotelBooking>().ReverseMap();
+            CreateMap<CreateHotelBookingDTO, HotelBooking>().ReverseMap();
             CreateMap<HotelFilterDTO, HotelBookingViewDTO>().ReverseMap();
             CreateMap<Hotel,HotelViewDTO>()
                 .ForMember(dest => dest.CityId, opt => opt.MapFrom(src => src.City.Id)).ReverseMap();

@@ -127,6 +127,7 @@ namespace Booking_API.Controllers
 
                     return Ok(new
                     {
+                        User = user,
                         token = new JwtSecurityTokenHandler().WriteToken(token),
                         expired = token.ValidTo,
                         ispass = true

@@ -19,9 +19,20 @@ namespace Booking_API.Models
 
         //Foreign Keys
         [ForeignKey("HotelBooking")]
-        public int HotelBookingId { get; set; }
+        public int? HotelBookingId { get; set; }
+
+        [ForeignKey("Hotel")]
+        public int? HotelId { get; set; }
+
+        [ForeignKey("ApplicationUser")]
+        public int? UserId { get; set; }
+
 
         //Navigation Properties
         public HotelBooking? HotelBooking { get; set; }
+
+        public Hotel? Hotel { get; set; }
+
+        public ApplicationUser? ApplicationUser { get; set; }
     }
 }

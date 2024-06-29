@@ -42,6 +42,7 @@ namespace Booking_API.Models
         public ICollection<Feature> Features { get; set; } = new HashSet<Feature>();
         public ICollection<HotelPhoto> Photos { get; set; } = new HashSet<HotelPhoto>();
         public ICollection<HotelBooking> HotelBookings { get; set; } = new HashSet<HotelBooking>();
-        
+        public ICollection<HotelReview> HotelReviews { get; set; } = new HashSet<HotelReview>();
+
     }
 }

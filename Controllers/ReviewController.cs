@@ -2,6 +2,7 @@
 using Booking_API.Models;
 using Booking_API.Services;
 using Booking_API.Services.IService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,30 +19,63 @@ namespace Booking_API.Controllers
             this.reviewService = reviewService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<GeneralResponse<IEnumerable<HotelReview>>>> GetReviews([FromQuery] string[] includeProperties)
-        {
-            var response = await reviewService.GetAllAsync(includeProperties);
-            return Ok(new GeneralResponse<IEnumerable<HotelReview>>(true, "Reviews retrieved successfully", response));
-        }
+        //[HttpGet]
+        //public async Task<ActionResult<GeneralResponse<IEnumerable<HotelReview>>>> GetReviews([FromQuery] string[] includeProperties)
+        //{
+        //    var response = await reviewService.GetAllAsync(includeProperties);
+        //    return Ok(new GeneralResponse<IEnumerable<HotelReview>>(true, "Reviews retrieved successfully", response));
+        //}
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<GeneralResponse<HotelReview>>> GetReview(int id, [FromQuery] string[] includeProperties)
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<GeneralResponse<HotelReview>>> GetReview(int id, [FromQuery] string[] includeProperties)
+        //{
+        //    var response = await reviewService.GetAsync(b => b.Id == id, includeProperties);
+        //    if (response == null)
+        //    {
+        //        return NotFound(new GeneralResponse<HotelReview>(false, "Review not found", null));
+        //    }
+        //    return Ok(new GeneralResponse<HotelReview>(true, "Review retrieved successfully", response));
+        //}
+
+        //[HttpPost]
+        //public async Task<ActionResult<GeneralResponse<HotelReview>>> PostReview(HotelReview Review)
+        //{
+        //    await reviewService.AddAsync(Review);
+        //    return CreatedAtAction(nameof(GetReview), new { id = Review.Id }, new GeneralResponse<HotelReview>(true, "Review added successfully", Review));
+        //}
+
+
+        //[Authorize]
+        [HttpPost("AddReview")]
+        public async Task<IActionResult> AddReview([FromBody] AddHotelReviewDTO createReviewDto)
         {
-            var response = await reviewService.GetAsync(b => b.Id == id, includeProperties);
-            if (response == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound(new GeneralResponse<HotelReview>(false, "Review not found", null));
+                var response1 = new GeneralResponse<object>(false, "Invalid model state", ModelState);
+                return BadRequest(response1);
             }
-            return Ok(new GeneralResponse<HotelReview>(true, "Review retrieved successfully", response));
+
+            var response = await reviewService.AddReviewAsync(createReviewDto);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+
+            return StatusCode(500, response);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<GeneralResponse<HotelReview>>> PostReview(HotelReview Review)
+        [HttpGet("GetAllReviews")]
+        public async Task<IActionResult> GetAllReviews([FromQuery] string[] includeProperties)
         {
-            await reviewService.AddAsync(Review);
-            return CreatedAtAction(nameof(GetReview), new { id = Review.Id }, new GeneralResponse<HotelReview>(true, "Review added successfully", Review));
+            var reviews = await reviewService.GetAllReviewsAsync(includeProperties);
+            if (reviews == null || !reviews.Any())
+            {
+                return NotFound(new GeneralResponse<object>(false, "No reviews found", null));
+            }
+
+            return Ok(new GeneralResponse<IEnumerable<DisplayHotelReviewDTO>>(true, "Reviews retrieved successfully", reviews));
         }
+
 
         [HttpPut("{id}")]
         public async Task<ActionResult<GeneralResponse<HotelReview>>> PutReview(int id, HotelReview Review)

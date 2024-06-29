@@ -450,7 +450,10 @@ namespace Booking_API.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<int>("HotelBookingId")
+                    b.Property<int?>("HotelBookingId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("HotelId")
                         .HasColumnType("int");
 
                     b.Property<int?>("Rating")
@@ -459,10 +462,18 @@ namespace Booking_API.Migrations
                     b.Property<DateTime>("ReviewDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("HotelBookingId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[HotelBookingId] IS NOT NULL");
+
+                    b.HasIndex("HotelId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
                 });
@@ -849,9 +860,19 @@ namespace Booking_API.Migrations
                 {
                     b.HasOne("Booking_API.Models.HotelBooking", "HotelBooking")
                         .WithOne("ReviewList")
-                        .HasForeignKey("Booking_API.Models.HotelReview", "HotelBookingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Booking_API.Models.HotelReview", "HotelBookingId");
+
+                    b.HasOne("Booking_API.Models.Hotel", "Hotel")
+                        .WithMany("HotelReviews")
+                        .HasForeignKey("HotelId");
+
+                    b.HasOne("Booking_API.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Hotel");
 
                     b.Navigation("HotelBooking");
                 });
@@ -979,6 +1000,8 @@ namespace Booking_API.Migrations
             modelBuilder.Entity("Booking_API.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Bookings");
+
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("Booking_API.Models.Car", b =>
@@ -1004,6 +1027,8 @@ namespace Booking_API.Migrations
             modelBuilder.Entity("Booking_API.Models.Hotel", b =>
                 {
                     b.Navigation("HotelBookings");
+
+                    b.Navigation("HotelReviews");
 
                     b.Navigation("Photos");
 

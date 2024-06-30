@@ -69,12 +69,15 @@ namespace Booking_API.Mapping
             CreateMap<Hotel, HotelDTO>();
 
             CreateMap<Hotel, FilteredHotelDTO>()
-            .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => src.Photos.ToList()))
-            .ForMember(dest => dest.CityName, opt => opt.MapFrom(src => src.City.Name))
-            .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Rating))
-            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Rooms.First().RoomType.PricePerNight))
-            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));
-            
+                .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => src.Photos != null ? src.Photos.ToList() : null))
+                .ForMember(dest => dest.CityName, opt => opt.MapFrom(src => src.City != null ? src.City.Name : null))
+                .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Rating.HasValue ? src.Rating.Value : 0))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Rooms.Any() ? src.Rooms.First().RoomType.PricePerNight : 0))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+                .ReverseMap();
+
+
+
             CreateMap<Room, FilteredRoomDTO>().ReverseMap();
 
 
@@ -116,6 +119,7 @@ namespace Booking_API.Mapping
             CreateMap<HotelFilterDTO, HotelBookingViewDTO>().ReverseMap();
             CreateMap<Hotel,HotelViewDTO>()
                 .ForMember(dest => dest.CityId, opt => opt.MapFrom(src => src.City.Id)).ReverseMap();
+            CreateMap<ApplicationUser, UserDTO>().ReverseMap();
 
 
 

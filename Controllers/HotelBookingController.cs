@@ -17,14 +17,16 @@ namespace Booking_API.Controllers
     {
         private readonly IHotelBookingService _bookingService;
         private readonly IHotelService _hotelService;
+        private readonly IRoomService _roomService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly BraintreeService _braintreeService;
         private readonly IMapper _mapper;
 
-        public HotelBookingController(IHotelBookingService bookingService,IHotelService hotelService,UserManager<ApplicationUser> userManager, BraintreeService braintreeService, IMapper mapper)
+        public HotelBookingController(IHotelBookingService bookingService,IHotelService hotelService, IRoomService roomService,UserManager<ApplicationUser> userManager, BraintreeService braintreeService, IMapper mapper)
         {
             _bookingService = bookingService;
             _hotelService = hotelService;
+            _roomService = roomService;
             _userManager = userManager;
             _braintreeService = braintreeService;
             _mapper = mapper;
@@ -84,8 +86,16 @@ namespace Booking_API.Controllers
                 return NotFound(new GeneralResponse<CreateHotelBookingDTO>(false, "Hotel not found", bookingDto));
             }
 
+            var room = await _roomService.GetAsync(r => r.Id == bookingDto.RoomId);
+            if (room == null)
+            {
+                return BadRequest(new GeneralResponse<CreateHotelBookingDTO>(false, "Room not available", bookingDto));
+            }
+
             var booking = _mapper.Map<HotelBooking>(bookingDto);
-            await _bookingService.AddAsync(booking);
+            room.HotelBooking = booking;
+            await _roomService.UpdateAsync(room);
+
             var createdBookingDto = _mapper.Map<CreateHotelBookingDTO>(booking);
 
             return CreatedAtAction(nameof(GetHotelBookings), new GeneralResponse<CreateHotelBookingDTO>(true, "Booking added successfully", createdBookingDto));
@@ -127,28 +137,27 @@ namespace Booking_API.Controllers
         [HttpPost("checkout")]
         public async Task<IActionResult> Checkout([FromBody] PaymentRequest paymentRequest)
         {
+            if (paymentRequest == null || paymentRequest.BookingData == null)
+            {
+                return BadRequest(new GeneralResponse<CreateHotelBookingDTO>(false, "Invalid data", null));
+            }
             // Create the booking
-            var bookingDto = paymentRequest.Booking;
+            var bookingDto = paymentRequest?.BookingData;
+            
             if (!ModelState.IsValid)
             {
                 return BadRequest(new GeneralResponse<CreateHotelBookingDTO>(false, "Invalid booking data", bookingDto));
             }
 
-            //var booking = _mapper.Map<HotelBooking>(bookingDto);
-            //await _bookingService.AddAsync(booking);
-
             // Process the payment
-            var result = await _braintreeService.MakePaymentAsync(paymentRequest.Nonce, /*booking.TotalPrice*/ 100);
+            var result = await _braintreeService.MakePaymentAsync(paymentRequest.Nonce, paymentRequest.Amount);
             if (result.IsSuccess())
             {
-                // Update booking with payment info
-                //booking.PaymentTransactionId = result.Transaction.Id;
-                //booking.PaymentStatus = result.Transaction.Status.ToString();
-                //booking.Status = BookingStatus.Confirmed;
-               // await _bookingService.UpdateAsync(booking);
+                // Update booking with payment info *****************
+                bookingDto.Status = BookingStatus.Confirmed;
+                await _bookingService.CreateHotelBookingAsync(bookingDto);
 
-                //var createdBookingDto = _mapper.Map<CreateHotelBookingDTO>(booking);
-                return Ok(new GeneralResponse<CreateHotelBookingDTO>(true, "Booking and payment successful", /*createdBookingDto*/ null));
+                return Ok(new GeneralResponse<CreateHotelBookingDTO>(true, "Booking and payment successful", null));
             }
             else
             {
@@ -169,6 +178,6 @@ namespace Booking_API.Controllers
     {
         public string Nonce { get; set; }
         public decimal Amount { get; set; }
-        public CreateHotelBookingDTO? Booking { get; set; }
+        public CreateHotelBookingDTO BookingData { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace Booking_API.Models
         [ForeignKey("Country")]
         public int CountryId { get; set; }
         public ICollection<Hotel>? Hotels { get; set; } = new HashSet<Hotel>();
-
+        public ICollection<CarAgency>? CarAgencies { get; set; } = new HashSet<CarAgency>();
+        
     }
 }

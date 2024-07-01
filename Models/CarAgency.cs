@@ -26,12 +26,20 @@ namespace Booking_API.Models
         [EmailAddress]
         public string? Email { get; set; }
 
+        public int? Longitude { get; set; }
+
+        public int? Latitude { get; set; }
+
         // Foreign Key
         [ForeignKey("City")]
         public int CityId { get; set; }
 
+        [ForeignKey("CarRental")]
+        public int CarRentalId { get; set; }
+
         // Navigation Properties
         public City? City { get; set; }
+        public CarRental? CarRental { get; set; }
         public ICollection<Car>? Cars { get; set; } = new HashSet<Car>();
     }
 }

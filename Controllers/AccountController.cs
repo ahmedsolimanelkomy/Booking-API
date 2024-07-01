@@ -48,110 +48,118 @@ namespace Booking_API.Controllers
         [HttpPost("register/user")]
         public async Task<ActionResult> RegisterUser([FromBody] UserRegisterDTO model)
         {
+            if (model == null)
+            {
+                return BadRequest(new GeneralResponse<string>(false, "Request body is null", null));
+            }
+
             if (!ModelState.IsValid)
             {
-                return BadRequest(new GeneralResponse<string>(false, "Invalid model data", null));
+                var modelErrors = ModelState.Values.SelectMany(v => v.Errors)
+                                                   .Select(e => e.ErrorMessage)
+                                                   .ToList();
+                return BadRequest(new GeneralResponse<List<string>>(false, "Invalid model data", modelErrors));
             }
 
-            var userExist = await _userManager.FindByEmailAsync(model.Email);
-            if (userExist != null)
+            try
             {
-                return Conflict(new GeneralResponse<string>(false, "User with this email already exists", null));
+                var userExist = await _userManager.FindByEmailAsync(model.Email);
+                if (userExist != null)
+                {
+                    return Conflict(new GeneralResponse<string>(false, "User with this email already exists", null));
+                }
+
+                var user = _mapper.Map<ApplicationUser>(model);
+                var result = await _userManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {
+                    await AddRole("USER");
+                    await _userManager.AddToRoleAsync(user, "USER");
+
+                    await SendConfirmationEmail(model.Email, user);
+
+                    return Ok(new GeneralResponse<string>(true, "User registered successfully", null));
+                }
+                else
+                {
+                    var errors = result.Errors.Select(e => e.Description).ToList();
+                    return BadRequest(new GeneralResponse<List<string>>(false, "User registration failed", errors));
+                }
             }
-
-            var user = _mapper.Map<ApplicationUser>(model);
-            var result = await _userManager.CreateAsync(user, model.Password);
-
-            if (result.Succeeded)
+            catch (Exception ex)
             {
-                await AddRole("USER");
-                await _userManager.AddToRoleAsync(user, "USER");
-
-                await SendConfirmationEmail(model.Email, user);
-
-                return Ok(new GeneralResponse<string>(true, "User registered successfully", null));
-            }
-            else
-            {
-                var errors = string.Join("; ", result.Errors.Select(e => e.Description));
-                return BadRequest(new GeneralResponse<string>(false, errors, null));
+                return StatusCode(500, new GeneralResponse<string>(false, "An internal server error occurred", ex.Message));
             }
         }
 
-        [HttpPost("register/admin")]
-        public async Task<ActionResult> RegisterAdmin([FromBody] UserRegisterDTO model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(new GeneralResponse<string>(false, "Invalid model data", null));
-            }
-
-            var user = _mapper.Map<ApplicationUser>(model);
-            var result = await _userManager.CreateAsync(user, model.Password);
-
-            if (result.Succeeded)
-            {
-                await AddRole("ADMIN");
-                await _userManager.AddToRoleAsync(user, "ADMIN");
-                return Ok(new GeneralResponse<string>(true, "Admin registered successfully", null));
-            }
-
-            var errors = string.Join("; ", result.Errors.Select(e => e.Description));
-            return BadRequest(new GeneralResponse<string>(false, errors, null));
-        }
 
         [HttpPost("login")]
         public async Task<ActionResult> Login([FromBody] LoginDTO loginUser)
         {
+            if (loginUser == null)
+            {
+                return BadRequest(new { message = "Request body is null", ispass = false });
+            }
+
             if (!ModelState.IsValid)
             {
-                return BadRequest(new { message = "Invalid model data", ispass = false });
+                var modelErrors = ModelState.Values.SelectMany(v => v.Errors)
+                                                   .Select(e => e.ErrorMessage)
+                                                   .ToList();
+                return BadRequest(new { message = "Invalid model data", errors = modelErrors, ispass = false });
             }
 
-            var user = await _userManager.FindByNameAsync(loginUser.UserName);
-            if (user != null)
+            try
             {
-                bool found = await _userManager.CheckPasswordAsync(user, loginUser.Password);
-                if (found)
+                var user = await _userManager.FindByNameAsync(loginUser.UserName);
+                if (user == null)
                 {
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Name, user.UserName),
-                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                    };
-
-                    var roles = await _userManager.GetRolesAsync(user);
-                    foreach (var role in roles)
-                    {
-                        claims.Add(new Claim(ClaimTypes.Role, role));
-                    }
-
-                    var signKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:SecKey"]));
-                    var signingCredentials = new SigningCredentials(signKey, SecurityAlgorithms.HmacSha256);
-
-                    var token = new JwtSecurityToken(
-                        issuer: _configuration["JWT:ValidIss"],
-                        audience: _configuration["JWT:ValidAud"],
-                        expires: DateTime.Now.AddDays(2),
-                        claims: claims,
-                        signingCredentials: signingCredentials
-                    );
-
-                    return Ok(new
-                    {
-                        User = user,
-                        token = new JwtSecurityTokenHandler().WriteToken(token),
-                        expired = token.ValidTo,
-                        ispass = true
-                    });
+                    return Unauthorized(new { message = "User not found", ispass = false });
                 }
-            }
 
-            return Unauthorized(new
+                bool isPasswordCorrect = await _userManager.CheckPasswordAsync(user, loginUser.Password);
+                if (!isPasswordCorrect)
+                {
+                    return Unauthorized(new { message = "Invalid password", ispass = false });
+                }
+
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                };
+
+                var roles = await _userManager.GetRolesAsync(user);
+                foreach (var role in roles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, role));
+                }
+
+                var signKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:SecKey"]));
+                var signingCredentials = new SigningCredentials(signKey, SecurityAlgorithms.HmacSha256);
+
+                var token = new JwtSecurityToken(
+                    issuer: _configuration["JWT:ValidIss"],
+                    audience: _configuration["JWT:ValidAud"],
+                    expires: DateTime.Now.AddDays(2),
+                    claims: claims,
+                    signingCredentials: signingCredentials
+                );
+
+                return Ok(new
+                {
+                    User = user,
+                    roles = roles,
+                    token = new JwtSecurityTokenHandler().WriteToken(token),
+                    expired = token.ValidTo,
+                    ispass = true
+                });
+            }
+            catch (Exception ex)
             {
-                message = "Invalid username or password",
-                ispass = false
-            });
+                return StatusCode(500, new { message = "An internal server error occurred", error = ex.Message, ispass = false });
+            }
         }
 
         [HttpDelete("remove-user/{Email}")]
@@ -183,6 +191,16 @@ namespace Booking_API.Controllers
             }
             return BadRequest(new { Msg = "Role already exists" });
         }
+        private async Task<bool> AddRoleIfNotExists(string roleName)
+        {
+            if (!await _roleManager.RoleExistsAsync(roleName))
+            {
+                var role = new ApplicationRole { Name = roleName };
+                var result = await _roleManager.CreateAsync(role);
+                return result.Succeeded;
+            }
+            return false;
+        }
 
         [HttpGet("GetRoles")]
         public async Task<ActionResult> GetRoles()
@@ -196,17 +214,6 @@ namespace Booking_API.Controllers
             {
                 return StatusCode(500, new GeneralResponse<string>(false, $"An error occurred while retrieving roles {ex.Message}", null));
             }
-        }
-
-        private async Task<bool> AddRoleIfNotExists(string roleName)
-        {
-            if (!await _roleManager.RoleExistsAsync(roleName))
-            {
-                var role = new ApplicationRole { Name = roleName };
-                var result = await _roleManager.CreateAsync(role);
-                return result.Succeeded;
-            }
-            return false;
         }
 
         #region Mail Confirmation

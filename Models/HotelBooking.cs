@@ -52,7 +52,10 @@ namespace Booking_API.Models
         public Room? Room { get; set; }
         public Hotel? Hotel { get; set; }
         public HotelReview? ReviewList { get; set; }
+<<<<<<< HEAD
         public HotelBookingInvoice? HotelBookingInvoice { get; set; }
 
+=======
+>>>>>>> af1aca2f733b426d9036572997d8302e830e8fea
     }
 }

@@ -14,7 +14,6 @@ namespace Booking_API.Models
         public DbSet<Country> Countries { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Passport> Passports { get; set; }
-        public DbSet<Payment> Payments { get; set; }
         public DbSet<HotelReview> Reviews { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RoomType> RoomTypes { get; set; }

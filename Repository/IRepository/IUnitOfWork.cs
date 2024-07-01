@@ -14,7 +14,6 @@ namespace Booking_API.Repository.IRepository
         IRepository<City> Cities { get; }
         IRepository<Country> Countries { get; }
         IRepository<Passport> Passports { get; }
-        IRepository<Payment> Payments { get; }
         IRepository<HotelReview> Reviews { get; }
         IRepository<RoomType> RoomTypes { get; }
         IRepository<HotelWishList> WishLists { get; }

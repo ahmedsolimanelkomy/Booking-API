@@ -47,6 +47,5 @@ namespace Booking_API.Models
         public Room? Room { get; set; }
         public Hotel? Hotel { get; set; }
         public HotelReview? ReviewList { get; set; }
-        public Payment? PaymentList { get; set; }
     }
 }

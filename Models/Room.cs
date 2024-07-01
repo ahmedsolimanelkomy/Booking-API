@@ -32,8 +32,7 @@ namespace Booking_API.Models
         [ForeignKey("RoomType")]
         public int RoomTypeId { get; set; }
 
-        [ForeignKey("HotelBooking")]
-        public int? HotelBookingId { get; set; }
+       
 
 
         // Navigation Properties

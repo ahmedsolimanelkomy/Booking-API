@@ -41,7 +41,5 @@ namespace Booking_API.Models
         public RoomType? RoomType { get; set; }
         public HotelBooking? HotelBooking { get; set; }
 
-        
-
     }
 }

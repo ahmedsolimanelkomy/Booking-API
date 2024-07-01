@@ -9,6 +9,8 @@ namespace Booking_API.Services.IService
     public interface IHotelBookingService : IService<HotelBooking>
     {
         Task<IEnumerable<HotelBookingViewDTO>> GetFilteredBookingsAsync(HotelBookingFilterDTO filter);
+        Task<GeneralResponse<CreateHotelBookingDTO>> CreateHotelBookingAsync(CreateHotelBookingDTO bookingDto);
+
 
     }
 }

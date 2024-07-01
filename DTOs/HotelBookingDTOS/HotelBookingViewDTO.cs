@@ -19,7 +19,7 @@ namespace Booking_API.DTOs.HotelBookingDTOS
         public int TotalPrice { get; set; }
 
         [StringLength(500)]
-        public string Notes { get; set; }
+        public string? Notes { get; set; } = " ";
 
         [Required]
         public DateTime CheckIn { get; set; }

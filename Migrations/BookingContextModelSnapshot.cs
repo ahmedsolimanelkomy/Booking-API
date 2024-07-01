@@ -410,7 +410,7 @@ namespace Booking_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bookings");
+                    b.ToTable("HotelBooking");
                 });
 
             modelBuilder.Entity("Booking_API.Models.HotelPhoto", b =>

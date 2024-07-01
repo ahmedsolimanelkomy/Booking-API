@@ -12,13 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Booking_API.Migrations
 {
     [DbContext(typeof(BookingContext))]
-<<<<<<<< HEAD:Migrations/20240628233306_init.Designer.cs
-    [Migration("20240628233306_init")]
-    partial class init
-========
-    [Migration("20240630163755_test")]
-    partial class test
->>>>>>>> a7466977ac16a1c199091a5e64ae9843eac27134:Migrations/20240630163755_test.Designer.cs
+    [Migration("20240630164032_BookingName")]
+    partial class BookingName
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -418,7 +413,7 @@ namespace Booking_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bookings");
+                    b.ToTable("HotelBooking");
                 });
 
             modelBuilder.Entity("Booking_API.Models.HotelPhoto", b =>
@@ -461,26 +456,16 @@ namespace Booking_API.Migrations
                     b.Property<int>("HotelBookingId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("HotelId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("Rating")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ReviewDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("HotelBookingId")
                         .IsUnique();
-
-                    b.HasIndex("HotelId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
                 });
@@ -871,18 +856,6 @@ namespace Booking_API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Booking_API.Models.Hotel", "Hotel")
-                        .WithMany("HotelReviews")
-                        .HasForeignKey("HotelId");
-
-                    b.HasOne("Booking_API.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("Reviews")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("Hotel");
-
                     b.Navigation("HotelBooking");
                 });
 
@@ -1009,8 +982,6 @@ namespace Booking_API.Migrations
             modelBuilder.Entity("Booking_API.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Bookings");
-
-                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("Booking_API.Models.Car", b =>
@@ -1036,8 +1007,6 @@ namespace Booking_API.Migrations
             modelBuilder.Entity("Booking_API.Models.Hotel", b =>
                 {
                     b.Navigation("HotelBookings");
-
-                    b.Navigation("HotelReviews");
 
                     b.Navigation("Photos");
 

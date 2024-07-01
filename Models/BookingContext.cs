@@ -7,7 +7,7 @@ namespace Booking_API.Models
     {
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<ApplicationRole> ApplicationRoles { get; set; }
-        public DbSet<HotelBooking> Bookings { get; set; }
+        public DbSet<HotelBooking> HotelBooking { get; set; }
         public DbSet<Car> Cars { get; set; }
         public DbSet<CarAgency> CarAgencies { get; set; }
         public DbSet<CarType> CarTypes { get; set; }

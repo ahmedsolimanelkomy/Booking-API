@@ -33,6 +33,18 @@ namespace Booking_API.Controllers
             _emailService = emailService;
         }
 
+        [HttpGet("get-user/{id}")]
+        public async Task<ActionResult> GetUserById(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound(new GeneralResponse<string>(false, "User not found", null));
+            }
+            var userDto = _mapper.Map<UserDTO>(user); // Assuming you have a UserDTO to map the user data
+            return Ok(new GeneralResponse<UserDTO>(true, "User retrieved successfully", userDto));
+        }
+
         [HttpPost("register/user")]
         public async Task<ActionResult> RegisterUser([FromBody] UserRegisterDTO model)
         {
@@ -127,6 +139,7 @@ namespace Booking_API.Controllers
 
                     return Ok(new
                     {
+                        User = user,
                         token = new JwtSecurityTokenHandler().WriteToken(token),
                         expired = token.ValidTo,
                         ispass = true

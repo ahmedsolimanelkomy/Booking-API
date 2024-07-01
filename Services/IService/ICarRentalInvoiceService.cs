@@ -2,7 +2,7 @@
 
 namespace Booking_API.Services.IService
 {
-    public interface IPaymentService : IService<Payment>
+    public interface ICarRentalInvoiceService:IService<CarRentalInvoice>
     {
     }
 }

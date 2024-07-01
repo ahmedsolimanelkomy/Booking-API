@@ -42,11 +42,17 @@ namespace Booking_API.Models
         [ForeignKey("Hotel")]
         public int HotelId { get; set; }
 
+        [ForeignKey("HotelBookingInvoice")]
+        public int HotelBookingInvoiceId { get; set; }
+
+
+
         //Navigation  Properties
         public ApplicationUser? ApplicationUser { get; set; }
         public Room? Room { get; set; }
         public Hotel? Hotel { get; set; }
         public HotelReview? ReviewList { get; set; }
-        public Payment? PaymentList { get; set; }
+        public HotelBookingInvoice? HotelBookingInvoice { get; set; }
+
     }
 }

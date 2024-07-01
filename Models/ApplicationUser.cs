@@ -35,5 +35,8 @@ namespace Booking_API.Models
         public City? City { get; set; }
 
         public ICollection<HotelBooking>? Bookings { get; set; }
+
+        public CarRentalInvoice? CarRentalInvoice { get; set; }
+        public HotelBookingInvoice? HotelBookingInvoice { get; set; }
     }
 }

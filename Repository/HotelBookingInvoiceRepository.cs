@@ -3,10 +3,10 @@ using Booking_API.Repository.IRepository;
 
 namespace Booking_API.Repository
 {
-    public class PaymentRepository : Repository<Payment>, IPaymentRepository
+    public class HotelBookingInvoiceRepository : Repository<HotelBookingInvoice>, IHotelBookingInvoiceRepository
     {
         private readonly BookingContext _dbcontext;
-        public PaymentRepository(BookingContext dBcontext) : base(dBcontext)
+        public HotelBookingInvoiceRepository(BookingContext dBcontext) : base(dBcontext)
         {
             _dbcontext = dBcontext;
         }

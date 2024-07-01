@@ -37,7 +37,6 @@ namespace Booking_API
             builder.Services.AddScoped<RoleManager<ApplicationRole>>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IHotelBookingService, HotelBookingService>();
-            builder.Services.AddScoped<IPaymentService, PaymentService>();
             builder.Services.AddScoped<IPassportService, PassportService>();
             builder.Services.AddScoped<IWishListService, WishListService>();
             builder.Services.AddScoped<IHotelService, HotelService>();
@@ -50,6 +49,8 @@ namespace Booking_API
             builder.Services.AddScoped<IService<Country>, Service<Country>>();
             builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddScoped<IEmailService, EmailService>();
+            builder.Services.AddScoped<IHotelBookingInvoiceService, HotelBookingInvoiceService>();
+            builder.Services.AddScoped<ICarRentalInvoiceService, CarRentalInvoiceService>();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddSingleton<BraintreeService>();
 

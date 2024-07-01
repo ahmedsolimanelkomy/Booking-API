@@ -14,11 +14,12 @@ namespace Booking_API.Models
         public DbSet<Country> Countries { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Passport> Passports { get; set; }
-        public DbSet<Payment> Payments { get; set; }
         public DbSet<HotelReview> Reviews { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RoomType> RoomTypes { get; set; }
         public DbSet<HotelWishList> WishLists { get; set; }
+        public DbSet<CarRentalInvoice> CarRentalInvoices { get; set; }
+        public DbSet<HotelBookingInvoice> HotelBookingInvoices { get; set; }
         public BookingContext(DbContextOptions<BookingContext> dbContextOptions) : base(dbContextOptions)
         {
         }

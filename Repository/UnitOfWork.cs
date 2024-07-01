@@ -20,11 +20,12 @@ namespace Booking_API.Repository
         public IRepository<City> Cities { get; private set; }
         public IRepository<Country> Countries { get; private set; }
         public IRepository<Passport> Passports { get; private set; }
-        public IRepository<Payment> Payments { get; private set; }
         public IRepository<HotelReview> Reviews { get; private set; }
         public IRepository<RoomType> RoomTypes { get; private set; }
         public IRepository<HotelWishList> WishLists { get; private set; }
         public IRepository<ApplicationUser> ApplicationUsers { get; private set; }
+        public IRepository<CarRentalInvoice> CarRentalInvoices { get; private set; }
+        public IRepository<HotelBookingInvoice> HotelBookingInvoices { get; private set; }
 
         public UnitOfWork(BookingContext context)
         {
@@ -41,11 +42,12 @@ namespace Booking_API.Repository
             Cities = new Repository<City>(_context);
             Countries = new Repository<Country>(_context);
             Passports = new Repository<Passport>(_context);
-            Payments = new Repository<Payment>(_context);
             Reviews = new Repository<HotelReview>(_context);
             RoomTypes = new Repository<RoomType>(_context);
             WishLists = new Repository<HotelWishList>(_context);
             ApplicationUsers = new Repository<ApplicationUser>(_context);
+            CarRentalInvoices = new Repository<CarRentalInvoice>(_context);
+            HotelBookingInvoices = new Repository<HotelBookingInvoice>(_context);
         }
 
         public IRepository<T> GetRepository<T>() where T : class

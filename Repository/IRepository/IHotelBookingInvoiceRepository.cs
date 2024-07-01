@@ -2,7 +2,7 @@
 
 namespace Booking_API.Repository.IRepository
 {
-    public interface IPaymentRepository : IRepository<Payment>
+    public interface IHotelBookingInvoiceRepository:IRepository<HotelBookingInvoice>
     {
     }
 }

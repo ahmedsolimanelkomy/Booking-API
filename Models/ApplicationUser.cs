@@ -35,7 +35,13 @@ namespace Booking_API.Models
         public City? City { get; set; }
 
         public ICollection<HotelBooking>? Bookings { get; set; }
+<<<<<<< HEAD
         public ICollection<HotelReview>? Reviews { get; set; }
 
+=======
+
+        public CarRentalInvoice? CarRentalInvoice { get; set; }
+        public HotelBookingInvoice? HotelBookingInvoice { get; set; }
+>>>>>>> d8b71818a746eb3242ae0f867c802e98f1cb990d
     }
 }

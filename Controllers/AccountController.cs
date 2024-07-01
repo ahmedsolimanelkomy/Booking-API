@@ -220,7 +220,7 @@ namespace Booking_API.Controllers
         private async Task SendConfirmationEmail(string email, ApplicationUser user)
         {
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var encodedToken = Uri.EscapeDataString(token); // Encode the token
+            //var encodedToken = Uri.EscapeDataString(token); // Encode the token
             var confirmationLink = $"http://localhost:4200/confirm-email?UserId={user.Id}&Token={token}";
             await _emailService.SendEmailAsync(email, "Confirm Your Email", $"Please confirm your account by <a href='{confirmationLink}'>clicking here</a>.", true);
         }

@@ -18,6 +18,10 @@ namespace Booking_API.Mapping
     {
         public MappingProfile()
         {
+
+            CreateMap<HotelReview, DisplayHotelReviewDTO>();
+            CreateMap<AddHotelReviewDTO, HotelReview>();
+
             CreateMap<UserRegisterDTO, ApplicationUser>().ReverseMap();
             CreateMap<AdminDTO, ApplicationUser>().ReverseMap();
             CreateMap<CreateAdminDTO, ApplicationUser>().ReverseMap();

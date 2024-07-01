@@ -23,15 +23,24 @@ namespace Booking_API.Models
         [Url]
         public string? WebsiteURL { get; set; }
 
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string? Email { get; set; }
+
+        public double? Longitude { get; set; }
+
+        public double? Latitude { get; set; }
 
         // Foreign Key
         [ForeignKey("City")]
-        public int CityId { get; set; }
+        public int? CityId { get; set; }
+
+        [ForeignKey("CarRental")]
+        public int? CarRentalId { get; set; }
 
         // Navigation Properties
         public City? City { get; set; }
+        public CarRental? CarRental { get; set; }
         public ICollection<Car>? Cars { get; set; } = new HashSet<Car>();
+        public ICollection<CarAgencyReview>? CarAgencyReviews { get; set; } = new HashSet<CarAgencyReview>();
     }
 }

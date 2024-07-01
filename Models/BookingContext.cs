@@ -11,6 +11,8 @@ namespace Booking_API.Models
         public DbSet<Car> Cars { get; set; }
         public DbSet<CarAgency> CarAgencies { get; set; }
         public DbSet<CarType> CarTypes { get; set; }
+        public DbSet<CarRental> CarRentals { get; set; }
+        public DbSet<CarAgencyReview> CarAgencyReviews { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Hotel> Hotels { get; set; }

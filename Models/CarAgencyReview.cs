@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Booking_API.Models
 {
-    public class HotelReview
+    public class CarAgencyReview
     {
         [Key]
         public int Id { get; set; }
@@ -18,20 +18,20 @@ namespace Booking_API.Models
         public DateTime? ReviewDate { get; set; } = DateTime.Now;
 
         //Foreign Keys
-        [ForeignKey("HotelBooking")]
-        public int? HotelBookingId { get; set; }
+        [ForeignKey("CarRental")]
+        public int? CarRentalId { get; set; }
 
-        [ForeignKey("Hotel")]
-        public int? HotelId { get; set; }
+        [ForeignKey("CarAgency")]
+        public int? CarAgencyId { get; set; }
 
         [ForeignKey("ApplicationUser")]
         public int? UserId { get; set; }
 
 
         //Navigation Properties
-        public HotelBooking? HotelBooking { get; set; }
+        public CarRental? CarRental { get; set; }
 
-        public Hotel? Hotel { get; set; }
+        public CarAgency? CarAgency { get; set; }
 
         public ApplicationUser? ApplicationUser { get; set; }
     }

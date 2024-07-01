@@ -25,6 +25,7 @@ namespace Booking_API.Repository
         public IRepository<RoomType> RoomTypes { get; private set; }
         public IRepository<HotelWishList> WishLists { get; private set; }
         public IRepository<ApplicationUser> ApplicationUsers { get; private set; }
+        public IRepository<HotelBookingInvoice> HotelBookingInvoices { get; private set; }
 
         public UnitOfWork(BookingContext context)
         {

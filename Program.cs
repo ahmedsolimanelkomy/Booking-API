@@ -52,6 +52,7 @@ namespace Booking_API
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddSingleton<BraintreeService>();
+            builder.Services.AddScoped<IHotelBookingInvoiceService, HotelBookingInvoiceService>();
 
 
             // Add JWT Authentication

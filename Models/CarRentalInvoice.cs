@@ -4,40 +4,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Booking_API.Models
 {
-    public enum InvoiceStatus
-    {
-        Pending,
-        Paid,
-        Cancelled
-    }
-
-    public class HotelBookingInvoice
+    public class CarRentalInvoice
     {
         [Key]
         public int Id { get; set; }
-
         public int Number { get; set; }
-
-        public DateTime Date { get; set; }
-
+        public DateTime Data { get; set; }
         public decimal Amount { get; set; }
-
         public InvoiceStatus Status { get; set; }
-
         public string PaymentMethod { get; set; }
 
-        public string TransactionId { get; set; }
-
-        // Foreign Keys
-       
-
+        [ForeignKey("CarRental")]
+        public int CarRentalId { get; set; }
         [ForeignKey("User")]
-        public int ApplicationUserId { get; set; }
+        public int ApplicationUserID { get; set; }
 
-        // Navigation Properties
-
+        public CarRental CarRental { get; set; }
         public ApplicationUser User { get; set; }
-        public ICollection<HotelBookingInvoice>? HotelBookingInvoices { get; set; } = new List<HotelBookingInvoice>();
-
     }
 }

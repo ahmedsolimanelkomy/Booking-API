@@ -19,6 +19,11 @@ namespace Booking_API.Models
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RoomType> RoomTypes { get; set; }
         public DbSet<HotelWishList> WishLists { get; set; }
+        public DbSet<HotelBookingInvoice> hotelBookingInvoices { get; set; }
+        public DbSet<CarRental> carRentals { get; set; }
+
+        public DbSet<CarRentalInvoice> carRentalInvoices { get; set; }
+        public DbSet<CarAgencyReview> carAgencyReviews { get; set; }
         public BookingContext(DbContextOptions<BookingContext> dbContextOptions) : base(dbContextOptions)
         {
         }

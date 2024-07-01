@@ -34,6 +34,15 @@ namespace Booking_API.Models
         public Passport? Passport { get; set; }
         public City? City { get; set; }
 
-        public ICollection<HotelBooking>? Bookings { get; set; }
+        [ForeignKey("HotelBookingInvoice")]
+
+        
+
+
+         public ICollection<HotelBooking>? Bookings { get; set; }
+         public ICollection<HotelBookingInvoice>  hotelBookingInvoices { get; set; }
+         public ICollection<CarAgencyReview> carAgencyReviews { get; set; }
+         public ICollection<CarRental> CarRentals { get; set; }
+         public ICollection<CarRentalInvoice>  carRentalInvoices { get; set; }
     }
 }

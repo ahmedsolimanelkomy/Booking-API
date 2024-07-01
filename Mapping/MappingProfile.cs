@@ -6,6 +6,7 @@ using Booking_API.DTOs.CityDTOS;
 using Booking_API.DTOs.CountryDTOS;
 using Booking_API.DTOs.FeatureDTOS;
 using Booking_API.DTOs.HotelBookingDTOS;
+using Booking_API.DTOs.HotelBookingInvoice;
 using Booking_API.DTOs.HotelDTOS;
 using Booking_API.DTOs.HotelPhotosDTOS;
 using Booking_API.DTOs.NewFolder;
@@ -120,6 +121,7 @@ namespace Booking_API.Mapping
             CreateMap<Hotel,HotelViewDTO>()
                 .ForMember(dest => dest.CityId, opt => opt.MapFrom(src => src.City.Id)).ReverseMap();
             CreateMap<ApplicationUser, UserDTO>().ReverseMap();
+            CreateMap<HotelBookingInvoice, HotelBookingInvoiceDTO>().ReverseMap();
 
 
 

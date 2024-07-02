@@ -33,7 +33,7 @@ namespace Booking_API.Controllers
             _emailService = emailService;
         }
 
-        [HttpGet("get-user/{id}")]
+        [HttpGet("GetUserById/{id}")]
         public async Task<ActionResult> GetUserById(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -45,54 +45,73 @@ namespace Booking_API.Controllers
             return Ok(new GeneralResponse<UserDTO>(true, "User retrieved successfully", userDto));
         }
 
-        [HttpPost("register/user")]
+        [HttpPost("RegisterUser")]
         public async Task<ActionResult> RegisterUser([FromBody] UserRegisterDTO model)
         {
+            // Check if the model is null
             if (model == null)
             {
                 return BadRequest(new GeneralResponse<string>(false, "Request body is null", null));
             }
 
+            // Validate model state
             if (!ModelState.IsValid)
             {
-                var modelErrors = ModelState.Values.SelectMany(v => v.Errors)
-                                                   .Select(e => e.ErrorMessage)
-                                                   .ToList();
+                var modelErrors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+
                 return BadRequest(new GeneralResponse<List<string>>(false, "Invalid model data", modelErrors));
             }
 
             try
             {
+                // Check if user already exists
                 var userExist = await _userManager.FindByEmailAsync(model.Email);
                 if (userExist != null)
                 {
                     return Conflict(new GeneralResponse<string>(false, "User with this email already exists", null));
                 }
 
+                // Map DTO to ApplicationUser
                 var user = _mapper.Map<ApplicationUser>(model);
+
+                // Create user with password
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
-                    await AddRole("USER");
-                    await _userManager.AddToRoleAsync(user, "USER");
+                    // Add 'USER' role to the user
+                    await AddRoleToUser(user, "USER");
 
+                    // Send confirmation email
                     await SendConfirmationEmail(model.Email, user);
 
                     return Ok(new GeneralResponse<string>(true, "User registered successfully", null));
                 }
                 else
                 {
+                    // Handle errors if user creation failed
                     var errors = result.Errors.Select(e => e.Description).ToList();
                     return BadRequest(new GeneralResponse<List<string>>(false, "User registration failed", errors));
                 }
             }
             catch (Exception ex)
             {
+                // Handle internal server error
                 return StatusCode(500, new GeneralResponse<string>(false, "An internal server error occurred", ex.Message));
             }
         }
 
+        // Helper method to add role to user
+        private async Task AddRoleToUser(ApplicationUser user, string roleName)
+        {
+            if (!await _userManager.IsInRoleAsync(user, roleName))
+            {
+                await _userManager.AddToRoleAsync(user, roleName);
+            }
+        }
 
         [HttpPost("login")]
         public async Task<ActionResult> Login([FromBody] LoginDTO loginUser)
@@ -126,6 +145,7 @@ namespace Booking_API.Controllers
 
                 var claims = new List<Claim>
                 {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 };
@@ -149,11 +169,8 @@ namespace Booking_API.Controllers
 
                 return Ok(new
                 {
-                    User = user,
                     roles = roles,
                     token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expired = token.ValidTo,
-                    ispass = true
                 });
             }
             catch (Exception ex)
@@ -249,7 +266,7 @@ namespace Booking_API.Controllers
 
             var errors = string.Join("; ", result.Errors.Select(e => e.Description));
             return BadRequest(new GeneralResponse<string>(false, errors, null));
-        } 
+        }
         #endregion
 
     }

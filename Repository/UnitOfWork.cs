@@ -27,6 +27,8 @@ namespace Booking_API.Repository
         public IRepository<CarRentalInvoice> CarRentalInvoices { get; private set; }
         public IRepository<HotelBookingInvoice> HotelBookingInvoices { get; private set; }
 
+        public IRepository<CarRental> CarRentalRepositorys { get; private set; }
+
         public UnitOfWork(BookingContext context)
         {
             _context = context;
@@ -47,6 +49,7 @@ namespace Booking_API.Repository
             WishLists = new Repository<HotelWishList>(_context);
             ApplicationUsers = new Repository<ApplicationUser>(_context);
             CarRentalInvoices = new Repository<CarRentalInvoice>(_context);
+            CarRentalRepositorys = new Repository<CarRental>(_context);
             HotelBookingInvoices = new Repository<HotelBookingInvoice>(_context);
         }
 

@@ -62,7 +62,7 @@ namespace Booking_API.Repository
         }
 
 
-        public async Task AddAsync(T entity)
+        public virtual async Task AddAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
             await _context.SaveChangesAsync();

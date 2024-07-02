@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Booking_API.Models
 {
@@ -30,6 +31,28 @@ namespace Booking_API.Models
 
         [Required]
         public DateTime DropOffDate { get; set; }
+
+        //Foreign Keys
+        [ForeignKey("ApplicationUser")]
+        public int? UserId { get; set; }
+
+        [ForeignKey("Car")]
+        public int? CarId { get; set; }
+
+        [ForeignKey("CarAgency")]
+        public int? CarAgencyId { get; set; }
+
+        [ForeignKey("CarRentalInvoice")]
+        public int? CarRentalInvoiceId { get; set; }
+
+
+        //Navigation  Properties
+        public ApplicationUser? ApplicationUser { get; set; }
+        public Car? Car { get; set; }
+        public CarAgency? CarAgency { get; set; }
+        public ICollection<CarAgencyReview>? CarAgencyReviews { get; set; }
+        public CarRentalInvoice? CarRentalInvoice { get; set; }
+
     }
 
 

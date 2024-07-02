@@ -35,15 +35,16 @@ namespace Booking_API.Models
 
         //Foreign Keys
         [ForeignKey("ApplicationUser")]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
         [ForeignKey("Room")]
-        public int RoomId { get; set; }
+        public int? RoomId { get; set; }
+
         [ForeignKey("Hotel")]
-        public int HotelId { get; set; }
+        public int? HotelId { get; set; }
 
         [ForeignKey("HotelBookingInvoice")]
-        public int HotelBookingInvoiceId { get; set; }
+        public int? HotelBookingInvoiceId { get; set; }
 
 
 
@@ -51,11 +52,8 @@ namespace Booking_API.Models
         public ApplicationUser? ApplicationUser { get; set; }
         public Room? Room { get; set; }
         public Hotel? Hotel { get; set; }
-        public HotelReview? ReviewList { get; set; }
-<<<<<<< HEAD
+        public ICollection<HotelReview>? ReviewList { get; set; }
         public HotelBookingInvoice? HotelBookingInvoice { get; set; }
 
-=======
->>>>>>> af1aca2f733b426d9036572997d8302e830e8fea
     }
 }

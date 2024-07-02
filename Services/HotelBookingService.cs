@@ -43,6 +43,7 @@ namespace Booking_API.Services
 
             return _mapper.Map<IEnumerable<HotelBookingViewDTO>>(filteredBookings);
         }
+
         public async Task<GeneralResponse<CreateHotelBookingDTO>> CreateHotelBookingAsync(CreateHotelBookingDTO bookingDto)
         {
             var user = await _userManager.FindByIdAsync(bookingDto.UserId.ToString());

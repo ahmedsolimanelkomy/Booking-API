@@ -255,11 +255,7 @@ namespace Booking_API.Migrations
                     b.ToTable("CarAgencies");
                 });
 
-<<<<<<< HEAD
             modelBuilder.Entity("Booking_API.Models.CarAgencyReview", b =>
-=======
-            modelBuilder.Entity("Booking_API.Models.CarRentalInvoice", b =>
->>>>>>> d8b71818a746eb3242ae0f867c802e98f1cb990d
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -267,7 +263,6 @@ namespace Booking_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-<<<<<<< HEAD
                     b.Property<int?>("CarAgencyId")
                         .HasColumnType("int");
 
@@ -285,32 +280,10 @@ namespace Booking_API.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("UserId")
-=======
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TransactionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("paymentMethod")
-                        .HasColumnType("int");
-
-                    b.Property<int>("paymentStatus")
->>>>>>> d8b71818a746eb3242ae0f867c802e98f1cb990d
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-<<<<<<< HEAD
                     b.HasIndex("CarAgencyId");
 
                     b.HasIndex("CarRentalId");
@@ -328,7 +301,13 @@ namespace Booking_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("CarAgencyId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("CarId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CarRentalInvoiceId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DropOffDate")
@@ -355,11 +334,63 @@ namespace Booking_API.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CarAgencyId");
 
                     b.HasIndex("CarId");
 
+                    b.HasIndex("CarRentalInvoiceId");
+
+                    b.HasIndex("UserId");
+
                     b.ToTable("CarRentals");
+                });
+
+            modelBuilder.Entity("Booking_API.Models.CarRentalInvoice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CarRentalId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TransactionId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("paymentMethod")
+                        .HasColumnType("int");
+
+                    b.Property<int>("paymentStatus")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarRentalId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
+                    b.ToTable("CarRentalInvoices");
                 });
 
             modelBuilder.Entity("Booking_API.Models.CarType", b =>
@@ -377,12 +408,6 @@ namespace Booking_API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CarTypes");
-=======
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("CarRentalInvoices");
->>>>>>> d8b71818a746eb3242ae0f867c802e98f1cb990d
                 });
 
             modelBuilder.Entity("Booking_API.Models.City", b =>
@@ -509,16 +534,16 @@ namespace Booking_API.Migrations
                     b.Property<DateTime>("CheckOutDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("HotelBookingInvoiceId")
+                    b.Property<int?>("HotelBookingInvoiceId")
                         .HasColumnType("int");
 
-                    b.Property<int>("HotelId")
+                    b.Property<int?>("HotelId")
                         .HasColumnType("int");
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoomId")
+                    b.Property<int?>("RoomId")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -527,18 +552,13 @@ namespace Booking_API.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-<<<<<<< HEAD
-=======
-                    b.HasIndex("CarId");
-
                     b.HasIndex("HotelBookingInvoiceId");
 
->>>>>>> d8b71818a746eb3242ae0f867c802e98f1cb990d
                     b.HasIndex("HotelId");
 
                     b.HasIndex("RoomId");
@@ -562,7 +582,7 @@ namespace Booking_API.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("HotelBookingId")
+                    b.Property<int?>("HotelBookingId")
                         .HasColumnType("int");
 
                     b.Property<int>("Number")
@@ -571,7 +591,7 @@ namespace Booking_API.Migrations
                     b.Property<int>("TransactionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.Property<int>("paymentMethod")
@@ -585,7 +605,8 @@ namespace Booking_API.Migrations
                     b.HasIndex("HotelBookingId");
 
                     b.HasIndex("UserId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("HotelBookingInvoices");
                 });
@@ -644,9 +665,7 @@ namespace Booking_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HotelBookingId")
-                        .IsUnique()
-                        .HasFilter("[HotelBookingId] IS NOT NULL");
+                    b.HasIndex("HotelBookingId");
 
                     b.HasIndex("HotelId");
 
@@ -945,7 +964,6 @@ namespace Booking_API.Migrations
                     b.Navigation("City");
                 });
 
-<<<<<<< HEAD
             modelBuilder.Entity("Booking_API.Models.CarAgencyReview", b =>
                 {
                     b.HasOne("Booking_API.Models.CarAgency", "CarAgency")
@@ -953,7 +971,7 @@ namespace Booking_API.Migrations
                         .HasForeignKey("CarAgencyId");
 
                     b.HasOne("Booking_API.Models.CarRental", "CarRental")
-                        .WithMany()
+                        .WithMany("CarAgencyReviews")
                         .HasForeignKey("CarRentalId");
 
                     b.HasOne("Booking_API.Models.ApplicationUser", "ApplicationUser")
@@ -969,20 +987,44 @@ namespace Booking_API.Migrations
 
             modelBuilder.Entity("Booking_API.Models.CarRental", b =>
                 {
-                    b.HasOne("Booking_API.Models.Car", null)
+                    b.HasOne("Booking_API.Models.CarAgency", "CarAgency")
+                        .WithMany()
+                        .HasForeignKey("CarAgencyId");
+
+                    b.HasOne("Booking_API.Models.Car", "Car")
                         .WithMany("CarRentals")
                         .HasForeignKey("CarId");
-=======
-            modelBuilder.Entity("Booking_API.Models.CarRentalInvoice", b =>
-                {
+
+                    b.HasOne("Booking_API.Models.CarRentalInvoice", "CarRentalInvoice")
+                        .WithMany()
+                        .HasForeignKey("CarRentalInvoiceId");
+
                     b.HasOne("Booking_API.Models.ApplicationUser", "ApplicationUser")
-                        .WithOne("CarRentalInvoice")
-                        .HasForeignKey("Booking_API.Models.CarRentalInvoice", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("UserId");
 
                     b.Navigation("ApplicationUser");
->>>>>>> d8b71818a746eb3242ae0f867c802e98f1cb990d
+
+                    b.Navigation("Car");
+
+                    b.Navigation("CarAgency");
+
+                    b.Navigation("CarRentalInvoice");
+                });
+
+            modelBuilder.Entity("Booking_API.Models.CarRentalInvoice", b =>
+                {
+                    b.HasOne("Booking_API.Models.CarRental", "CarRental")
+                        .WithMany()
+                        .HasForeignKey("CarRentalId");
+
+                    b.HasOne("Booking_API.Models.ApplicationUser", "ApplicationUser")
+                        .WithOne("CarRentalInvoice")
+                        .HasForeignKey("Booking_API.Models.CarRentalInvoice", "UserId");
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("CarRental");
                 });
 
             modelBuilder.Entity("Booking_API.Models.City", b =>
@@ -1009,36 +1051,21 @@ namespace Booking_API.Migrations
 
             modelBuilder.Entity("Booking_API.Models.HotelBooking", b =>
                 {
-<<<<<<< HEAD
-=======
-                    b.HasOne("Booking_API.Models.Car", null)
-                        .WithMany("Bookings")
-                        .HasForeignKey("CarId");
-
                     b.HasOne("Booking_API.Models.HotelBookingInvoice", "HotelBookingInvoice")
                         .WithMany()
-                        .HasForeignKey("HotelBookingInvoiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("HotelBookingInvoiceId");
 
->>>>>>> d8b71818a746eb3242ae0f867c802e98f1cb990d
                     b.HasOne("Booking_API.Models.Hotel", "Hotel")
                         .WithMany("HotelBookings")
-                        .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("HotelId");
 
                     b.HasOne("Booking_API.Models.Room", "Room")
                         .WithMany()
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoomId");
 
                     b.HasOne("Booking_API.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Bookings")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("ApplicationUser");
 
@@ -1053,15 +1080,11 @@ namespace Booking_API.Migrations
                 {
                     b.HasOne("Booking_API.Models.HotelBooking", "HotelBooking")
                         .WithMany()
-                        .HasForeignKey("HotelBookingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("HotelBookingId");
 
                     b.HasOne("Booking_API.Models.ApplicationUser", "ApplicationUser")
                         .WithOne("HotelBookingInvoice")
-                        .HasForeignKey("Booking_API.Models.HotelBookingInvoice", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Booking_API.Models.HotelBookingInvoice", "UserId");
 
                     b.Navigation("ApplicationUser");
 
@@ -1080,8 +1103,8 @@ namespace Booking_API.Migrations
             modelBuilder.Entity("Booking_API.Models.HotelReview", b =>
                 {
                     b.HasOne("Booking_API.Models.HotelBooking", "HotelBooking")
-                        .WithOne("ReviewList")
-                        .HasForeignKey("Booking_API.Models.HotelReview", "HotelBookingId");
+                        .WithMany("ReviewList")
+                        .HasForeignKey("HotelBookingId");
 
                     b.HasOne("Booking_API.Models.Hotel", "Hotel")
                         .WithMany("HotelReviews")
@@ -1211,13 +1234,11 @@ namespace Booking_API.Migrations
                 {
                     b.Navigation("Bookings");
 
-<<<<<<< HEAD
-                    b.Navigation("Reviews");
-=======
                     b.Navigation("CarRentalInvoice");
 
                     b.Navigation("HotelBookingInvoice");
->>>>>>> d8b71818a746eb3242ae0f867c802e98f1cb990d
+
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("Booking_API.Models.Car", b =>
@@ -1230,6 +1251,11 @@ namespace Booking_API.Migrations
                     b.Navigation("CarAgencyReviews");
 
                     b.Navigation("Cars");
+                });
+
+            modelBuilder.Entity("Booking_API.Models.CarRental", b =>
+                {
+                    b.Navigation("CarAgencyReviews");
                 });
 
             modelBuilder.Entity("Booking_API.Models.City", b =>

@@ -45,7 +45,6 @@ namespace Booking_API.Models
         public int HotelBookingId { get; set; }
 
 
-
         //Navigation  Properties
         public ApplicationUser? ApplicationUser { get; set; }
         

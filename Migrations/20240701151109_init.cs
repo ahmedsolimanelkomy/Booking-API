@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Booking_API.Migrations
 {
     /// <inheritdoc />
-    public partial class init11 : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,6 +24,26 @@ namespace Booking_API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CarRentals",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PickUpLocation = table.Column<double>(type: "float", nullable: false),
+                    DropOffLocation = table.Column<double>(type: "float", nullable: false),
+                    PickUpDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DropOffDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CarRentals", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -117,6 +137,94 @@ namespace Booking_API.Migrations
                         name: "FK_Cities_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CarAgencies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    LogoURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    WebsiteURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Longitude = table.Column<double>(type: "float", nullable: true),
+                    Latitude = table.Column<double>(type: "float", nullable: true),
+                    CityId = table.Column<int>(type: "int", nullable: true),
+                    CarRentalId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CarAgencies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CarAgencies_CarRentals_CarRentalId",
+                        column: x => x.CarRentalId,
+                        principalTable: "CarRentals",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CarAgencies_Cities_CityId",
+                        column: x => x.CityId,
+                        principalTable: "Cities",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cars",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ModelOfYear = table.Column<int>(type: "int", nullable: true),
+                    Brand = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    RentPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    AvailabilityStatus = table.Column<bool>(type: "bit", nullable: true),
+                    PlateNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    InsuranceIncluded = table.Column<bool>(type: "bit", nullable: true),
+                    GearType = table.Column<int>(type: "int", nullable: false),
+                    NumberOfSeats = table.Column<int>(type: "int", nullable: true),
+                    AgencyId = table.Column<int>(type: "int", nullable: true),
+                    CarTypeId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cars", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cars_CarAgencies_AgencyId",
+                        column: x => x.AgencyId,
+                        principalTable: "CarAgencies",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Cars_CarTypes_CarTypeId",
+                        column: x => x.CarTypeId,
+                        principalTable: "CarTypes",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CarCarRental",
+                columns: table => new
+                {
+                    CarRentalsId = table.Column<int>(type: "int", nullable: false),
+                    CarsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CarCarRental", x => new { x.CarRentalsId, x.CarsId });
+                    table.ForeignKey(
+                        name: "FK_CarCarRental_CarRentals_CarRentalsId",
+                        column: x => x.CarRentalsId,
+                        principalTable: "CarRentals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CarCarRental_Cars_CarsId",
+                        column: x => x.CarsId,
+                        principalTable: "Cars",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -229,6 +337,89 @@ namespace Booking_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CarAgencyReviews",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Rating = table.Column<int>(type: "int", nullable: true),
+                    Comment = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    ReviewDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CarRentalId = table.Column<int>(type: "int", nullable: true),
+                    CarAgencyId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CarAgencyReviews", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CarAgencyReviews_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CarAgencyReviews_CarAgencies_CarAgencyId",
+                        column: x => x.CarAgencyId,
+                        principalTable: "CarAgencies",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CarAgencyReviews_CarRentals_CarRentalId",
+                        column: x => x.CarRentalId,
+                        principalTable: "CarRentals",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CarRentalInvoices",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Number = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false),
+                    paymentStatus = table.Column<int>(type: "int", nullable: false),
+                    TransactionId = table.Column<int>(type: "int", nullable: false),
+                    paymentMethod = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CarRentalInvoices", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CarRentalInvoices_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HotelBookingInvoices",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Number = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false),
+                    paymentStatus = table.Column<int>(type: "int", nullable: false),
+                    TransactionId = table.Column<int>(type: "int", nullable: false),
+                    paymentMethod = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HotelBookingInvoices", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HotelBookingInvoices_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Passports",
                 columns: table => new
                 {
@@ -327,6 +518,46 @@ namespace Booking_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "HotelBooking",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BookingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CheckInDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CheckOutDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    RoomId = table.Column<int>(type: "int", nullable: false),
+                    HotelId = table.Column<int>(type: "int", nullable: false),
+                    HotelBookingInvoiceId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HotelBooking", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HotelBooking_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_HotelBooking_HotelBookingInvoices_HotelBookingInvoiceId",
+                        column: x => x.HotelBookingInvoiceId,
+                        principalTable: "HotelBookingInvoices",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_HotelBooking_Hotels_HotelId",
+                        column: x => x.HotelId,
+                        principalTable: "Hotels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "HotelPhoto",
                 columns: table => new
                 {
@@ -347,176 +578,31 @@ namespace Booking_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CarAgencies",
+                name: "Rooms",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    LogoURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    WebsiteURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Longitude = table.Column<double>(type: "float", nullable: true),
-                    Latitude = table.Column<double>(type: "float", nullable: true),
-                    CityId = table.Column<int>(type: "int", nullable: true),
-                    CarRentalId = table.Column<int>(type: "int", nullable: true)
+                    RoomNumber = table.Column<int>(type: "int", nullable: false),
+                    AvailabilityStatus = table.Column<bool>(type: "bit", nullable: false),
+                    Capacity = table.Column<int>(type: "int", nullable: false),
+                    View = table.Column<int>(type: "int", nullable: true),
+                    HotelId = table.Column<int>(type: "int", nullable: false),
+                    RoomTypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CarAgencies", x => x.Id);
+                    table.PrimaryKey("PK_Rooms", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CarAgencies_Cities_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Cities",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Cars",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ModelOfYear = table.Column<int>(type: "int", nullable: true),
-                    Brand = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    RentPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    AvailabilityStatus = table.Column<bool>(type: "bit", nullable: true),
-                    PlateNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    InsuranceIncluded = table.Column<bool>(type: "bit", nullable: true),
-                    GearType = table.Column<int>(type: "int", nullable: false),
-                    NumberOfSeats = table.Column<int>(type: "int", nullable: true),
-                    AgencyId = table.Column<int>(type: "int", nullable: true),
-                    CarTypeId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cars", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Cars_CarAgencies_AgencyId",
-                        column: x => x.AgencyId,
-                        principalTable: "CarAgencies",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Cars_CarTypes_CarTypeId",
-                        column: x => x.CarTypeId,
-                        principalTable: "CarTypes",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CarRentals",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PickUpLocation = table.Column<double>(type: "float", nullable: false),
-                    DropOffLocation = table.Column<double>(type: "float", nullable: false),
-                    PickUpDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DropOffDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CarId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CarRentals", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CarRentals_Cars_CarId",
-                        column: x => x.CarId,
-                        principalTable: "Cars",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CarAgencyReviews",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Rating = table.Column<int>(type: "int", nullable: true),
-                    Comment = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    ReviewDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CarRentalId = table.Column<int>(type: "int", nullable: true),
-                    CarAgencyId = table.Column<int>(type: "int", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CarAgencyReviews", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CarAgencyReviews_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_CarAgencyReviews_CarAgencies_CarAgencyId",
-                        column: x => x.CarAgencyId,
-                        principalTable: "CarAgencies",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_CarAgencyReviews_CarRentals_CarRentalId",
-                        column: x => x.CarRentalId,
-                        principalTable: "CarRentals",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "HotelBooking",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BookingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CheckInDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CheckOutDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    RoomId = table.Column<int>(type: "int", nullable: false),
-                    HotelId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_HotelBooking", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_HotelBooking_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_HotelBooking_Hotels_HotelId",
+                        name: "FK_Rooms_Hotels_HotelId",
                         column: x => x.HotelId,
                         principalTable: "Hotels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Payments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Amount = table.Column<int>(type: "int", nullable: false),
-                    Method = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    BookingId = table.Column<int>(type: "int", nullable: false),
-                    TransactionId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Payments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Payments_HotelBooking_BookingId",
-                        column: x => x.BookingId,
-                        principalTable: "HotelBooking",
+                        name: "FK_Rooms_RoomTypes_RoomTypeId",
+                        column: x => x.RoomTypeId,
+                        principalTable: "RoomTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -555,37 +641,25 @@ namespace Booking_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rooms",
+                name: "HotelBookingRoom",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoomNumber = table.Column<int>(type: "int", nullable: false),
-                    AvailabilityStatus = table.Column<bool>(type: "bit", nullable: false),
-                    Capacity = table.Column<int>(type: "int", nullable: false),
-                    View = table.Column<int>(type: "int", nullable: true),
-                    HotelId = table.Column<int>(type: "int", nullable: false),
-                    RoomTypeId = table.Column<int>(type: "int", nullable: false),
-                    HotelBookingId = table.Column<int>(type: "int", nullable: true)
+                    HotelBookingsId = table.Column<int>(type: "int", nullable: false),
+                    RoomsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rooms", x => x.Id);
+                    table.PrimaryKey("PK_HotelBookingRoom", x => new { x.HotelBookingsId, x.RoomsId });
                     table.ForeignKey(
-                        name: "FK_Rooms_HotelBooking_HotelBookingId",
-                        column: x => x.HotelBookingId,
+                        name: "FK_HotelBookingRoom_HotelBooking_HotelBookingsId",
+                        column: x => x.HotelBookingsId,
                         principalTable: "HotelBooking",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Rooms_Hotels_HotelId",
-                        column: x => x.HotelId,
-                        principalTable: "Hotels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Rooms_RoomTypes_RoomTypeId",
-                        column: x => x.RoomTypeId,
-                        principalTable: "RoomTypes",
+                        name: "FK_HotelBookingRoom_Rooms_RoomsId",
+                        column: x => x.RoomsId,
+                        principalTable: "Rooms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -670,9 +744,15 @@ namespace Booking_API.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CarRentals_CarId",
-                table: "CarRentals",
-                column: "CarId");
+                name: "IX_CarCarRental_CarsId",
+                table: "CarCarRental",
+                column: "CarsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CarRentalInvoices_UserId",
+                table: "CarRentalInvoices",
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cars_AgencyId",
@@ -695,19 +775,31 @@ namespace Booking_API.Migrations
                 column: "HotelsId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_HotelBooking_HotelBookingInvoiceId",
+                table: "HotelBooking",
+                column: "HotelBookingInvoiceId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_HotelBooking_HotelId",
                 table: "HotelBooking",
                 column: "HotelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HotelBooking_RoomId",
-                table: "HotelBooking",
-                column: "RoomId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_HotelBooking_UserId",
                 table: "HotelBooking",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HotelBookingInvoices_UserId",
+                table: "HotelBookingInvoices",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HotelBookingRoom_RoomsId",
+                table: "HotelBookingRoom",
+                column: "RoomsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HotelPhoto_HotelId",
@@ -730,12 +822,6 @@ namespace Booking_API.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payments_BookingId",
-                table: "Payments",
-                column: "BookingId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Reviews_HotelBookingId",
                 table: "Reviews",
                 column: "HotelBookingId",
@@ -751,11 +837,6 @@ namespace Booking_API.Migrations
                 name: "IX_Reviews_UserId",
                 table: "Reviews",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Rooms_HotelBookingId",
-                table: "Rooms",
-                column: "HotelBookingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rooms_HotelId",
@@ -809,30 +890,11 @@ namespace Booking_API.Migrations
                 column: "WishListId",
                 principalTable: "WishLists",
                 principalColumn: "Id");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_CarAgencies_CarRentals_CarRentalId",
-                table: "CarAgencies",
-                column: "CarRentalId",
-                principalTable: "CarRentals",
-                principalColumn: "Id");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_HotelBooking_Rooms_RoomId",
-                table: "HotelBooking",
-                column: "RoomId",
-                principalTable: "Rooms",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.NoAction);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_HotelBooking_AspNetUsers_UserId",
-                table: "HotelBooking");
-
             migrationBuilder.DropForeignKey(
                 name: "FK_Passports_AspNetUsers_UserId",
                 table: "Passports");
@@ -840,34 +902,6 @@ namespace Booking_API.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_WishLists_AspNetUsers_UserId",
                 table: "WishLists");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_CarAgencies_Cities_CityId",
-                table: "CarAgencies");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Hotels_Cities_CityId",
-                table: "Hotels");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Hotels_WishLists_HotelWishListId",
-                table: "Hotels");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_CarAgencies_CarRentals_CarRentalId",
-                table: "CarAgencies");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_HotelBooking_Hotels_HotelId",
-                table: "HotelBooking");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Rooms_Hotels_HotelId",
-                table: "Rooms");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_HotelBooking_Rooms_RoomId",
-                table: "HotelBooking");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -888,13 +922,19 @@ namespace Booking_API.Migrations
                 name: "CarAgencyReviews");
 
             migrationBuilder.DropTable(
+                name: "CarCarRental");
+
+            migrationBuilder.DropTable(
+                name: "CarRentalInvoices");
+
+            migrationBuilder.DropTable(
                 name: "FeatureHotel");
 
             migrationBuilder.DropTable(
-                name: "HotelPhoto");
+                name: "HotelBookingRoom");
 
             migrationBuilder.DropTable(
-                name: "Payments");
+                name: "HotelPhoto");
 
             migrationBuilder.DropTable(
                 name: "Reviews");
@@ -903,37 +943,10 @@ namespace Booking_API.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Feature");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Passports");
-
-            migrationBuilder.DropTable(
-                name: "Cities");
-
-            migrationBuilder.DropTable(
-                name: "Countries");
-
-            migrationBuilder.DropTable(
-                name: "WishLists");
-
-            migrationBuilder.DropTable(
-                name: "CarRentals");
-
-            migrationBuilder.DropTable(
                 name: "Cars");
 
             migrationBuilder.DropTable(
-                name: "CarAgencies");
-
-            migrationBuilder.DropTable(
-                name: "CarTypes");
-
-            migrationBuilder.DropTable(
-                name: "Hotels");
+                name: "Feature");
 
             migrationBuilder.DropTable(
                 name: "Rooms");
@@ -942,7 +955,37 @@ namespace Booking_API.Migrations
                 name: "HotelBooking");
 
             migrationBuilder.DropTable(
+                name: "CarAgencies");
+
+            migrationBuilder.DropTable(
+                name: "CarTypes");
+
+            migrationBuilder.DropTable(
                 name: "RoomTypes");
+
+            migrationBuilder.DropTable(
+                name: "HotelBookingInvoices");
+
+            migrationBuilder.DropTable(
+                name: "Hotels");
+
+            migrationBuilder.DropTable(
+                name: "CarRentals");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Cities");
+
+            migrationBuilder.DropTable(
+                name: "Passports");
+
+            migrationBuilder.DropTable(
+                name: "WishLists");
+
+            migrationBuilder.DropTable(
+                name: "Countries");
         }
     }
 }

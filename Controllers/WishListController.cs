@@ -1,7 +1,7 @@
-﻿using Booking_API.DTOs;
+﻿using AutoMapper;
+using Booking_API.DTOs;
 using Booking_API.Models;
 using Booking_API.Services.IService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Booking_API.Controllers
@@ -10,64 +10,69 @@ namespace Booking_API.Controllers
     [ApiController]
     public class WishListController : ControllerBase
     {
-
         private readonly IWishListService wishListService;
+        private readonly IMapper _mapper;
 
-        public WishListController(IWishListService wishListService)
+        public WishListController(IWishListService wishListService, IMapper mapper)
         {
             this.wishListService = wishListService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<GeneralResponse<IEnumerable<HotelWishList>>>> GetWishLists([FromQuery] string[] includeProperties)
+        public async Task<ActionResult<GeneralResponse<IEnumerable<HotelWishListDTO>>>> GetWishLists([FromQuery] string[] includeProperties = null)
         {
-            var response = await wishListService.GetAllAsync(includeProperties);
-            return Ok(new GeneralResponse<IEnumerable<HotelWishList>>(true, "WishLists retrieved successfully", response));
+            var wishLists = await wishListService.GetAllAsync(includeProperties);
+            var wishListDTOs = _mapper.Map<IEnumerable<HotelWishListDTO>>(wishLists);
+            return Ok(new GeneralResponse<IEnumerable<HotelWishListDTO>>(true, "WishLists retrieved successfully", wishListDTOs));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GeneralResponse<HotelWishList>>> GetWishList(int id, [FromQuery] string[] includeProperties)
+        public async Task<ActionResult<GeneralResponse<HotelWishListDTO>>> GetWishList(int id, [FromQuery] string[] includeProperties = null)
         {
-            var response = await wishListService.GetAsync(b => b.Id == id, includeProperties);
-            if (response == null)
+            var wishList = await wishListService.GetAsync(b => b.Id == id, includeProperties);
+            if (wishList == null)
             {
-                return NotFound(new GeneralResponse<HotelWishList>(false, "WishList not found", null));
+                return NotFound(new GeneralResponse<HotelWishListDTO>(false, "WishList not found", null));
             }
-            return Ok(new GeneralResponse<HotelWishList>(true, "WishList retrieved successfully", response));
+            var wishListDTO = _mapper.Map<HotelWishListDTO>(wishList);
+            return Ok(new GeneralResponse<HotelWishListDTO>(true, "WishList retrieved successfully", wishListDTO));
         }
 
         [HttpPost]
-        public async Task<ActionResult<GeneralResponse<HotelWishList>>> PostWishList(HotelWishList WishList)
+        public async Task<ActionResult<GeneralResponse<HotelWishListDTO>>> PostWishList(HotelWishListDTO wishListDTO)
         {
-            await wishListService.AddAsync(WishList);
-            return CreatedAtAction(nameof(GetWishList), new { id = WishList.Id }, new GeneralResponse<HotelWishList>(true, "WishList added successfully", WishList));
+            var wishList = _mapper.Map<HotelWishList>(wishListDTO);
+            await wishListService.AddAsync(wishList);
+            var createdWishListDTO = _mapper.Map<HotelWishListDTO>(wishList);
+            return CreatedAtAction(nameof(GetWishList), new { id = wishList.Id }, new GeneralResponse<HotelWishListDTO>(true, "WishList added successfully", createdWishListDTO));
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<GeneralResponse<HotelWishList>>> PutWishList(int id, HotelWishList WishList)
+        public async Task<ActionResult<GeneralResponse<HotelWishListDTO>>> PutWishList(int id, HotelWishListDTO wishListDTO)
         {
-            if (id != WishList.Id)
+            if (id != wishListDTO.Id)
             {
-                return BadRequest(new GeneralResponse<HotelWishList>(false, "WishList ID mismatch", null));
+                return BadRequest(new GeneralResponse<HotelWishListDTO>(false, "WishList ID mismatch", null));
             }
 
-            await wishListService.UpdateAsync(WishList);
+            var wishList = _mapper.Map<HotelWishList>(wishListDTO);
+            await wishListService.UpdateAsync(wishList);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<GeneralResponse<HotelWishList>>> DeleteWishList(int id)
+        public async Task<ActionResult<GeneralResponse<HotelWishListDTO>>> DeleteWishList(int id)
         {
             var existingWishList = await wishListService.GetAsync(b => b.Id == id);
             if (existingWishList == null)
             {
-                return NotFound(new GeneralResponse<HotelWishList>(false, "WishList not found", null));
+                return NotFound(new GeneralResponse<HotelWishListDTO>(false, "WishList not found", null));
             }
 
             await wishListService.DeleteAsync(id);
-            return Ok(new GeneralResponse<HotelWishList>(true, "WishList deleted successfully", existingWishList));
+            var deletedWishListDTO = _mapper.Map<HotelWishListDTO>(existingWishList);
+            return Ok(new GeneralResponse<HotelWishListDTO>(true, "WishList deleted successfully", deletedWishListDTO));
         }
-
-
     }
 }

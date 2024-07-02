@@ -115,6 +115,10 @@ namespace Booking_API.Mapping
                    RoomNumber = src.RoomNumber
                }));
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d2ae7d62e9bef6c1f290afdd31acfcaef1b290ef
             CreateMap<Room, FilteredRoomHotelDTO>().ForMember(dest => dest.TypeName, opt => opt.MapFrom(src => src.RoomType.Name))
                 .ForMember(dest => dest.PricePerNight, opt => opt.MapFrom(src => src.RoomType.PricePerNight))
                 .ReverseMap();
@@ -125,9 +129,20 @@ namespace Booking_API.Mapping
                 .ForMember(dest => dest.CityId, opt => opt.MapFrom(src => src.City.Id)).ReverseMap();
             CreateMap<ApplicationUser, UserDTO>().ReverseMap();
 
+<<<<<<< HEAD
             CreateMap<HotelReview, DisplayHotelReviewDTO>()
            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.ApplicationUser.UserName))
            .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.ApplicationUser.PhotoUrl));
+=======
+            CreateMap<HotelWishList, HotelWishListDTO>()
+            .ForMember(dest => dest.HotelIds, opt => opt.MapFrom(src => src.Hotels.Select(h => h.Id)))
+            .ReverseMap()
+            .ForMember(dest => dest.Hotels, opt => opt.Ignore()); // Handling Hotels separately to avoid EF Core tracking issues
+
+
+
+
+>>>>>>> d2ae7d62e9bef6c1f290afdd31acfcaef1b290ef
         }
     }
 }

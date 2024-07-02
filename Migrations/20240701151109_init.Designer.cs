@@ -4,6 +4,7 @@ using Booking_API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Booking_API.Migrations
 {
     [DbContext(typeof(BookingContext))]
-    partial class BookingContextModelSnapshot : ModelSnapshot
+    [Migration("20240701151109_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -508,6 +511,9 @@ namespace Booking_API.Migrations
                     b.Property<DateTime>("CheckOutDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("HotelBookingInvoiceId")
+                        .HasColumnType("int");
+
                     b.Property<int>("HotelId")
                         .HasColumnType("int");
 
@@ -527,6 +533,9 @@ namespace Booking_API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("HotelBookingInvoiceId")
+                        .IsUnique();
 
                     b.HasIndex("HotelId");
 
@@ -549,9 +558,6 @@ namespace Booking_API.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("HotelBookingId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
@@ -568,9 +574,6 @@ namespace Booking_API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("HotelBookingId")
-                        .IsUnique();
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -1014,6 +1017,12 @@ namespace Booking_API.Migrations
 
             modelBuilder.Entity("Booking_API.Models.HotelBooking", b =>
                 {
+                    b.HasOne("Booking_API.Models.HotelBookingInvoice", "HotelBookingInvoice")
+                        .WithOne("HotelBooking")
+                        .HasForeignKey("Booking_API.Models.HotelBooking", "HotelBookingInvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Booking_API.Models.Hotel", "Hotel")
                         .WithMany("HotelBookings")
                         .HasForeignKey("HotelId")
@@ -1029,16 +1038,12 @@ namespace Booking_API.Migrations
                     b.Navigation("ApplicationUser");
 
                     b.Navigation("Hotel");
+
+                    b.Navigation("HotelBookingInvoice");
                 });
 
             modelBuilder.Entity("Booking_API.Models.HotelBookingInvoice", b =>
                 {
-                    b.HasOne("Booking_API.Models.HotelBooking", "HotelBooking")
-                        .WithOne("HotelBookingInvoice")
-                        .HasForeignKey("Booking_API.Models.HotelBookingInvoice", "HotelBookingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Booking_API.Models.ApplicationUser", "ApplicationUser")
                         .WithOne("HotelBookingInvoice")
                         .HasForeignKey("Booking_API.Models.HotelBookingInvoice", "UserId")
@@ -1046,8 +1051,6 @@ namespace Booking_API.Migrations
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
-
-                    b.Navigation("HotelBooking");
                 });
 
             modelBuilder.Entity("Booking_API.Models.HotelPhoto", b =>
@@ -1256,9 +1259,12 @@ namespace Booking_API.Migrations
 
             modelBuilder.Entity("Booking_API.Models.HotelBooking", b =>
                 {
-                    b.Navigation("HotelBookingInvoice");
-
                     b.Navigation("ReviewList");
+                });
+
+            modelBuilder.Entity("Booking_API.Models.HotelBookingInvoice", b =>
+                {
+                    b.Navigation("HotelBooking");
                 });
 
             modelBuilder.Entity("Booking_API.Models.HotelWishList", b =>

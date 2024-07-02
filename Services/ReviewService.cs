@@ -70,7 +70,7 @@ namespace Booking_API.Services
 
         public async Task<IEnumerable<DisplayHotelReviewDTO>> GetAllReviewsAsync([FromQuery] string[] includeProperties)
         {
-            var reviews = await unitOfWork.GetRepository<HotelReview>().GetAllAsync(includeProperties);
+            var reviews = await unitOfWork.GetRepository<HotelReview>().GetAllAsync(includeProperties: new[] { "ApplicationUser" });
 
             return mapper.Map<IEnumerable<DisplayHotelReviewDTO>>(reviews);
         }

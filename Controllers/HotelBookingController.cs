@@ -93,7 +93,7 @@ namespace Booking_API.Controllers
             }
 
             var booking = _mapper.Map<HotelBooking>(bookingDto);
-            room?.HotelBookings?.Add(booking);
+            room.HotelBooking = booking;
             await _roomService.UpdateAsync(room);
 
             var createdBookingDto = _mapper.Map<CreateHotelBookingDTO>(booking);
@@ -141,34 +141,30 @@ namespace Booking_API.Controllers
             {
                 return BadRequest(new GeneralResponse<CreateHotelBookingDTO>(false, "Invalid data", null));
             }
-
-            var bookingDto = paymentRequest.BookingData;
-
+            // Create the booking
+            var bookingDto = paymentRequest?.BookingData;
+            
             if (!ModelState.IsValid)
             {
                 return BadRequest(new GeneralResponse<CreateHotelBookingDTO>(false, "Invalid booking data", bookingDto));
             }
 
             // Process the payment
-            var paymentResult = await _braintreeService.MakePaymentAsync(paymentRequest.Nonce, paymentRequest.Amount);
+            var result = await _braintreeService.MakePaymentAsync(paymentRequest.Nonce, paymentRequest.Amount);
+            if (result.IsSuccess())
+            {
+                // Update booking with payment info *****************
+                bookingDto.Status = BookingStatus.Confirmed;
+                await _bookingService.CreateHotelBookingAsync(bookingDto);
 
-            if (!paymentResult.IsSuccess())
+                return Ok(new GeneralResponse<CreateHotelBookingDTO>(true, "Booking and payment successful", null));
+            }
+            else
             {
                 // Payment failed, return error
-                return BadRequest(new { Errors = paymentResult.Errors.DeepAll() });
+                //await _bookingService.DeleteAsync(booking.Id); // Optionally, delete the booking if payment fails
+                return BadRequest(new { Errors = result.Errors.DeepAll() });
             }
-
-            // Payment succeeded, proceed with booking
-            bookingDto.Status = BookingStatus.Confirmed;
-            var bookingResponse = await _bookingService.CreateHotelBookingAsync(bookingDto);
-
-            if (!bookingResponse.Success)
-            {
-                // Optionally, handle failure to create booking (rollback payment if necessary)
-                return BadRequest(new GeneralResponse<CreateHotelBookingDTO>(false, "Booking creation failed", bookingDto));
-            }
-
-            return Ok(new GeneralResponse<CreateHotelBookingDTO>(true, "Booking and payment successful", bookingResponse.Data));
         }
 
         [HttpGet("client_token")]

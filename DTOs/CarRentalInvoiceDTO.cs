@@ -1,15 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Booking_API.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace Booking_API.Models
+namespace Booking_API.DTOs
 {
-    public class CarRentalInvoice
+    public class CarRentalInvoiceDTO
     {
-        [Key]
         public int Id { get; set; }
         public int Number { get; set; }
 
-        [Required]
         public DateTime Date { get; set; } = DateTime.Now;
 
         public int Amount { get; set; }
@@ -22,15 +21,11 @@ namespace Booking_API.Models
 
         //Foreign Keys
 
-        [ForeignKey("ApplicationUser")]
         public int UserId { get; set; }
 
-        [ForeignKey("CarRental")]
+        
         public int CarRentalId { get; set; }
 
-        //Navigation  Properties
-        public ApplicationUser? ApplicationUser { get; set; }
-
-        public CarRental? CarRental { get; set; }
+        
     }
 }

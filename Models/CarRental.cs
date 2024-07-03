@@ -34,6 +34,8 @@ namespace Booking_API.Models
 
         //foreign keys 
         public ICollection<Car>? Cars { get; set; } = new HashSet<Car>();
+
+        public CarRentalInvoice? CarRentalInvoice { get; set; }
     }
 
 

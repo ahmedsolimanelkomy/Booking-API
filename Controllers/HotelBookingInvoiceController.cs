@@ -1,4 +1,5 @@
-﻿using Booking_API.DTOs;
+﻿using AutoMapper;
+using Booking_API.DTOs;
 using Booking_API.Models;
 using Booking_API.Services.IService;
 using Microsoft.AspNetCore.Http;
@@ -11,10 +12,12 @@ namespace Booking_API.Controllers
     public class HotelBookingInvoiceController : ControllerBase
     {
         private readonly IHotelBookingInvoiceService HotelBookingInvoiceService;
+        private readonly IMapper mapper;
 
-        public HotelBookingInvoiceController(IHotelBookingInvoiceService HotelBookingInvoiceService)
+        public HotelBookingInvoiceController(IHotelBookingInvoiceService HotelBookingInvoiceService, IMapper mapper)
         {
             this.HotelBookingInvoiceService = HotelBookingInvoiceService;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -36,23 +39,27 @@ namespace Booking_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<GeneralResponse<HotelBookingInvoice>>> PostHotelBookingInvoice(HotelBookingInvoice HotelBookingInvoice)
+        public async Task<ActionResult<GeneralResponse<HotelBookingInvoiceDTO>>> PostHotelBookingInvoice(HotelBookingInvoiceDTO hotelBookingInvoiceDTO)
         {
-            await HotelBookingInvoiceService.AddAsync(HotelBookingInvoice);
-            return CreatedAtAction(nameof(GetHotelBookingInvoice), new { id = HotelBookingInvoice.Id }, new GeneralResponse<HotelBookingInvoice>(true, "HotelBookingInvoice added successfully", HotelBookingInvoice));
+            var hotelBookingInvoice = mapper.Map<HotelBookingInvoice>(hotelBookingInvoiceDTO);
+            await HotelBookingInvoiceService.AddAsync(hotelBookingInvoice);
+            var responseDTO = mapper.Map<HotelBookingInvoiceDTO>(hotelBookingInvoice);
+            return CreatedAtAction(nameof(GetHotelBookingInvoice), new { id = hotelBookingInvoice.Id }, new GeneralResponse<HotelBookingInvoiceDTO>(true, "HotelBookingInvoice added successfully", responseDTO));
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<GeneralResponse<HotelBookingInvoice>>> PutHotelBookingInvoice(int id, HotelBookingInvoice HotelBookingInvoice)
+        public async Task<ActionResult<GeneralResponse<HotelBookingInvoiceDTO>>> PutHotelBookingInvoice(int id, HotelBookingInvoiceDTO hotelBookingInvoiceDTO)
         {
-            if (id != HotelBookingInvoice.Id)
+            if (id != hotelBookingInvoiceDTO.Id)
             {
-                return BadRequest(new GeneralResponse<HotelBookingInvoice>(false, "HotelBookingInvoice ID mismatch", null));
+                return BadRequest(new GeneralResponse<HotelBookingInvoiceDTO>(false, "HotelBookingInvoice ID mismatch", null));
             }
 
-            await HotelBookingInvoiceService.UpdateAsync(HotelBookingInvoice);
+            var hotelBookingInvoice = mapper.Map<HotelBookingInvoice>(hotelBookingInvoiceDTO);
+            await HotelBookingInvoiceService.UpdateAsync(hotelBookingInvoice);
             return NoContent();
         }
+
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<GeneralResponse<HotelBookingInvoice>>> DeleteHotelBookingInvoice(int id)

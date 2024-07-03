@@ -53,7 +53,7 @@ namespace Booking_API.Services
                 return new GeneralResponse<string>(false, "User hasn't reserved in this hotel so he can't give a review", null);
             }
             ///////////
-            
+
             HotelReview review = mapper.Map<HotelReview>(ReviewDto);
             await unitOfWork.GetRepository<HotelReview>().AddAsync(review);
 
@@ -70,9 +70,22 @@ namespace Booking_API.Services
 
         public async Task<IEnumerable<DisplayHotelReviewDTO>> GetAllReviewsAsync([FromQuery] string[] includeProperties)
         {
-            var reviews = await unitOfWork.GetRepository<HotelReview>().GetAllAsync(includeProperties);
+            var reviews = await unitOfWork.GetRepository<HotelReview>().GetAllAsync(includeProperties: includeProperties.Concat(new[] { "ApplicationUser" }).ToArray());
 
             return mapper.Map<IEnumerable<DisplayHotelReviewDTO>>(reviews);
         }
+
+
+        public async Task<IEnumerable<DisplayHotelReviewDTO>> GetAllReviewsByHotelIdAsync(int hotelId, string[] includeProperties)
+        {
+            includeProperties = includeProperties.Concat(new[] { "ApplicationUser" }).ToArray();
+            var reviews = await unitOfWork.GetRepository<HotelReview>().GetListAsync(
+                filter: r => r.HotelId == hotelId,
+                includeProperties: includeProperties
+            );
+
+            return mapper.Map<IEnumerable<DisplayHotelReviewDTO>>(reviews);
+        }
+
     }
 }

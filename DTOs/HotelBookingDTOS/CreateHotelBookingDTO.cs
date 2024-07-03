@@ -6,6 +6,7 @@ namespace Booking_API.DTOs.HotelBookingDTOS
 {
     public class CreateHotelBookingDTO
     {
+        public int? Id { get; set; }
         [Required]
         public DateTime BookingDate { get; set; } = DateTime.Now;
 

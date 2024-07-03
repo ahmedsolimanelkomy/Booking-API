@@ -543,34 +543,35 @@ namespace Booking_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("HotelBookingId")
+                    b.Property<int?>("HotelBookingId")
                         .HasColumnType("int");
 
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
-                    b.Property<int>("TransactionId")
+                    b.Property<int>("PaymentMethod")
                         .HasColumnType("int");
+
+                    b.Property<int>("PaymentStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TransactionId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("paymentMethod")
-                        .HasColumnType("int");
-
-                    b.Property<int>("paymentStatus")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("HotelBookingId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[HotelBookingId] IS NOT NULL");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -1035,9 +1036,7 @@ namespace Booking_API.Migrations
                 {
                     b.HasOne("Booking_API.Models.HotelBooking", "HotelBooking")
                         .WithOne("HotelBookingInvoice")
-                        .HasForeignKey("Booking_API.Models.HotelBookingInvoice", "HotelBookingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Booking_API.Models.HotelBookingInvoice", "HotelBookingId");
 
                     b.HasOne("Booking_API.Models.ApplicationUser", "ApplicationUser")
                         .WithOne("HotelBookingInvoice")

@@ -168,8 +168,30 @@ namespace Booking_API.Controllers
                 return BadRequest(new GeneralResponse<CreateHotelBookingDTO>(false, "Booking creation failed", bookingDto));
             }
 
-            return Ok(new GeneralResponse<CreateHotelBookingDTO>(true, "Booking and payment successful", bookingResponse.Data));
+            // Create the invoice
+            var invoiceResponse = await _bookingService.CreateInvoiceAsync(
+                bookingResponse.Data,
+                paymentRequest.Amount,
+                bookingDto.UserId,
+                PaymentMethod.PayPal
+                );
+
+            if (!invoiceResponse.Success)
+            {
+                // Handle failure to create invoice by deleting the booking
+                var booking = await _bookingService.GetAsync(b => b.Id == bookingResponse.Data.Id);
+                await _bookingService.DeleteAsync(booking.Id);
+
+                return BadRequest(new GeneralResponse<CreateHotelBookingDTO>(false, "Invoice creation failed, booking deleted", bookingDto));
+            }
+
+            return Ok(new
+            {
+                Message = "Booking and payment successful"
+            });
         }
+
+
 
         [HttpGet("client_token")]
         public async Task<IActionResult> GetClientToken()

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -138,7 +137,7 @@ namespace Booking_API.Migrations
                         column: x => x.CountryId,
                         principalTable: "Countries",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -220,13 +219,13 @@ namespace Booking_API.Migrations
                         column: x => x.CarRentalsId,
                         principalTable: "CarRentals",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_CarCarRental_Cars_CarsId",
                         column: x => x.CarsId,
                         principalTable: "Cars",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -273,7 +272,7 @@ namespace Booking_API.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -333,7 +332,7 @@ namespace Booking_API.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -388,31 +387,6 @@ namespace Booking_API.Migrations
                     table.PrimaryKey("PK_CarRentalInvoices", x => x.Id);
                     table.ForeignKey(
                         name: "FK_CarRentalInvoices_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "HotelBookingInvoices",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Number = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Amount = table.Column<int>(type: "int", nullable: false),
-                    paymentStatus = table.Column<int>(type: "int", nullable: false),
-                    TransactionId = table.Column<int>(type: "int", nullable: false),
-                    paymentMethod = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_HotelBookingInvoices", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_HotelBookingInvoices_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -531,8 +505,7 @@ namespace Booking_API.Migrations
                     CheckOutDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     RoomId = table.Column<int>(type: "int", nullable: false),
-                    HotelId = table.Column<int>(type: "int", nullable: false),
-                    HotelBookingInvoiceId = table.Column<int>(type: "int", nullable: false)
+                    HotelId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -541,12 +514,6 @@ namespace Booking_API.Migrations
                         name: "FK_HotelBooking_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
-                    table.ForeignKey(
-                        name: "FK_HotelBooking_HotelBookingInvoices_HotelBookingInvoiceId",
-                        column: x => x.HotelBookingInvoiceId,
-                        principalTable: "HotelBookingInvoices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
@@ -605,6 +572,38 @@ namespace Booking_API.Migrations
                         principalTable: "RoomTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HotelBookingInvoices",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Number = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false),
+                    paymentStatus = table.Column<int>(type: "int", nullable: false),
+                    TransactionId = table.Column<int>(type: "int", nullable: false),
+                    paymentMethod = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    HotelBookingId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HotelBookingInvoices", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HotelBookingInvoices_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_HotelBookingInvoices_HotelBooking_HotelBookingId",
+                        column: x => x.HotelBookingId,
+                        principalTable: "HotelBooking",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -775,12 +774,6 @@ namespace Booking_API.Migrations
                 column: "HotelsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HotelBooking_HotelBookingInvoiceId",
-                table: "HotelBooking",
-                column: "HotelBookingInvoiceId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_HotelBooking_HotelId",
                 table: "HotelBooking",
                 column: "HotelId");
@@ -789,6 +782,11 @@ namespace Booking_API.Migrations
                 name: "IX_HotelBooking_UserId",
                 table: "HotelBooking",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HotelBookingInvoices_HotelBookingId",
+                table: "HotelBookingInvoices",
+                column: "HotelBookingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HotelBookingInvoices_UserId",
@@ -931,6 +929,9 @@ namespace Booking_API.Migrations
                 name: "FeatureHotel");
 
             migrationBuilder.DropTable(
+                name: "HotelBookingInvoices");
+
+            migrationBuilder.DropTable(
                 name: "HotelBookingRoom");
 
             migrationBuilder.DropTable(
@@ -962,9 +963,6 @@ namespace Booking_API.Migrations
 
             migrationBuilder.DropTable(
                 name: "RoomTypes");
-
-            migrationBuilder.DropTable(
-                name: "HotelBookingInvoices");
 
             migrationBuilder.DropTable(
                 name: "Hotels");

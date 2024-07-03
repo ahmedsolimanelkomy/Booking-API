@@ -569,8 +569,7 @@ namespace Booking_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HotelBookingId")
-                        .IsUnique();
+                    b.HasIndex("HotelBookingId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -1034,8 +1033,8 @@ namespace Booking_API.Migrations
             modelBuilder.Entity("Booking_API.Models.HotelBookingInvoice", b =>
                 {
                     b.HasOne("Booking_API.Models.HotelBooking", "HotelBooking")
-                        .WithOne("HotelBookingInvoice")
-                        .HasForeignKey("Booking_API.Models.HotelBookingInvoice", "HotelBookingId")
+                        .WithMany()
+                        .HasForeignKey("HotelBookingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1256,8 +1255,6 @@ namespace Booking_API.Migrations
 
             modelBuilder.Entity("Booking_API.Models.HotelBooking", b =>
                 {
-                    b.Navigation("HotelBookingInvoice");
-
                     b.Navigation("ReviewList");
                 });
 

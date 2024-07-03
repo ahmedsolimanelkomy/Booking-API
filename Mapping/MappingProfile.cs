@@ -34,7 +34,7 @@ namespace Booking_API.Mapping
             CreateMap<CountryDTO, Country>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name)).ReverseMap();
-            CreateMap<CityDTO,City>()
+            CreateMap<CityDTO, City>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.CountryId, opt => opt.MapFrom(src => src.CountryId))
@@ -69,7 +69,7 @@ namespace Booking_API.Mapping
                  .ReverseMap();
 
             CreateMap<FeatureDTO, Feature>().ReverseMap();
-            CreateMap<RoomTypeDTO,RoomType>().ReverseMap();
+            CreateMap<RoomTypeDTO, RoomType>().ReverseMap();
             CreateMap<Hotel, HotelDTO>();
 
             CreateMap<Hotel, FilteredHotelDTO>()
@@ -139,16 +139,21 @@ namespace Booking_API.Mapping
                 .ForMember(dest => dest.Rooms, opt => opt.MapFrom(src => src.RoomNumbers.Select(rn => new Room { RoomNumber = rn })));
 
 
-            CreateMap<Room, FilteredRoomHotelDTO>().ForMember(dest => dest.TypeName, opt => opt.MapFrom(src=>src.RoomType.Name))
+            CreateMap<Room, FilteredRoomHotelDTO>().ForMember(dest => dest.TypeName, opt => opt.MapFrom(src => src.RoomType.Name))
                 .ForMember(dest => dest.PricePerNight, opt => opt.MapFrom(src => src.RoomType.PricePerNight))
                 .ReverseMap();
 
             CreateMap<CreateHotelBookingDTO, HotelBooking>().ReverseMap();
             CreateMap<HotelFilterDTO, HotelBookingViewDTO>().ReverseMap();
-            CreateMap<Hotel,HotelViewDTO>()
+            CreateMap<Hotel, HotelViewDTO>()
                 .ForMember(dest => dest.CityId, opt => opt.MapFrom(src => src.City.Id)).ReverseMap();
             CreateMap<ApplicationUser, UserDTO>().ReverseMap();
 
+
+
+            CreateMap<CarDTO, Car>().ReverseMap();
+            CreateMap<CarAgency, CarAgencyDTO>().ReverseMap();
+            CreateMap<CarRental, CarRentalDTO>().ReverseMap();
 
 
 

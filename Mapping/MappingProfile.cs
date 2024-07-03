@@ -152,6 +152,7 @@ namespace Booking_API.Mapping
 
 
             CreateMap<CarDTO, Car>().ReverseMap();
+            CreateMap<CarAgency, CarAgencyDTO>().ReverseMap();
 
 
 

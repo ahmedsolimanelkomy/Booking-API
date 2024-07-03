@@ -49,6 +49,8 @@ namespace Booking_API
             builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<ICarService, CarService>();
+            builder.Services.AddScoped<ICarAgencyService, CarAgencyServices>();
+
             builder.Services.AddScoped<IHotelBookingInvoiceService, HotelBookingInvoiceService>();
             builder.Services.AddScoped<ICarRentalInvoiceService, CarRentalInvoiceService>();
             builder.Services.AddAutoMapper(typeof(MappingProfile));

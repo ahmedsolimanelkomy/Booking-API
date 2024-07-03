@@ -203,7 +203,7 @@ namespace Booking_API.Migrations
 
                     b.HasIndex("CarTypeId");
 
-                    b.ToTable("Cars");
+                    b.ToTable("Cars", (string)null);
                 });
 
             modelBuilder.Entity("Booking_API.Models.CarAgency", b =>
@@ -252,7 +252,7 @@ namespace Booking_API.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.ToTable("CarAgencies");
+                    b.ToTable("CarAgencies", (string)null);
                 });
 
             modelBuilder.Entity("Booking_API.Models.CarAgencyReview", b =>
@@ -290,7 +290,7 @@ namespace Booking_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("CarAgencyReviews");
+                    b.ToTable("CarAgencyReviews", (string)null);
                 });
 
             modelBuilder.Entity("Booking_API.Models.CarRental", b =>
@@ -327,7 +327,7 @@ namespace Booking_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CarRentals");
+                    b.ToTable("CarRentals", (string)null);
                 });
 
             modelBuilder.Entity("Booking_API.Models.CarRentalInvoice", b =>
@@ -364,7 +364,7 @@ namespace Booking_API.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("CarRentalInvoices");
+                    b.ToTable("CarRentalInvoices", (string)null);
                 });
 
             modelBuilder.Entity("Booking_API.Models.CarType", b =>
@@ -381,7 +381,7 @@ namespace Booking_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CarTypes");
+                    b.ToTable("CarTypes", (string)null);
                 });
 
             modelBuilder.Entity("Booking_API.Models.City", b =>
@@ -405,7 +405,7 @@ namespace Booking_API.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("Booking_API.Models.Country", b =>
@@ -421,7 +421,7 @@ namespace Booking_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Countries");
+                    b.ToTable("Countries", (string)null);
                 });
 
             modelBuilder.Entity("Booking_API.Models.Feature", b =>
@@ -439,7 +439,7 @@ namespace Booking_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Feature");
+                    b.ToTable("Feature", (string)null);
                 });
 
             modelBuilder.Entity("Booking_API.Models.Hotel", b =>
@@ -488,7 +488,7 @@ namespace Booking_API.Migrations
 
                     b.HasIndex("HotelWishListId");
 
-                    b.ToTable("Hotels");
+                    b.ToTable("Hotels", (string)null);
                 });
 
             modelBuilder.Entity("Booking_API.Models.HotelBooking", b =>
@@ -532,7 +532,7 @@ namespace Booking_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("HotelBooking");
+                    b.ToTable("HotelBooking", (string)null);
                 });
 
             modelBuilder.Entity("Booking_API.Models.HotelBookingInvoice", b =>
@@ -574,7 +574,7 @@ namespace Booking_API.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("HotelBookingInvoices");
+                    b.ToTable("HotelBookingInvoices", (string)null);
                 });
 
             modelBuilder.Entity("Booking_API.Models.HotelPhoto", b =>
@@ -599,7 +599,7 @@ namespace Booking_API.Migrations
 
                     b.HasIndex("HotelId");
 
-                    b.ToTable("HotelPhoto");
+                    b.ToTable("HotelPhoto", (string)null);
                 });
 
             modelBuilder.Entity("Booking_API.Models.HotelReview", b =>
@@ -639,7 +639,7 @@ namespace Booking_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("Booking_API.Models.HotelWishList", b =>
@@ -657,7 +657,7 @@ namespace Booking_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("WishLists");
+                    b.ToTable("WishLists", (string)null);
                 });
 
             modelBuilder.Entity("Booking_API.Models.Passport", b =>
@@ -700,7 +700,7 @@ namespace Booking_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Passports");
+                    b.ToTable("Passports", (string)null);
                 });
 
             modelBuilder.Entity("Booking_API.Models.Room", b =>
@@ -735,7 +735,7 @@ namespace Booking_API.Migrations
 
                     b.HasIndex("RoomTypeId");
 
-                    b.ToTable("Rooms");
+                    b.ToTable("Rooms", (string)null);
                 });
 
             modelBuilder.Entity("Booking_API.Models.RoomType", b =>
@@ -755,7 +755,7 @@ namespace Booking_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RoomTypes");
+                    b.ToTable("RoomTypes", (string)null);
                 });
 
             modelBuilder.Entity("CarCarRental", b =>
@@ -770,7 +770,7 @@ namespace Booking_API.Migrations
 
                     b.HasIndex("CarsId");
 
-                    b.ToTable("CarCarRental");
+                    b.ToTable("CarCarRental", (string)null);
                 });
 
             modelBuilder.Entity("FeatureHotel", b =>
@@ -785,7 +785,7 @@ namespace Booking_API.Migrations
 
                     b.HasIndex("HotelsId");
 
-                    b.ToTable("FeatureHotel");
+                    b.ToTable("FeatureHotel", (string)null);
                 });
 
             modelBuilder.Entity("HotelBookingRoom", b =>
@@ -800,7 +800,7 @@ namespace Booking_API.Migrations
 
                     b.HasIndex("RoomsId");
 
-                    b.ToTable("HotelBookingRoom");
+                    b.ToTable("HotelBookingRoom", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

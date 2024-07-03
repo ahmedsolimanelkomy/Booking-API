@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Booking_API.Validations;
 using System.ComponentModel.DataAnnotations;
-using Booking_API.Validations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Booking_API.Models
 {
@@ -30,7 +30,7 @@ namespace Booking_API.Models
         public string? Notes { get; set; }
         [CheckInDate]
         public DateTime CheckInDate { get; set; }
-        [CheckOutDate("CheckInDate",ErrorMessage = "Check-out date must be after the check-in date.")]
+        [CheckOutDate("CheckInDate", ErrorMessage = "Check-out date must be after the check-in date.")]
         public DateTime CheckOutDate { get; set; }
 
         //Foreign Keys

@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using Booking_API.DTOs;
+using Booking_API.DTOs.InvoiceDTOS;
 using Booking_API.Models;
 using Booking_API.Services.IService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Booking_API.Controllers
 {
@@ -11,67 +14,129 @@ namespace Booking_API.Controllers
     [ApiController]
     public class HotelBookingInvoiceController : ControllerBase
     {
-        private readonly IHotelBookingInvoiceService HotelBookingInvoiceService;
-        private readonly IMapper mapper;
+        private readonly IHotelBookingInvoiceService _hotelBookingInvoiceService;
+        private readonly IMapper _mapper;
 
-        public HotelBookingInvoiceController(IHotelBookingInvoiceService HotelBookingInvoiceService, IMapper mapper)
+        public HotelBookingInvoiceController(IHotelBookingInvoiceService hotelBookingInvoiceService, IMapper mapper)
         {
-            this.HotelBookingInvoiceService = HotelBookingInvoiceService;
-            this.mapper = mapper;
+            _hotelBookingInvoiceService = hotelBookingInvoiceService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<GeneralResponse<IEnumerable<HotelBookingInvoice>>>> GetHotelBookingInvoices([FromQuery] string[] includeProperties)
+        public async Task<ActionResult<GeneralResponse<IEnumerable<ViewInvoiceDTO>>>> GetHotelBookingInvoices([FromQuery] string[] includeProperties)
         {
-            var response = await HotelBookingInvoiceService.GetAllAsync(includeProperties);
-            return Ok(new GeneralResponse<IEnumerable<HotelBookingInvoice>>(true, "HotelBookingInvoices retrieved successfully", response));
+            try
+            {
+                var response = await _hotelBookingInvoiceService.GetAllAsync(includeProperties);
+                var responseDTOs = _mapper.Map<IEnumerable<ViewInvoiceDTO>>(response);
+                return Ok(new GeneralResponse<IEnumerable<ViewInvoiceDTO>>(true, "HotelBookingInvoices retrieved successfully", responseDTOs));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new GeneralResponse<IEnumerable<ViewInvoiceDTO>>(false, ex.Message, null));
+            }
+        }
+
+        [HttpGet("GetUserHotelBookingInvoices/{id:int}")]
+        public async Task<ActionResult<GeneralResponse<IEnumerable<ViewInvoiceDTO>>>> GetUserInvoices(int id, [FromQuery] string[] includeProperties)
+        {
+            try
+            {
+                var response = await _hotelBookingInvoiceService.GetListAsync(i => i.UserId == id, includeProperties);
+                var responseDTOs = _mapper.Map<IEnumerable<ViewInvoiceDTO>>(response);
+                return Ok(new GeneralResponse<IEnumerable<ViewInvoiceDTO>>(true, "HotelBookingInvoices retrieved successfully", responseDTOs));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new GeneralResponse<IEnumerable<ViewInvoiceDTO>>(false, ex.Message, null));
+            }
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GeneralResponse<HotelBookingInvoice>>> GetHotelBookingInvoice(int id, [FromQuery] string[] includeProperties)
+        public async Task<ActionResult<GeneralResponse<ViewInvoiceDTO>>> GetHotelBookingInvoice(int id, [FromQuery] string[] includeProperties)
         {
-            var response = await HotelBookingInvoiceService.GetAsync(b => b.Id == id, includeProperties);
-            if (response == null)
+            try
             {
-                return NotFound(new GeneralResponse<HotelBookingInvoice>(false, "HotelBookingInvoice not found", null));
+                var response = await _hotelBookingInvoiceService.GetAsync(b => b.Id == id, includeProperties);
+                if (response == null)
+                {
+                    return NotFound(new GeneralResponse<ViewInvoiceDTO>(false, "HotelBookingInvoice not found", null));
+                }
+                var responseDTO = _mapper.Map<ViewInvoiceDTO>(response);
+                return Ok(new GeneralResponse<ViewInvoiceDTO>(true, "HotelBookingInvoice retrieved successfully", responseDTO));
             }
-            return Ok(new GeneralResponse<HotelBookingInvoice>(true, "HotelBookingInvoice retrieved successfully", response));
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new GeneralResponse<ViewInvoiceDTO>(false, ex.Message, null));
+            }
         }
 
         [HttpPost]
-        public async Task<ActionResult<GeneralResponse<HotelBookingInvoiceDTO>>> PostHotelBookingInvoice(HotelBookingInvoiceDTO hotelBookingInvoiceDTO)
+        public async Task<ActionResult<GeneralResponse<ViewInvoiceDTO>>> PostHotelBookingInvoice([FromBody] ViewInvoiceDTO viewInvoiceDTO)
         {
-            var hotelBookingInvoice = mapper.Map<HotelBookingInvoice>(hotelBookingInvoiceDTO);
-            await HotelBookingInvoiceService.AddAsync(hotelBookingInvoice);
-            var responseDTO = mapper.Map<HotelBookingInvoiceDTO>(hotelBookingInvoice);
-            return CreatedAtAction(nameof(GetHotelBookingInvoice), new { id = hotelBookingInvoice.Id }, new GeneralResponse<HotelBookingInvoiceDTO>(true, "HotelBookingInvoice added successfully", responseDTO));
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new GeneralResponse<ViewInvoiceDTO>(false, "Invalid data", null));
+            }
+
+            try
+            {
+                var hotelBookingInvoice = _mapper.Map<HotelBookingInvoice>(viewInvoiceDTO);
+                await _hotelBookingInvoiceService.AddAsync(hotelBookingInvoice);
+                var responseDTO = _mapper.Map<ViewInvoiceDTO>(hotelBookingInvoice);
+                return CreatedAtAction(nameof(GetHotelBookingInvoice), new { id = hotelBookingInvoice.Id }, new GeneralResponse<ViewInvoiceDTO>(true, "HotelBookingInvoice added successfully", responseDTO));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new GeneralResponse<ViewInvoiceDTO>(false, ex.Message, null));
+            }
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<GeneralResponse<HotelBookingInvoiceDTO>>> PutHotelBookingInvoice(int id, HotelBookingInvoiceDTO hotelBookingInvoiceDTO)
+        public async Task<ActionResult<GeneralResponse<ViewInvoiceDTO>>> PutHotelBookingInvoice(int id, [FromBody] ViewInvoiceDTO viewInvoiceDTO)
         {
-            if (id != hotelBookingInvoiceDTO.Id)
+            if (id != viewInvoiceDTO.Id)
             {
-                return BadRequest(new GeneralResponse<HotelBookingInvoiceDTO>(false, "HotelBookingInvoice ID mismatch", null));
+                return BadRequest(new GeneralResponse<ViewInvoiceDTO>(false, "HotelBookingInvoice ID mismatch", null));
             }
 
-            var hotelBookingInvoice = mapper.Map<HotelBookingInvoice>(hotelBookingInvoiceDTO);
-            await HotelBookingInvoiceService.UpdateAsync(hotelBookingInvoice);
-            return NoContent();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new GeneralResponse<ViewInvoiceDTO>(false, "Invalid data", null));
+            }
+
+            try
+            {
+                var hotelBookingInvoice = _mapper.Map<HotelBookingInvoice>(viewInvoiceDTO);
+                await _hotelBookingInvoiceService.UpdateAsync(hotelBookingInvoice);
+                return Ok(new GeneralResponse<ViewInvoiceDTO>(true, "HotelBookingInvoice updated successfully", viewInvoiceDTO));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new GeneralResponse<ViewInvoiceDTO>(false, ex.Message, null));
+            }
         }
 
-
         [HttpDelete("{id}")]
-        public async Task<ActionResult<GeneralResponse<HotelBookingInvoice>>> DeleteHotelBookingInvoice(int id)
+        public async Task<ActionResult<GeneralResponse<ViewInvoiceDTO>>> DeleteHotelBookingInvoice(int id)
         {
-            var existingHotelBookingInvoice = await HotelBookingInvoiceService.GetAsync(b => b.Id == id);
-            if (existingHotelBookingInvoice == null)
+            try
             {
-                return NotFound(new GeneralResponse<HotelBookingInvoice>(false, "HotelBookingInvoice not found", null));
-            }
+                var existingHotelBookingInvoice = await _hotelBookingInvoiceService.GetAsync(b => b.Id == id);
+                if (existingHotelBookingInvoice == null)
+                {
+                    return NotFound(new GeneralResponse<ViewInvoiceDTO>(false, "HotelBookingInvoice not found", null));
+                }
 
-            await HotelBookingInvoiceService.DeleteAsync(id);
-            return Ok(new GeneralResponse<HotelBookingInvoice>(true, "HotelBookingInvoice deleted successfully", existingHotelBookingInvoice));
+                await _hotelBookingInvoiceService.DeleteAsync(id);
+                var responseDTO = _mapper.Map<ViewInvoiceDTO>(existingHotelBookingInvoice);
+                return Ok(new GeneralResponse<ViewInvoiceDTO>(true, "HotelBookingInvoice deleted successfully", responseDTO));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new GeneralResponse<ViewInvoiceDTO>(false, ex.Message, null));
+            }
         }
     }
 }

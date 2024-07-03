@@ -48,70 +48,25 @@ namespace Booking_API.Services
             return _mapper.Map<IEnumerable<HotelBookingViewDTO>>(filteredBookings);
         }
 
-        ////public async Task<GeneralResponse<CreateHotelBookingDTO>> CreateHotelBookingAsync(CreateHotelBookingDTO bookingDto)
-        ////{
-        ////    var user = await _userManager.FindByIdAsync(bookingDto.UserId.ToString());
-        ////    if (user == null)
-        ////    {
-        ////        return new GeneralResponse<CreateHotelBookingDTO>(false, "User not found", bookingDto);
-        ////    }
+        public async Task<IEnumerable<HotelBookingViewDTO>> GetFilteredUserBookingsAsync(UserBookingFilterDTO filter)
+        {
+            var bookings = await _unitOfWork.HotelBookings.GetAllAsync(new[] { "Rooms", "ApplicationUser", "Hotel" });
 
-        ////    var hotel = await _hotelService.GetAsync(h => h.Id == bookingDto.HotelId);
-        ////    if (hotel == null)
-        ////    {
-        ////        return new GeneralResponse<CreateHotelBookingDTO>(false, "Hotel not found", bookingDto);
-        ////    }
+            var filteredBookings = bookings.Where(booking =>
+                booking.UserId == filter.UserId &&
+                (string.IsNullOrEmpty(filter.HotelName) || booking.Hotel.Name.Contains(filter.HotelName, StringComparison.OrdinalIgnoreCase)) &&
+                (string.IsNullOrEmpty(filter.UserName) || (booking.ApplicationUser?.FirstName + " " + booking.ApplicationUser?.LastName).Contains(filter.UserName, StringComparison.OrdinalIgnoreCase)) &&
+                (!filter.CheckIn.HasValue || !filter.CheckOut.HasValue ||
+                    (booking.CheckInDate.Date == filter.CheckIn.Value.Date || booking.CheckOutDate.Date == filter.CheckOut.Value.Date)) &&
+                (filter.RoomNumber == null || booking.Rooms.Any(room => room.RoomNumber == filter.RoomNumber)) &&
+                (filter.Status == null || booking.Status == filter.Status) &&
+                (filter.Price == null || booking.TotalPrice == filter.Price)
+            ).ToList();
 
-        ////    var room = await _roomService.GetAsync(r => r.Id == bookingDto.RoomId, new[] { "HotelBookings" });
-        ////    if (room == null)
-        ////    {
-        ////        return new GeneralResponse<CreateHotelBookingDTO>(false, "Room not available", bookingDto);
-        ////    }
+            return _mapper.Map<IEnumerable<HotelBookingViewDTO>>(filteredBookings);
+        }
 
-        ////    // Ensure HotelBookings collection is initialized
-        ////    if (room.HotelBookings == null)
-        ////    {
-        ////        room.HotelBookings = new List<HotelBooking>();
-        ////    }
-
-        ////    // Check if room is available for the given date range
-        ////    var isRoomAvailable = !room.HotelBookings.Any(booking =>
-        ////        booking.Status == BookingStatus.Confirmed &&
-        ////        !(booking.CheckOutDate <= bookingDto.CheckInDate || booking.CheckInDate >= bookingDto.CheckOutDate));
-
-        ////    if (!isRoomAvailable)
-        ////    {
-        ////        return new GeneralResponse<CreateHotelBookingDTO>(false, "Room is not available for the selected dates", bookingDto);
-        ////    }
-
-        ////    var booking = _mapper.Map<HotelBooking>(bookingDto);
-        ////    room.HotelBookings.Add(booking);
-        ////    await _roomService.UpdateAsync(room);
-
-        ////    var createdBookingDto = _mapper.Map<CreateHotelBookingDTO>(booking);
-
-        ////    return new GeneralResponse<CreateHotelBookingDTO>(true, "Booking added successfully", createdBookingDto);
-        ////}
-
-        ////public async Task<GeneralResponse<HotelBookingInvoice>> CreateInvoiceAsync(CreateHotelBookingDTO bookingDto, decimal amount, int userId, PaymentMethod paymentMethod, Transaction transaction)
-        ////{
-        ////    var invoice = new  HotelBookingInvoice
-        ////    {
-        ////        Number = transaction.PurchaseOrderNumber,
-        ////        Date = DateTime.Now,
-        ////        Amount = amount,
-        ////        PaymentStatus = PaymentStatus.Completed,
-        ////        TransactionId = transaction.Id,
-        ////        PaymentMethod = paymentMethod,
-        ////        UserId = userId,
-        ////        HotelBookingId = bookingDto.Id
-        ////    };
-
-        ////    await _hotelBookingInvoiceService.AddAsync(invoice);
-
-        ////    return new GeneralResponse<HotelBookingInvoice>(true, "Invoice created successfully", invoice);
-        ////}
-
+        #region CheckOut
         public async Task<GeneralResponse<CreateHotelBookingDTO>> CreateHotelBookingAsync(CreateHotelBookingDTO bookingDto)
         {
             var user = await _userManager.FindByIdAsync(bookingDto.UserId.ToString());
@@ -210,5 +165,7 @@ namespace Booking_API.Services
             }
             return new string(stringChars); // Generates a random alphanumeric string of length 10
         }
+        #endregion
+
     }
 }

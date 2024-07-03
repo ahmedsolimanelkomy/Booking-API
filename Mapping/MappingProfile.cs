@@ -8,6 +8,7 @@ using Booking_API.DTOs.FeatureDTOS;
 using Booking_API.DTOs.HotelBookingDTOS;
 using Booking_API.DTOs.HotelDTOS;
 using Booking_API.DTOs.HotelPhotosDTOS;
+using Booking_API.DTOs.InvoiceDTOS;
 using Booking_API.DTOs.NewFolder;
 using Booking_API.DTOs.RoomDTOS;
 using Booking_API.Models;
@@ -161,6 +162,7 @@ namespace Booking_API.Mapping
 
             CreateMap<HotelBookingInvoice, HotelBookingInvoiceDTO>().ReverseMap();
             CreateMap<CarRentalInvoice, CarRentalInvoiceDTO>().ReverseMap();
+            CreateMap<ViewInvoiceDTO, HotelBookingInvoice>().ReverseMap();
         }
 
     }

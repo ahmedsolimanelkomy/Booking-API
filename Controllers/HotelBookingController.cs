@@ -39,9 +39,29 @@ namespace Booking_API.Controllers
             var bookingDTOs = _mapper.Map<IEnumerable<HotelBookingViewDTO>>(bookings);
             return Ok(new GeneralResponse<IEnumerable<HotelBookingViewDTO>>(true, "Bookings retrieved successfully", bookingDTOs));
         }
+
+        [HttpPost("GetFilteredUserBookings")]
+        public async Task<ActionResult<GeneralResponse<IEnumerable<HotelBookingViewDTO>>>> GetFilteredUserBookings([FromQuery] UserBookingFilterDTO filter)
         
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new GeneralResponse<IEnumerable<HotelBookingViewDTO>>(false, "Invalid data", null));
+            }
+
+            try
+            {
+                var bookingDTOs = await _bookingService.GetFilteredUserBookingsAsync(filter);
+                return Ok(new GeneralResponse<IEnumerable<HotelBookingViewDTO>>(true, "Filtered bookings retrieved successfully", bookingDTOs));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new GeneralResponse<IEnumerable<HotelBookingViewDTO>>(false, ex.Message, null));
+            }
+        }
+
         [HttpGet("filtered")]
-        public async Task<ActionResult<GeneralResponse<IEnumerable<HotelBookingViewDTO>>>> GetFilteredHotelsAsync([FromQuery] HotelBookingFilterDTO filter)
+        public async Task<ActionResult<GeneralResponse<IEnumerable<HotelBookingViewDTO>>>> GetFilteredBookingsAsync([FromQuery] HotelBookingFilterDTO filter)
         {
             var filteredBookings = await _bookingService.GetFilteredBookingsAsync(filter);
 
@@ -134,6 +154,7 @@ namespace Booking_API.Controllers
             return Ok(new GeneralResponse<HotelBookingViewDTO>(true, "Booking deleted successfully", bookingDTO));
         }
 
+        #region Payment
         [HttpPost("checkout")]
         public async Task<IActionResult> Checkout([FromBody] PaymentRequest paymentRequest)
         {
@@ -191,14 +212,13 @@ namespace Booking_API.Controllers
             });
         }
 
-
-
         [HttpGet("client_token")]
         public async Task<IActionResult> GetClientToken()
         {
             var clientToken = await _braintreeService.GetClientTokenAsync();
             return Ok(new { clientToken });
-        }
+        } 
+        #endregion
     }
     public class PaymentRequest
     {

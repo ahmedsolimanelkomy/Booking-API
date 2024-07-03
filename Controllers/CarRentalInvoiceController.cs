@@ -1,4 +1,5 @@
-﻿using Booking_API.DTOs;
+﻿using AutoMapper;
+using Booking_API.DTOs;
 using Booking_API.Models;
 using Booking_API.Services.IService;
 using Microsoft.AspNetCore.Http;
@@ -11,10 +12,11 @@ namespace Booking_API.Controllers
     public class CarRentalInvoiceController : ControllerBase
     {
         private readonly ICarRentalInvoiceService CarRentalInvoiceService;
-
-        public CarRentalInvoiceController(ICarRentalInvoiceService CarRentalInvoiceService)
+        private readonly IMapper mapper;
+        public CarRentalInvoiceController(ICarRentalInvoiceService CarRentalInvoiceService, IMapper mapper)
         {
             this.CarRentalInvoiceService = CarRentalInvoiceService;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -36,23 +38,27 @@ namespace Booking_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<GeneralResponse<CarRentalInvoice>>> PostCarRentalInvoice(CarRentalInvoice CarRentalInvoice)
+        public async Task<ActionResult<GeneralResponse<CarRentalInvoiceDTO>>> PostCarRentalInvoice(CarRentalInvoiceDTO carRentalInvoiceDTO)
         {
-            await CarRentalInvoiceService.AddAsync(CarRentalInvoice);
-            return CreatedAtAction(nameof(GetCarRentalInvoice), new { id = CarRentalInvoice.Id }, new GeneralResponse<CarRentalInvoice>(true, "CarRentalInvoice added successfully", CarRentalInvoice));
+            var carRentalInvoice = mapper.Map<CarRentalInvoice>(carRentalInvoiceDTO);
+            await CarRentalInvoiceService.AddAsync(carRentalInvoice);
+            var responseDTO = mapper.Map<CarRentalInvoiceDTO>(carRentalInvoice);
+            return CreatedAtAction(nameof(GetCarRentalInvoice), new { id = carRentalInvoice.Id }, new GeneralResponse<CarRentalInvoiceDTO>(true, "CarRentalInvoice added successfully", responseDTO));
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<GeneralResponse<CarRentalInvoice>>> PutCarRentalInvoice(int id, CarRentalInvoice CarRentalInvoice)
+        public async Task<ActionResult<GeneralResponse<CarRentalInvoiceDTO>>> PutCarRentalInvoice(int id, CarRentalInvoiceDTO carRentalInvoiceDTO)
         {
-            if (id != CarRentalInvoice.Id)
+            if (id != carRentalInvoiceDTO.Id)
             {
-                return BadRequest(new GeneralResponse<CarRentalInvoice>(false, "CarRentalInvoice ID mismatch", null));
+                return BadRequest(new GeneralResponse<CarRentalInvoiceDTO>(false, "CarRentalInvoice ID mismatch", null));
             }
 
-            await CarRentalInvoiceService.UpdateAsync(CarRentalInvoice);
+            var carRentalInvoice = mapper.Map<CarRentalInvoice>(carRentalInvoiceDTO);
+            await CarRentalInvoiceService.UpdateAsync(carRentalInvoice);
             return NoContent();
         }
+
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<GeneralResponse<CarRentalInvoice>>> DeleteCarRentalInvoice(int id)

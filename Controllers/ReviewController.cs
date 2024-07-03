@@ -101,5 +101,18 @@ namespace Booking_API.Controllers
             await reviewService.DeleteAsync(id);
             return Ok(new GeneralResponse<HotelReview>(true, "Review deleted successfully", existingReview));
         }
+
+        [HttpGet("reviews/{hotelId}")]
+        public async Task<ActionResult<GeneralResponse<IEnumerable<DisplayHotelReviewDTO>>>> GetAllReviewsByHotelId(int hotelId, [FromQuery] string[] includeProperties)
+        {
+            var reviews = await reviewService.GetAllReviewsByHotelIdAsync(hotelId, includeProperties);
+            if (reviews == null || !reviews.Any())
+            {
+                return NotFound(new GeneralResponse<object>(false, "No reviews found for this hotel", null));
+            }
+
+            return Ok(new GeneralResponse<IEnumerable<DisplayHotelReviewDTO>>(true, "Reviews retrieved successfully", reviews));
+        }
+
     }
 }

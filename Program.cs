@@ -50,6 +50,8 @@ namespace Booking_API
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<ICarService, CarService>();
             builder.Services.AddScoped<ICarAgencyService, CarAgencyServices>();
+            builder.Services.AddScoped<ICarRentalService, CarRentalService>();
+
 
             builder.Services.AddScoped<IHotelBookingInvoiceService, HotelBookingInvoiceService>();
             builder.Services.AddScoped<ICarRentalInvoiceService, CarRentalInvoiceService>();

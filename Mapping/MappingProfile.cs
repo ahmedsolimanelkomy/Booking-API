@@ -155,8 +155,11 @@ namespace Booking_API.Mapping
             CreateMap<CarAgency, CarAgencyDTO>().ReverseMap();
             CreateMap<CarRental, CarRentalDTO>().ReverseMap();
 
-
-
+            CreateMap<HotelReview, DisplayHotelReviewDTO>()
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.ApplicationUser.UserName))
+            .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.ApplicationUser.PhotoUrl));
         }
+
     }
-}
+    }
+

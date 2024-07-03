@@ -30,9 +30,7 @@ namespace Booking_API.Models
 
         //Navigation Properties
         public CarRental? CarRental { get; set; }
-
         public CarAgency? CarAgency { get; set; }
-
         public ApplicationUser? ApplicationUser { get; set; }
     }
 }

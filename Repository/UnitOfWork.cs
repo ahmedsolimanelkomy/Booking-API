@@ -27,6 +27,7 @@ namespace Booking_API.Repository
         public IRepository<CarRentalInvoice> CarRentalInvoices { get; private set; }
         public IRepository<CarRental> CarRental { get; private set; }
         public IRepository<HotelBookingInvoice> HotelBookingInvoices { get; private set; }
+        public IRepository<CarAgencyReview> CarAgencyReviews {  get; private set; }
 
         public UnitOfWork(BookingContext context)
         {

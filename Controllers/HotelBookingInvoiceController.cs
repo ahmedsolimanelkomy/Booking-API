@@ -11,7 +11,6 @@ namespace Booking_API.Controllers
     public class HotelBookingInvoiceController : ControllerBase
     {
         private readonly IHotelBookingInvoiceService HotelBookingInvoiceService;
-
         public HotelBookingInvoiceController(IHotelBookingInvoiceService HotelBookingInvoiceService)
         {
             this.HotelBookingInvoiceService = HotelBookingInvoiceService;

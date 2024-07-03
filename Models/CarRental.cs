@@ -32,7 +32,7 @@ namespace Booking_API.Models
         [Required]
         public DateTime DropOffDate { get; set; }
 
-        //foreign keys 
+        //Navigation proprty
         public ICollection<Car>? Cars { get; set; } = new HashSet<Car>();
     }
 

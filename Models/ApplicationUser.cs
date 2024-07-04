@@ -36,7 +36,7 @@ namespace Booking_API.Models
 
         public ICollection<HotelBooking>? Bookings { get; set; }
         public ICollection<HotelReview>? Reviews { get; set; }
-        public CarRentalInvoice? CarRentalInvoice { get; set; }
-        public HotelBookingInvoice? HotelBookingInvoice { get; set; }
+        public IEnumerable<CarRentalInvoice>? CarRentalInvoices { get; set; }
+        public IEnumerable<HotelBookingInvoice>? HotelBookingInvoices { get; set; }
     }
 }

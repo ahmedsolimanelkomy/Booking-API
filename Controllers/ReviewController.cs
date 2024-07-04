@@ -19,30 +19,30 @@ namespace Booking_API.Controllers
             this.reviewService = reviewService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<GeneralResponse<IEnumerable<HotelReview>>>> GetReviews([FromQuery] string[] includeProperties)
-        {
-            var response = await reviewService.GetAllAsync(includeProperties);
-            return Ok(new GeneralResponse<IEnumerable<HotelReview>>(true, "Reviews retrieved successfully", response));
-        }
+        //[HttpGet]
+        //public async Task<ActionResult<GeneralResponse<IEnumerable<HotelReview>>>> GetReviews([FromQuery] string[] includeProperties)
+        //{
+        //    var response = await reviewService.GetAllAsync(includeProperties);
+        //    return Ok(new GeneralResponse<IEnumerable<HotelReview>>(true, "Reviews retrieved successfully", response));
+        //}
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<GeneralResponse<HotelReview>>> GetReview(int id, [FromQuery] string[] includeProperties)
-        {
-            var response = await reviewService.GetAsync(b => b.Id == id, includeProperties);
-            if (response == null)
-            {
-                return NotFound(new GeneralResponse<HotelReview>(false, "Review not found", null));
-            }
-            return Ok(new GeneralResponse<HotelReview>(true, "Review retrieved successfully", response));
-        }
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<GeneralResponse<HotelReview>>> GetReview(int id, [FromQuery] string[] includeProperties)
+        //{
+        //    var response = await reviewService.GetAsync(b => b.Id == id, includeProperties);
+        //    if (response == null)
+        //    {
+        //        return NotFound(new GeneralResponse<HotelReview>(false, "Review not found", null));
+        //    }
+        //    return Ok(new GeneralResponse<HotelReview>(true, "Review retrieved successfully", response));
+        //}
 
-        [HttpPost]
-        public async Task<ActionResult<GeneralResponse<HotelReview>>> PostReview(HotelReview Review)
-        {
-            await reviewService.AddAsync(Review);
-            return CreatedAtAction(nameof(GetReview), new { id = Review.Id }, new GeneralResponse<HotelReview>(true, "Review added successfully", Review));
-        }
+        //[HttpPost]
+        //public async Task<ActionResult<GeneralResponse<HotelReview>>> PostReview(HotelReview Review)
+        //{
+        //    await reviewService.AddAsync(Review);
+        //    return CreatedAtAction(nameof(GetReview), new { id = Review.Id }, new GeneralResponse<HotelReview>(true, "Review added successfully", Review));
+        //}
 
 
         //[Authorize]
@@ -101,5 +101,18 @@ namespace Booking_API.Controllers
             await reviewService.DeleteAsync(id);
             return Ok(new GeneralResponse<HotelReview>(true, "Review deleted successfully", existingReview));
         }
+
+        [HttpGet("reviews/{hotelId}")]
+        public async Task<ActionResult<GeneralResponse<IEnumerable<DisplayHotelReviewDTO>>>> GetAllReviewsByHotelId(int hotelId, [FromQuery] string[] includeProperties)
+        {
+            var reviews = await reviewService.GetAllReviewsByHotelIdAsync(hotelId, includeProperties);
+            if (reviews == null || !reviews.Any())
+            {
+                return NotFound(new GeneralResponse<object>(false, "No reviews found for this hotel", null));
+            }
+
+            return Ok(new GeneralResponse<IEnumerable<DisplayHotelReviewDTO>>(true, "Reviews retrieved successfully", reviews));
+        }
+
     }
 }

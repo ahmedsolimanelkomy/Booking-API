@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using AutoMapper;
 
 namespace Booking_API
 {
@@ -49,11 +48,15 @@ namespace Booking_API
             builder.Services.AddScoped<IService<Country>, Service<Country>>();
             builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddScoped<IEmailService, EmailService>();
+            builder.Services.AddScoped<ICarService, CarService>();
+            builder.Services.AddScoped<ICarAgencyService, CarAgencyServices>();
+            builder.Services.AddScoped<ICarRentalService, CarRentalService>();
             builder.Services.AddScoped<IHotelBookingInvoiceService, HotelBookingInvoiceService>();
             builder.Services.AddScoped<ICarRentalInvoiceService, CarRentalInvoiceService>();
-            builder.Services.AddScoped<ICarRentalService, CarRentalService>();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddSingleton<BraintreeService>();
+            builder.Services.AddHostedService<BookingStatusUpdateBackgroundService>();
+
 
 
             // Add JWT Authentication

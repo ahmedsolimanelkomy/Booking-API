@@ -8,6 +8,7 @@ using Booking_API.DTOs.FeatureDTOS;
 using Booking_API.DTOs.HotelBookingDTOS;
 using Booking_API.DTOs.HotelDTOS;
 using Booking_API.DTOs.HotelPhotosDTOS;
+using Booking_API.DTOs.InvoiceDTOS;
 using Booking_API.DTOs.NewFolder;
 using Booking_API.DTOs.RoomDTOS;
 using Booking_API.Models;
@@ -85,35 +86,59 @@ namespace Booking_API.Mapping
             CreateMap<Room, FilteredRoomDTO>().ReverseMap();
 
 
+            //CreateMap<HotelBooking, HotelBookingViewDTO>()
+            //   .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.BookingDate))
+            //   .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.TotalPrice))
+            //   .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+            //   .ForMember(dest => dest.CheckIn, opt => opt.MapFrom(src => src.CheckInDate))
+            //   .ForMember(dest => dest.CheckOut, opt => opt.MapFrom(src => src.CheckOutDate))
+            //   .ForMember(dest => dest.UserFirstName, opt => opt.MapFrom(src => src.ApplicationUser.FirstName))
+            //   .ForMember(dest => dest.UserLastName, opt => opt.MapFrom(src => src.ApplicationUser.LastName))
+            //   .ForMember(dest => dest.hotelName, opt => opt.MapFrom(src => src.Hotel.Name))
+            //   .ForMember(dest => dest.RoomNumber, opt => opt.MapFrom(src => src.Rooms.Select(r => r.RoomNumber).ToList()))
+            //   .ReverseMap()
+            //   .ForMember(dest => dest.BookingDate, opt => opt.MapFrom(src => src.Date))
+            //   .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.TotalPrice))
+            //   .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+            //   .ForMember(dest => dest.CheckInDate, opt => opt.MapFrom(src => src.CheckIn))
+            //   .ForMember(dest => dest.CheckOutDate, opt => opt.MapFrom(src => src.CheckOut))
+            //   .ForMember(dest => dest.ApplicationUser, opt => opt.MapFrom(src => new ApplicationUser
+            //   {
+            //       FirstName = src.UserFirstName,
+            //       LastName = src.UserLastName
+            //   }))
+            //   .ForMember(dest => dest.Hotel, opt => opt.MapFrom(src => new Hotel
+            //   {
+            //       Name = src.hotelName
+            //   }));
+
             CreateMap<HotelBooking, HotelBookingViewDTO>()
-               .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.BookingDate))
-               .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.TotalPrice))
-               .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
-               .ForMember(dest => dest.CheckIn, opt => opt.MapFrom(src => src.CheckInDate))
-               .ForMember(dest => dest.CheckOut, opt => opt.MapFrom(src => src.CheckOutDate))
-               .ForMember(dest => dest.UserFirstName, opt => opt.MapFrom(src => src.ApplicationUser.FirstName))
-               .ForMember(dest => dest.UserLastName, opt => opt.MapFrom(src => src.ApplicationUser.LastName))
-               .ForMember(dest => dest.hotelName, opt => opt.MapFrom(src => src.Hotel.Name))
-               .ForMember(dest => dest.RoomNumber, opt => opt.MapFrom(src => src.Room.RoomNumber))
-               .ReverseMap()
-               .ForMember(dest => dest.BookingDate, opt => opt.MapFrom(src => src.Date))
-               .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.TotalPrice))
-               .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
-               .ForMember(dest => dest.CheckInDate, opt => opt.MapFrom(src => src.CheckIn))
-               .ForMember(dest => dest.CheckOutDate, opt => opt.MapFrom(src => src.CheckOut))
-               .ForMember(dest => dest.ApplicationUser, opt => opt.MapFrom(src => new ApplicationUser
-               {
-                   FirstName = src.UserFirstName,
-                   LastName = src.UserLastName
-               }))
-               .ForMember(dest => dest.Hotel, opt => opt.MapFrom(src => new Hotel
-               {
-                   Name = src.hotelName
-               }))
-               .ForMember(dest => dest.Room, opt => opt.MapFrom(src => new Room
-               {
-                   RoomNumber = src.RoomNumber
-               }));
+                .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.BookingDate))
+                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.TotalPrice))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+                .ForMember(dest => dest.CheckIn, opt => opt.MapFrom(src => src.CheckInDate))
+                .ForMember(dest => dest.CheckOut, opt => opt.MapFrom(src => src.CheckOutDate))
+                .ForMember(dest => dest.UserFirstName, opt => opt.MapFrom(src => src.ApplicationUser.FirstName))
+                .ForMember(dest => dest.UserLastName, opt => opt.MapFrom(src => src.ApplicationUser.LastName))
+                .ForMember(dest => dest.HotelName, opt => opt.MapFrom(src => src.Hotel.Name))
+                .ForMember(dest => dest.RoomNumbers, opt => opt.MapFrom(src => src.Rooms.Select(r => r.RoomNumber).ToList()))
+                .ReverseMap()
+                .ForMember(dest => dest.BookingDate, opt => opt.MapFrom(src => src.Date))
+                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.TotalPrice))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+                .ForMember(dest => dest.CheckInDate, opt => opt.MapFrom(src => src.CheckIn))
+                .ForMember(dest => dest.CheckOutDate, opt => opt.MapFrom(src => src.CheckOut))
+                .ForMember(dest => dest.ApplicationUser, opt => opt.MapFrom(src => new ApplicationUser
+                {
+                    FirstName = src.UserFirstName,
+                    LastName = src.UserLastName
+                }))
+                .ForMember(dest => dest.Hotel, opt => opt.MapFrom(src => new Hotel
+                {
+                    Name = src.HotelName
+                }))
+                .ForMember(dest => dest.Rooms, opt => opt.MapFrom(src => src.RoomNumbers.Select(rn => new Room { RoomNumber = rn })));
+
 
             CreateMap<Room, FilteredRoomHotelDTO>().ForMember(dest => dest.TypeName, opt => opt.MapFrom(src => src.RoomType.Name))
                 .ForMember(dest => dest.PricePerNight, opt => opt.MapFrom(src => src.RoomType.PricePerNight))
@@ -126,13 +151,20 @@ namespace Booking_API.Mapping
             CreateMap<ApplicationUser, UserDTO>().ReverseMap();
 
 
+
+            CreateMap<CarDTO, Car>().ReverseMap();
+            CreateMap<CarAgency, CarAgencyDTO>().ReverseMap();
+            CreateMap<CarRental, CarRentalDTO>().ReverseMap();
+
             CreateMap<HotelReview, DisplayHotelReviewDTO>()
-           .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.ApplicationUser.UserName))
-           .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.ApplicationUser.PhotoUrl));
-            CreateMap<HotelWishList, HotelWishListDTO>()
-            .ForMember(dest => dest.HotelIds, opt => opt.MapFrom(src => src.Hotels.Select(h => h.Id)))
-            .ReverseMap()
-            .ForMember(dest => dest.Hotels, opt => opt.Ignore());
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.ApplicationUser.UserName))
+            .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.ApplicationUser.PhotoUrl));
+
+            CreateMap<HotelBookingInvoice, HotelBookingInvoiceDTO>().ReverseMap();
+            CreateMap<CarRentalInvoice, CarRentalInvoiceDTO>().ReverseMap();
+            CreateMap<ViewInvoiceDTO, HotelBookingInvoice>().ReverseMap();
         }
+
     }
 }
+

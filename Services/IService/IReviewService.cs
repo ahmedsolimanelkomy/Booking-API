@@ -7,5 +7,7 @@ namespace Booking_API.Services.IService
     {
         public Task<GeneralResponse<string>> AddReviewAsync(AddHotelReviewDTO ReviewDto);
         public Task<IEnumerable<DisplayHotelReviewDTO>> GetAllReviewsAsync(string[] includeProperties);
+
+        public Task<IEnumerable<DisplayHotelReviewDTO>> GetAllReviewsByHotelIdAsync(int hotelId, string[] includeProperties);
     }
 }

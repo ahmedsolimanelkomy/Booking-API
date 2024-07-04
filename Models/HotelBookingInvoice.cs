@@ -29,30 +29,25 @@ namespace Booking_API.Models
         [Required]
         public DateTime Date { get; set; } = DateTime.Now;
 
-        public int Amount { get; set; }
+        public decimal Amount { get; set; }
 
-        public PaymentStatus paymentStatus { get; set; }
+        public PaymentStatus PaymentStatus { get; set; }
 
-        public int TransactionId { get; set; }
+        public string? TransactionId { get; set; }
 
-        public PaymentMethod paymentMethod { get; set; }
+        public PaymentMethod PaymentMethod { get; set; }
 
         //Foreign Keys
         [ForeignKey("ApplicationUser")]
-        public int? UserId { get; set; }
+        public int UserId { get; set; }
 
         [ForeignKey("HotelBooking")]
         public int? HotelBookingId { get; set; }
-
 
 
         //Navigation  Properties
         public ApplicationUser? ApplicationUser { get; set; }
         
         public HotelBooking? HotelBooking { get; set; }
-
-
-
-
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Booking_API.Models
@@ -31,7 +30,7 @@ namespace Booking_API.Models
 
         public bool? InsuranceIncluded { get; set; }
 
-        [Required]
+
         public GearType? GearType { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "NumberOfSeats must be at least 1")]
@@ -50,6 +49,6 @@ namespace Booking_API.Models
         public ICollection<CarRental>? CarRentals { get; set; } = new HashSet<CarRental>();
 
 
-    
+
     }
 }

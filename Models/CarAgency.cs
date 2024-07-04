@@ -39,7 +39,7 @@ namespace Booking_API.Models
 
         // Navigation Properties
         public City? City { get; set; }
-        public CarRental? CarRental { get; set; }
+        public ICollection<CarRental>? CarRentals { get; set; }
         public ICollection<Car>? Cars { get; set; } = new HashSet<Car>();
         public ICollection<CarAgencyReview>? CarAgencyReviews { get; set; } = new HashSet<CarAgencyReview>();
     }

@@ -212,6 +212,53 @@ namespace Booking_API.Controllers
             });
         }
 
+        [HttpPost("checkout/cash")]
+        public async Task<IActionResult> CheckoutCash([FromBody] PaymentRequest paymentRequest)
+        {
+            if (paymentRequest == null || paymentRequest.BookingData == null)
+            {
+                return BadRequest(new GeneralResponse<CreateHotelBookingDTO>(false, "Invalid data", null));
+            }
+
+            var bookingDto = paymentRequest.BookingData;
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new GeneralResponse<CreateHotelBookingDTO>(false, "Invalid booking data", bookingDto));
+            }
+
+            // Proceed with booking
+            bookingDto.Status = BookingStatus.Confirmed;
+            var bookingResponse = await _bookingService.CreateHotelBookingAsync(bookingDto);
+
+            if (!bookingResponse.Success)
+            {
+                return BadRequest(new GeneralResponse<CreateHotelBookingDTO>(false, "Booking creation failed", bookingDto));
+            }
+
+            // Create the invoice
+            var invoiceResponse = await _bookingService.CreateInvoiceAsync(
+                bookingResponse.Data,
+                paymentRequest.Amount,
+                bookingDto.UserId,
+                PaymentMethod.Cash
+            );
+
+            if (!invoiceResponse.Success)
+            {
+                var booking = await _bookingService.GetAsync(b => b.Id == bookingResponse.Data.Id);
+                await _bookingService.DeleteAsync(booking.Id);
+
+                return BadRequest(new GeneralResponse<CreateHotelBookingDTO>(false, "Invoice creation failed, booking deleted", bookingDto));
+            }
+
+            return Ok(new
+            {
+                Message = "Booking successful with cash payment"
+            });
+        }
+
+
         [HttpGet("client_token")]
         public async Task<IActionResult> GetClientToken()
         {
@@ -222,7 +269,7 @@ namespace Booking_API.Controllers
     }
     public class PaymentRequest
     {
-        public string Nonce { get; set; }
+        public string? Nonce { get; set; }
         public decimal Amount { get; set; }
         public CreateHotelBookingDTO BookingData { get; set; }
     }

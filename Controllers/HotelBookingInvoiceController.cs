@@ -53,6 +53,26 @@ namespace Booking_API.Controllers
             }
         }
 
+        [HttpGet("GetInvoiceByBookingId/{bookingId:int}")]
+        public async Task<ActionResult<GeneralResponse<ViewInvoiceDTO>>> GetInvoiceByBookingId(int bookingId, [FromQuery] string[] includeProperties)
+        {
+            try
+            {
+                var response = await _hotelBookingInvoiceService.GetAsync(b => b.HotelBookingId == bookingId, includeProperties);
+                if (response == null)
+                {
+                    return NotFound(new GeneralResponse<ViewInvoiceDTO>(false, "Invoice not found", null));
+                }
+
+                var responseDTO = _mapper.Map<ViewInvoiceDTO>(response);
+                return Ok(new GeneralResponse<ViewInvoiceDTO>(true, "Invoice retrieved successfully", responseDTO));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new GeneralResponse<ViewInvoiceDTO>(false, ex.Message, null));
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<GeneralResponse<ViewInvoiceDTO>>> GetHotelBookingInvoice(int id, [FromQuery] string[] includeProperties)
         {

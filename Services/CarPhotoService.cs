@@ -1,15 +1,14 @@
 ﻿using Booking_API.Models;
 using Booking_API.Repository.IRepository;
 using Booking_API.Services.IService;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Booking_API.Services
 {
-    public class HotelPhotoService : Service<HotelPhoto>, IHotelPhotoService
+    public class CarPhotoService : Service<CarPhoto>, ICarPhotoService
     {
         private readonly IWebHostEnvironment _env;
 
-        public HotelPhotoService(IUnitOfWork unitOfWork, IWebHostEnvironment env) : base(unitOfWork)
+        public CarPhotoService(IUnitOfWork unitOfWork, IWebHostEnvironment env) : base(unitOfWork)
         {
             _env = env;
         }
@@ -40,7 +39,7 @@ namespace Booking_API.Services
 
             if (File.Exists(filePath))
             {
-               File.Delete(filePath);
+                File.Delete(filePath);
             }
         }
 
@@ -73,7 +72,7 @@ namespace Booking_API.Services
             return photos;
         }
 
-        public async Task<IFormFile> ConvertByteArrayToIFormFile(byte[] byteArray, string? fileName = null, string contentType= "image/jpeg")
+        public async Task<IFormFile> ConvertByteArrayToIFormFile(byte[] byteArray, string? fileName = null, string contentType = "image/jpeg")
         {
             using (MemoryStream memoryStream = new MemoryStream(byteArray))
             {
@@ -86,7 +85,5 @@ namespace Booking_API.Services
                 return await Task.FromResult(formFile);
             }
         }
-
-
     }
 }

@@ -4,5 +4,9 @@ namespace Booking_API.Services.IService
 {
     public interface IWishListService : IService<HotelWishList>
     {
+        public Task<IEnumerable<Hotel>> GetWishListHotelsAsync(int userId);
+        public Task AddHotelToWishListAsync(int userId, int hotelId);
+
+        public Task RemoveHotelFromWishListAsync(int userId, int hotelId);
     }
 }

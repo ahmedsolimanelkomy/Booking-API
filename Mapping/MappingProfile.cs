@@ -163,8 +163,16 @@ namespace Booking_API.Mapping
             CreateMap<HotelBookingInvoice, HotelBookingInvoiceDTO>().ReverseMap();
             CreateMap<CarRentalInvoice, CarRentalInvoiceDTO>().ReverseMap();
             CreateMap<ViewInvoiceDTO, HotelBookingInvoice>().ReverseMap();
-        }
 
+            CreateMap<HotelWishListDTO, HotelWishList>().ReverseMap();
+
+            CreateMap<Hotel, WishlistHotelDTO>()
+            .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => src.Photos != null ? src.Photos.ToList() : null))
+            .ForMember(dest => dest.CityName, opt => opt.MapFrom(src => src.City != null ? src.City.Name : null))
+            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Rooms.Any() ? src.Rooms.First().RoomType.PricePerNight : 0));
+        }
     }
+
+    
 }
 

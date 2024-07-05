@@ -4,6 +4,7 @@ using Booking_API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Booking_API.Migrations
 {
     [DbContext(typeof(BookingContext))]
-    partial class BookingContextModelSnapshot : ModelSnapshot
+    [Migration("20240705163705_try2")]
+    partial class try2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -259,6 +262,44 @@ namespace Booking_API.Migrations
                     b.ToTable("CarAgencies");
                 });
 
+            modelBuilder.Entity("Booking_API.Models.CarAgencyReview", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CarAgencyId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CarRentalId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Comment")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<int?>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ReviewDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarAgencyId");
+
+                    b.HasIndex("CarRentalId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CarAgencyReviews");
+                });
+
             modelBuilder.Entity("Booking_API.Models.CarPhoto", b =>
                 {
                     b.Property<int>("Id")
@@ -295,12 +336,6 @@ namespace Booking_API.Migrations
                     b.Property<int?>("CarAgencyId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CarId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CarRentalInvoiceId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("DropOffDate")
                         .HasColumnType("datetime2");
 
@@ -325,18 +360,9 @@ namespace Booking_API.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CarAgencyId");
-
-                    b.HasIndex("CarId");
-
-                    b.HasIndex("CarRentalInvoiceId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("CarRentals");
                 });
@@ -375,54 +401,12 @@ namespace Booking_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarRentalId");
+                    b.HasIndex("CarRentalId")
+                        .IsUnique();
 
                     b.HasIndex("UserId");
 
                     b.ToTable("CarRentalInvoices");
-                });
-
-            modelBuilder.Entity("Booking_API.Models.CarReview", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CarAgencyId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CarId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CarRentalId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Comment")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<int?>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ReviewDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CarAgencyId");
-
-                    b.HasIndex("CarId");
-
-                    b.HasIndex("CarRentalId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("CarAgencyReviews");
                 });
 
             modelBuilder.Entity("Booking_API.Models.CarType", b =>
@@ -817,6 +801,21 @@ namespace Booking_API.Migrations
                     b.ToTable("RoomTypes");
                 });
 
+            modelBuilder.Entity("CarCarRental", b =>
+                {
+                    b.Property<int>("CarRentalsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CarsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CarRentalsId", "CarsId");
+
+                    b.HasIndex("CarsId");
+
+                    b.ToTable("CarCarRental");
+                });
+
             modelBuilder.Entity("FeatureHotel", b =>
                 {
                     b.Property<int>("FeaturesId")
@@ -995,70 +994,11 @@ namespace Booking_API.Migrations
                     b.Navigation("City");
                 });
 
-            modelBuilder.Entity("Booking_API.Models.CarPhoto", b =>
-                {
-                    b.HasOne("Booking_API.Models.Car", "Car")
-                        .WithMany("CarPhotos")
-                        .HasForeignKey("CarId");
-
-                    b.Navigation("Car");
-                });
-
-            modelBuilder.Entity("Booking_API.Models.CarRental", b =>
+            modelBuilder.Entity("Booking_API.Models.CarAgencyReview", b =>
                 {
                     b.HasOne("Booking_API.Models.CarAgency", "CarAgency")
-                        .WithMany("CarRentals")
-                        .HasForeignKey("CarAgencyId");
-
-                    b.HasOne("Booking_API.Models.Car", "Car")
-                        .WithMany("CarRentals")
-                        .HasForeignKey("CarId");
-
-                    b.HasOne("Booking_API.Models.CarRentalInvoice", "CarRentalInvoice")
-                        .WithMany()
-                        .HasForeignKey("CarRentalInvoiceId");
-
-                    b.HasOne("Booking_API.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("CarRentals")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("Car");
-
-                    b.Navigation("CarAgency");
-
-                    b.Navigation("CarRentalInvoice");
-                });
-
-            modelBuilder.Entity("Booking_API.Models.CarRentalInvoice", b =>
-                {
-                    b.HasOne("Booking_API.Models.CarRental", "CarRental")
-                        .WithMany()
-                        .HasForeignKey("CarRentalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Booking_API.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("CarRentalInvoices")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("CarRental");
-                });
-
-            modelBuilder.Entity("Booking_API.Models.CarReview", b =>
-                {
-                    b.HasOne("Booking_API.Models.CarAgency", null)
                         .WithMany("CarAgencyReviews")
                         .HasForeignKey("CarAgencyId");
-
-                    b.HasOne("Booking_API.Models.Car", "Car")
-                        .WithMany("CarReviews")
-                        .HasForeignKey("CarId");
 
                     b.HasOne("Booking_API.Models.CarRental", "CarRental")
                         .WithMany()
@@ -1070,7 +1010,42 @@ namespace Booking_API.Migrations
 
                     b.Navigation("ApplicationUser");
 
+                    b.Navigation("CarAgency");
+
+                    b.Navigation("CarRental");
+                });
+
+            modelBuilder.Entity("Booking_API.Models.CarPhoto", b =>
+                {
+                    b.HasOne("Booking_API.Models.Car", "Car")
+                        .WithMany("CarPhotos")
+                        .HasForeignKey("CarId");
+
                     b.Navigation("Car");
+                });
+
+            modelBuilder.Entity("Booking_API.Models.CarRental", b =>
+                {
+                    b.HasOne("Booking_API.Models.CarAgency", null)
+                        .WithMany("CarRentals")
+                        .HasForeignKey("CarAgencyId");
+                });
+
+            modelBuilder.Entity("Booking_API.Models.CarRentalInvoice", b =>
+                {
+                    b.HasOne("Booking_API.Models.CarRental", "CarRental")
+                        .WithOne("CarRentalInvoice")
+                        .HasForeignKey("Booking_API.Models.CarRentalInvoice", "CarRentalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Booking_API.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("CarRentalInvoices")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
 
                     b.Navigation("CarRental");
                 });
@@ -1200,6 +1175,21 @@ namespace Booking_API.Migrations
                     b.Navigation("RoomType");
                 });
 
+            modelBuilder.Entity("CarCarRental", b =>
+                {
+                    b.HasOne("Booking_API.Models.CarRental", null)
+                        .WithMany()
+                        .HasForeignKey("CarRentalsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Booking_API.Models.Car", null)
+                        .WithMany()
+                        .HasForeignKey("CarsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("FeatureHotel", b =>
                 {
                     b.HasOne("Booking_API.Models.Feature", null)
@@ -1287,8 +1277,6 @@ namespace Booking_API.Migrations
 
                     b.Navigation("CarRentalInvoices");
 
-                    b.Navigation("CarRentals");
-
                     b.Navigation("HotelBookingInvoices");
 
                     b.Navigation("Reviews");
@@ -1297,10 +1285,6 @@ namespace Booking_API.Migrations
             modelBuilder.Entity("Booking_API.Models.Car", b =>
                 {
                     b.Navigation("CarPhotos");
-
-                    b.Navigation("CarRentals");
-
-                    b.Navigation("CarReviews");
                 });
 
             modelBuilder.Entity("Booking_API.Models.CarAgency", b =>
@@ -1310,6 +1294,11 @@ namespace Booking_API.Migrations
                     b.Navigation("CarRentals");
 
                     b.Navigation("Cars");
+                });
+
+            modelBuilder.Entity("Booking_API.Models.CarRental", b =>
+                {
+                    b.Navigation("CarRentalInvoice");
                 });
 
             modelBuilder.Entity("Booking_API.Models.City", b =>

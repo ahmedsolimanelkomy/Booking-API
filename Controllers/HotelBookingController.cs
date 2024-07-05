@@ -42,7 +42,6 @@ namespace Booking_API.Controllers
 
         [HttpPost("GetFilteredUserBookings")]
         public async Task<ActionResult<GeneralResponse<IEnumerable<HotelBookingViewDTO>>>> GetFilteredUserBookings([FromQuery] UserBookingFilterDTO filter)
-        
         {
             if (!ModelState.IsValid)
             {

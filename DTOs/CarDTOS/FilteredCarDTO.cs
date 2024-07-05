@@ -20,10 +20,15 @@ namespace Booking_API.DTOs.CarDTOS
         [Range(1, int.MaxValue, ErrorMessage = "NumberOfSeats must be at least 1")]
         public int? NumberOfSeats { get; set; }
 
+        [Range(0, 5)]
+        public int? Rating { get; set; }
+
+        public string? Description { get; set; }
+
         public string? AgencyName { get; set; }
 
         public CarType? CarType { get; set; }
 
-
+        public ICollection<CarPhoto>? CarPhotos { get; set; } = new HashSet<CarPhoto>();
     }
 }

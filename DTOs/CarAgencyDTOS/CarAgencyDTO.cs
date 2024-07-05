@@ -9,7 +9,7 @@
 
         //  [MaxLength(200)]
         public string? Address { get; set; }
-
+        public string? CityName {  get; set; }
         //  [Url]
         public string? LogoURL { get; set; }
 

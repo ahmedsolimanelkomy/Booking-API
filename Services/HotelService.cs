@@ -122,7 +122,7 @@ namespace Booking_API.Services
 
         public async Task<IEnumerable<FilteredHotelDTO>> GetHotelsByCityName( string City)
         {
-            var hotels = await _unitOfWork.Hotels.GetAllAsync(new[] { "City" });
+            var hotels = await _unitOfWork.Hotels.GetAllAsync(new[] { "City" , "Photos", "Rooms", "Features" });
 
             var filteredHotels = hotels
                 .Where(hotel => hotel.City != null && hotel.City.Name.Equals(City, StringComparison.OrdinalIgnoreCase))

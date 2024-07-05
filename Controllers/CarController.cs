@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Booking_API.DTOs;
 using Booking_API.DTOs.CarDTOS;
+using Booking_API.DTOs.CarRental;
 using Booking_API.DTOs.HotelDTOS;
 using Booking_API.Models;
 using Booking_API.Services;
 using Booking_API.Services.IService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Booking_API.Controllers
 {
@@ -31,7 +33,7 @@ namespace Booking_API.Controllers
             return Ok(new GeneralResponse<IEnumerable<CarDTO>>(true, "Cars retrieved successfully", carDTOs));
         }
         
-        // GET: api/Car
+        
         [HttpGet("GetCarByBrand")]
         public async Task<ActionResult<IEnumerable<FilteredCarDTO>>> GetCarByBrand([FromQuery] string Brand)
         {
@@ -41,6 +43,18 @@ namespace Booking_API.Controllers
                 return Ok(new GeneralResponse<IEnumerable<FilteredCarDTO>>(false, "No cars available in this brand", null));
             }
             return Ok(new GeneralResponse<IEnumerable<FilteredCarDTO>>(true, "cars retrieved successfully", Cars));
+        } 
+        
+        // GET: api/Filteration
+        [HttpGet("GetFilteredCars")]
+        public async Task<ActionResult<IEnumerable<FilteredCarDTO>>> GetFilteredCars([FromQuery] CarRentalFilterationDTO filter)
+        {
+            var cars = await _carService.GetFilteredCars(filter);
+            if (cars == null || !cars.Any())
+            {
+                return Ok(new GeneralResponse<IEnumerable<FilteredCarDTO>>(false, "No cars found with the specified criteria", null));
+            }
+            return Ok(new GeneralResponse<IEnumerable<FilteredCarDTO>>(true, "Cars retrieved successfully", cars));
         }
 
         // GET: api/Car/{id}

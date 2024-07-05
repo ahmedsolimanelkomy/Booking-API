@@ -20,6 +20,9 @@ namespace Booking_API.Models
         [MaxLength(50)]
         public string? Brand { get; set; }
 
+        [Range(0, 5)]
+        public int? Rating { get; set; }
+
         [Range(0, double.MaxValue, ErrorMessage = "RentPrice must be a positive value")]
         public decimal? RentPrice { get; set; }
 
@@ -30,6 +33,7 @@ namespace Booking_API.Models
 
         public bool? InsuranceIncluded { get; set; }
 
+        public string? Description { get; set; }
 
         public GearType? GearType { get; set; }
 
@@ -47,6 +51,7 @@ namespace Booking_API.Models
         public CarAgency? CarAgency { get; set; }
         public CarType? CarType { get; set; }
         public ICollection<CarRental>? CarRentals { get; set; } = new HashSet<CarRental>();
+        public ICollection<CarReview>? CarReviews { get; set; } = new HashSet<CarReview>();
         public ICollection<CarPhoto>? CarPhotos { get; set; } = new HashSet<CarPhoto>();
 
     }

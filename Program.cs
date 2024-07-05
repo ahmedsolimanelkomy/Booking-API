@@ -51,12 +51,12 @@ namespace Booking_API
             builder.Services.AddScoped<ICarService, CarService>();
             builder.Services.AddScoped<ICarAgencyService, CarAgencyServices>();
             builder.Services.AddScoped<ICarRentalService, CarRentalService>();
-
-
             builder.Services.AddScoped<IHotelBookingInvoiceService, HotelBookingInvoiceService>();
             builder.Services.AddScoped<ICarRentalInvoiceService, CarRentalInvoiceService>();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddSingleton<BraintreeService>();
+            builder.Services.AddHostedService<BookingStatusUpdateBackgroundService>();
+
 
 
             // Add JWT Authentication

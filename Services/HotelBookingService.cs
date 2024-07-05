@@ -93,15 +93,20 @@ namespace Booking_API.Services
                 room.HotelBookings = new List<HotelBooking>();
             }
 
-            // Check if room is available for the given date range
-            var isRoomAvailable = !room.HotelBookings.Any(booking =>
-                booking.Status == BookingStatus.Confirmed &&
-                !(booking.CheckOutDate <= bookingDto.CheckInDate || booking.CheckInDate >= bookingDto.CheckOutDate));
+            //// Check if room is available for the given date range
+            //if (room.HotelBookings != null)
+            //{
+            //    var isRoomAvailable = !room.HotelBookings.Any(booking =>
+            //        booking.Status == BookingStatus.Confirmed &&
+            //        (booking.CheckInDate == null || booking.CheckOutDate == null ||
+            //         !(booking.CheckOutDate <= bookingDto.CheckInDate || booking.CheckInDate >= bookingDto.CheckOutDate)));
 
-            if (!isRoomAvailable)
-            {
-                return new GeneralResponse<CreateHotelBookingDTO>(false, "Room is not available for the selected dates", bookingDto);
-            }
+
+            //    if (!isRoomAvailable)
+            //    {
+            //        return new GeneralResponse<CreateHotelBookingDTO>(false, "Room is not available for the selected dates", bookingDto);
+            //    }
+            //}
 
             var booking = _mapper.Map<HotelBooking>(bookingDto);
             room.HotelBookings.Add(booking);
@@ -146,6 +151,29 @@ namespace Booking_API.Services
             }
 
             return new GeneralResponse<HotelBookingInvoice>(true, "Invoice created successfully", invoice);
+        }
+
+        public async Task UpdateBookingStatusAsync()
+        {
+            var bookings = await _unitOfWork.HotelBookings.GetAllAsync();
+
+            foreach (var booking in bookings)
+            {
+                if (booking.CheckOutDate < DateTime.Now && booking.Status != BookingStatus.Completed)
+                {
+                    booking.Status = BookingStatus.Completed;
+
+                    try
+                    {
+                        await _unitOfWork.HotelBookings.UpdateAsync(booking);
+                        await _unitOfWork.SaveAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle exception (log or throw)
+                    }
+                }
+            }
         }
 
         private int GenerateRandomTransactionNumber()

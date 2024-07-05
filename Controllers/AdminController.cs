@@ -14,12 +14,14 @@ namespace Booking_API.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
+        private readonly RoleManager<ApplicationRole> roleManager;
         private readonly UserManager<ApplicationUser> UserManager;
         private readonly IConfiguration Configuration;
         private readonly IMapper Mapper;
 
-        public AdminController(UserManager<ApplicationUser> userManager, IConfiguration configuration, IMapper mapper)
+        public AdminController(RoleManager<ApplicationRole> roleManager, UserManager<ApplicationUser> userManager, IConfiguration configuration, IMapper mapper)
         {
+            this.roleManager = roleManager;
             UserManager = userManager;
             Configuration = configuration;
             Mapper = mapper;
@@ -61,6 +63,12 @@ namespace Booking_API.Controllers
             if (existingUser != null)
             {
                 return BadRequest(new GeneralResponse<string>(false, "Email address already exists", null));
+            }
+
+            var role = await roleManager.RoleExistsAsync("ADMIN");
+            if (!role)
+            {
+                return BadRequest(new GeneralResponse<string>(false, "Role Admin doesn't exist", null));
             }
 
             var user = Mapper.Map<ApplicationUser>(createAdminDTO);

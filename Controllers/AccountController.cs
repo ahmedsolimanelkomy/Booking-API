@@ -269,5 +269,28 @@ namespace Booking_API.Controllers
         }
         #endregion
 
+
+        [HttpGet("GetUserRolesById/{userId}")]
+        public async Task<ActionResult> GetUserRolesById(string userId)
+        {
+            try
+            {
+                // Find the user by userId
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return NotFound(new GeneralResponse<string>(false, $"User with Id '{userId}' not found", null));
+                }
+
+                // Get roles of the user
+                var roles = await _userManager.GetRolesAsync(user);
+
+                return Ok(new GeneralResponse<IEnumerable<string>>(true, "User roles retrieved successfully", roles));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new GeneralResponse<string>(false, $"An error occurred while retrieving user roles: {ex.Message}", null));
+            }
+        }
     }
 }

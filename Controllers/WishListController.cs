@@ -1,5 +1,8 @@
-﻿using Booking_API.DTOs;
+﻿using AutoMapper;
+using Booking_API.DTOs;
+using Booking_API.DTOs.HotelDTOS;
 using Booking_API.Models;
+using Booking_API.Services;
 using Booking_API.Services.IService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +15,12 @@ namespace Booking_API.Controllers
     {
 
         private readonly IWishListService wishListService;
+        private readonly IMapper mapper;
 
-        public WishListController(IWishListService wishListService)
+        public WishListController(IWishListService wishListService, IMapper mapper)
         {
             this.wishListService = wishListService;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -37,11 +42,18 @@ namespace Booking_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<GeneralResponse<HotelWishList>>> PostWishList(HotelWishList WishList)
+        public async Task<ActionResult<GeneralResponse<HotelWishList>>> PostWishList(HotelWishListDTO wishListDTO)
         {
-            await wishListService.AddAsync(WishList);
-            return CreatedAtAction(nameof(GetWishList), new { id = WishList.Id }, new GeneralResponse<HotelWishList>(true, "WishList added successfully", WishList));
+            // Map DTO to entity model
+            var wishList = mapper.Map<HotelWishList>(wishListDTO);
+
+            // Save the new wishlist
+            await wishListService.AddAsync(wishList);
+
+            // Return the created wishlist
+            return CreatedAtAction(nameof(GetWishList), new { id = wishList.Id }, new GeneralResponse<HotelWishList>(true, "WishList added successfully", wishList));
         }
+
 
         [HttpPut("{id}")]
         public async Task<ActionResult<GeneralResponse<HotelWishList>>> PutWishList(int id, HotelWishList WishList)
@@ -66,6 +78,30 @@ namespace Booking_API.Controllers
 
             await wishListService.DeleteAsync(id);
             return Ok(new GeneralResponse<HotelWishList>(true, "WishList deleted successfully", existingWishList));
+        }
+
+
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<GeneralResponse<ICollection<WishlistHotelDTO>>>> GetWishListHotels(int userId)
+        {
+            var hotels = await wishListService.GetWishListHotelsAsync(userId);
+            var wishlistHotelDTOs = mapper.Map<ICollection<WishlistHotelDTO>>(hotels);
+
+            return Ok(new GeneralResponse<ICollection<WishlistHotelDTO>>(true, "WishList retrieved successfully", wishlistHotelDTOs));
+        }
+
+        [HttpPost("user/{userId}/{hotelId}")]
+        public async Task<ActionResult<GeneralResponse<string>>> AddHotelToWishList(int userId, int hotelId)
+        {
+            await wishListService.AddHotelToWishListAsync(userId, hotelId);
+            return Ok(new GeneralResponse<string>(true, "Hotel added to wishlist successfully", null));
+        }
+
+        [HttpDelete("user/{userId}/{hotelId}")]
+        public async Task<ActionResult<GeneralResponse<string>>> RemoveHotelFromWishList(int userId, int hotelId)
+        {
+            await wishListService.RemoveHotelFromWishListAsync(userId, hotelId);
+            return Ok(new GeneralResponse<string>(true, "Hotel removed from wishlist successfully", null));
         }
 
 

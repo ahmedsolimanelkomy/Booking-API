@@ -1,4 +1,4 @@
-﻿namespace Booking_API.DTOs
+﻿namespace Booking_API.DTOs.CarAgencyDTOS
 {
     public class CarAgencyDTO
     {

@@ -47,8 +47,7 @@ namespace Booking_API.Models
         public CarAgency? CarAgency { get; set; }
         public CarType? CarType { get; set; }
         public ICollection<CarRental>? CarRentals { get; set; } = new HashSet<CarRental>();
-
-
+        public ICollection<CarPhoto>? CarPhotos { get; set; } = new HashSet<CarPhoto>();
 
     }
 }

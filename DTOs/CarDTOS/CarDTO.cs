@@ -1,6 +1,6 @@
 ﻿using Booking_API.Models;
 
-namespace Booking_API.DTOs
+namespace Booking_API.DTOs.CarDTOS
 {
     public class CarDTO
     {
@@ -27,6 +27,7 @@ namespace Booking_API.DTOs
 
         // [Range(1, int.MaxValue, ErrorMessage = "NumberOfSeats must be at least 1")]
         public int? NumberOfSeats { get; set; }
+
 
         //public int? AgencyId { get; set; }
         //public int? CarTypeId { get; set; }

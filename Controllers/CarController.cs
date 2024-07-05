@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using Booking_API.DTOs;
+using Booking_API.DTOs.CarDTOS;
+using Booking_API.DTOs.HotelDTOS;
 using Booking_API.Models;
+using Booking_API.Services;
 using Booking_API.Services.IService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +29,18 @@ namespace Booking_API.Controllers
             var cars = await _carService.GetAllAsync();
             var carDTOs = _mapper.Map<IEnumerable<CarDTO>>(cars);
             return Ok(new GeneralResponse<IEnumerable<CarDTO>>(true, "Cars retrieved successfully", carDTOs));
+        }
+        
+        // GET: api/Car
+        [HttpGet("GetCarByBrand")]
+        public async Task<ActionResult<IEnumerable<FilteredCarDTO>>> GetCarByBrand([FromQuery] string Brand)
+        {
+            IEnumerable<FilteredCarDTO> Cars = await _carService.GetCarByBrand(Brand);
+            if (Cars == null || !Cars.Any())
+            {
+                return Ok(new GeneralResponse<IEnumerable<FilteredCarDTO>>(false, "No cars available in this brand", null));
+            }
+            return Ok(new GeneralResponse<IEnumerable<FilteredCarDTO>>(true, "cars retrieved successfully", Cars));
         }
 
         // GET: api/Car/{id}
@@ -92,5 +107,7 @@ namespace Booking_API.Controllers
             await _carService.DeleteAsync(id);
             return CreatedAtAction(nameof(DeleteCar), new { id = car.Id }, new GeneralResponse<CarDTO>(true, "Car created successfully", null));
         }
+
+
     }
 }

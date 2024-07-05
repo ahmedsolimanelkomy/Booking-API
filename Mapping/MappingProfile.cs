@@ -2,6 +2,8 @@
 using Booking_API.DTOs;
 using Booking_API.DTOs.AccountDTOS;
 using Booking_API.DTOs.AdminDTOS;
+using Booking_API.DTOs.CarAgencyDTOS;
+using Booking_API.DTOs.CarDTOS;
 using Booking_API.DTOs.CityDTOS;
 using Booking_API.DTOs.CountryDTOS;
 using Booking_API.DTOs.FeatureDTOS;
@@ -163,6 +165,13 @@ namespace Booking_API.Mapping
             CreateMap<HotelBookingInvoice, HotelBookingInvoiceDTO>().ReverseMap();
             CreateMap<CarRentalInvoice, CarRentalInvoiceDTO>().ReverseMap();
             CreateMap<ViewInvoiceDTO, HotelBookingInvoice>().ReverseMap();
+
+            CreateMap<CarAgency, CarAgencyDTO>();
+
+            CreateMap<Hotel, FilteredHotelDTO>()
+                .ForMember(dest => dest.CityName, opt => opt.MapFrom(src => src.City.Name));
+
+            CreateMap<Car, FilteredCarDTO>();
         }
 
     }

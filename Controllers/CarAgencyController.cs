@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Booking_API.DTOs;
+using Booking_API.DTOs.CarAgencyDTOS;
 using Booking_API.Models;
 using Booking_API.Services.IService;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,18 @@ namespace Booking_API.Controllers
             var carAgencies = await _carAgencyService.GetAllAsync();
             var carAgencyDTOs = _mapper.Map<IEnumerable<CarAgencyDTO>>(carAgencies);
             return Ok(new GeneralResponse<IEnumerable<CarAgencyDTO>>(true, "Car agencies retrieved successfully", carAgencyDTOs));
+        }
+
+        // GET: api/CarAgency
+        [HttpGet("GetFilteredCarAgencies")]
+        public async Task<ActionResult<IEnumerable<CarAgencyDTO>>> GetFilteredCarAgencies([FromQuery] CarAgencyFilterDTO carAgencyFilterDTO)
+        {
+            var carAgencyDTOs = await _carAgencyService.GetFilteredCarAgencies(carAgencyFilterDTO);
+            if(!carAgencyDTOs.Any())
+            {
+                return BadRequest(new GeneralResponse<IEnumerable<CarAgencyDTO>>(false, "there is no car agency with this filteration", null));
+            }
+            return Ok(new GeneralResponse<IEnumerable<CarAgencyDTO>>(true, "Car agencies filtered successfully", carAgencyDTOs));
         }
 
         // GET: api/CarAgency/{id}

@@ -56,7 +56,7 @@ namespace Booking_API
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddSingleton<BraintreeService>();
             builder.Services.AddHostedService<BookingStatusUpdateBackgroundService>();
-
+            builder.Services.AddSingleton<IJwtHandler, JwtHandler>();
 
 
             // Add JWT Authentication

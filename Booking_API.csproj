@@ -9,9 +9,13 @@
 
   <ItemGroup>
     <Compile Remove="AutoMappers\**" />
+    <Compile Remove="wwwroot\Assets\Photos\**" />
     <Content Remove="AutoMappers\**" />
+    <Content Remove="wwwroot\Assets\Photos\**" />
     <EmbeddedResource Remove="AutoMappers\**" />
+    <EmbeddedResource Remove="wwwroot\Assets\Photos\**" />
     <None Remove="AutoMappers\**" />
+    <None Remove="wwwroot\Assets\Photos\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,8 +33,12 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Assets\Images\HotelsPhotos\" />
+<<<<<<< HEAD
     <Folder Include="wwwroot\Assets\Images\CarAgency\" />
     <Folder Include="wwwroot\Assets\Photos\HotelsPhotos\" />
+=======
+    <Folder Include="wwwroot\Assets\Images\UserPhotos\" />
+>>>>>>> 60bdda64d504b4437e20d152d9e2fca852012286
   </ItemGroup>
 
 </Project>

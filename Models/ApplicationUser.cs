@@ -30,8 +30,8 @@ namespace Booking_API.Models
         public int? CityId { get; set; }
 
         // Navigation Properties
-        public HotelWishList? WishList { get; set; }
-        public Passport? Passport { get; set; }
+        public HotelWishList? WishList { get; set; } = new HotelWishList();
+        public Passport? Passport { get; set; } = new Passport();
         public City? City { get; set; }
 
         public ICollection<HotelBooking>? Bookings { get; set; }

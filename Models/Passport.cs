@@ -15,11 +15,11 @@ namespace Booking_API.Models
         [StringLength(50)]
         public string? LastName { get; set; }
 
-        [Required,MinLength(14), MaxLength(14), DisplayName("National ID")]
+        [MinLength(14), MaxLength(14), DisplayName("National ID")]
         public string? NationalId { get; set; }
 
-        [Required,StringLength(20)]
-        public int? PassportNumber { get; set; }
+        [StringLength(20)]
+        public string? PassportNumber { get; set; }
 
         [StringLength(50)]
         public string? IssuingCountry { get; set; }
@@ -27,7 +27,7 @@ namespace Booking_API.Models
         public DateOnly ExpiryDate { get; set; }
 
         // Foreign keys
-        [ForeignKey("User")]
+        [ForeignKey("ApplicationUser")]
         public int? UserId { get; set; }
 
         // Navigation Properties

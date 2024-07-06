@@ -1,26 +1,31 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Booking_API.Models;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Booking_API.DTOs
 {
     public class PassportDto
     {
-           
-            public string? FirstName { get; set; }
+        public int Id { get; set; }
 
-            public string? LastName { get; set; }
+        [StringLength(50)]
+        public string? FirstName { get; set; }
 
-            [Required, MinLength(14), MaxLength(14)]
-            public string? NationalId { get; set; }
+        [StringLength(50)]
+        public string? LastName { get; set; }
 
-            [Required, StringLength(20)]
-            public string? PassportNumber { get; set; }
+        [Required, MinLength(14), MaxLength(14)]
+        public string NationalId { get; set; } = string.Empty;
 
-            public string? IssuingCountry { get; set; }
+        [Required, StringLength(20)]
+        public string PassportNumber { get; set; } = string.Empty;
 
-            public DateOnly ExpiryDate { get; set; }
+        [StringLength(100)]
+        public string? IssuingCountry { get; set; }
 
-            public string? UserId { get; set; }
-        }
+        public DateOnly ExpiryDate { get; set; }
+
     }
+}
 
 

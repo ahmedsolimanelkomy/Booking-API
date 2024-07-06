@@ -23,14 +23,16 @@ namespace Booking_API.Controllers
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
+        private readonly IAccountService _accountService;
 
-        public AccountController(RoleManager<ApplicationRole> roleManager, UserManager<ApplicationUser> userManager, IConfiguration configuration, IMapper mapper, IEmailService emailService)
+        public AccountController(RoleManager<ApplicationRole> roleManager, UserManager<ApplicationUser> userManager, IConfiguration configuration, IMapper mapper, IEmailService emailService, IAccountService accountService)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _configuration = configuration;
             _mapper = mapper;
             _emailService = emailService;
+            _accountService = accountService;
         }
 
         [HttpGet("GetUserById/{id}")]
@@ -233,6 +235,85 @@ namespace Booking_API.Controllers
             }
         }
 
+        [HttpGet("GetUserRolesById/{userId}")]
+        public async Task<ActionResult> GetUserRolesById(string userId)
+        {
+            try
+            {
+                // Find the user by userId
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return NotFound(new GeneralResponse<string>(false, $"User with Id '{userId}' not found", null));
+                }
+
+                // Get roles of the user
+                var roles = await _userManager.GetRolesAsync(user);
+
+                return Ok(new GeneralResponse<IEnumerable<string>>(true, "User roles retrieved successfully", roles));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new GeneralResponse<string>(false, $"An error occurred while retrieving user roles: {ex.Message}", null));
+            }
+        }
+
+        [HttpPut("UpdateUser/{userId}")]
+        public async Task<ActionResult> UpdateUser(string userId, [FromForm] UserUpdateDTO model)
+        {
+            if (model == null)
+            {
+                return BadRequest(new GeneralResponse<string>(false, "Request body is null", null));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var modelErrors = ModelState.Values.SelectMany(v => v.Errors)
+                                                   .Select(e => e.ErrorMessage)
+                                                   .ToList();
+                return BadRequest(new GeneralResponse<List<string>>(false, "Invalid model data", modelErrors));
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound(new GeneralResponse<string>(false, "User not found", null));
+            }
+
+            // Map the updated fields to the user
+            user.FirstName = model.FirstName ?? user.FirstName;
+            user.LastName = model.LastName ?? user.LastName;
+            user.Email = model.Email ?? user.Email;
+            user.PhoneNumber = model.PhoneNumber ?? user.PhoneNumber;
+            user.Gender = model.Gender ?? user.Gender;
+            user.Address = model.Address ?? user.Address;
+            user.BirthDate = model.BirthDate ?? user.BirthDate;
+            user.CityId = model.CityId ?? user.CityId;
+
+            // Handle the photo update
+            if (model.Photo != null)
+            {
+                string newPhotoUrl = await _accountService.SavePhoto(model.Photo);
+
+                if (!string.IsNullOrEmpty(user.PhotoUrl))
+                {
+                    _accountService.DeletePhoto(user.PhotoUrl);
+                }
+                user.PhotoUrl = newPhotoUrl;
+            }
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+            {
+                return Ok(new GeneralResponse<string>(true, "User information updated successfully", null));
+            }
+
+            var errors = string.Join("; ", result.Errors.Select(e => e.Description));
+            return BadRequest(new GeneralResponse<string>(false, errors, null));
+        }
+
+
         #region Mail Confirmation
         private async Task SendConfirmationEmail(string email, ApplicationUser user)
         {
@@ -268,29 +349,5 @@ namespace Booking_API.Controllers
             return BadRequest(new GeneralResponse<string>(false, errors, null));
         }
         #endregion
-
-
-        [HttpGet("GetUserRolesById/{userId}")]
-        public async Task<ActionResult> GetUserRolesById(string userId)
-        {
-            try
-            {
-                // Find the user by userId
-                var user = await _userManager.FindByIdAsync(userId);
-                if (user == null)
-                {
-                    return NotFound(new GeneralResponse<string>(false, $"User with Id '{userId}' not found", null));
-                }
-
-                // Get roles of the user
-                var roles = await _userManager.GetRolesAsync(user);
-
-                return Ok(new GeneralResponse<IEnumerable<string>>(true, "User roles retrieved successfully", roles));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new GeneralResponse<string>(false, $"An error occurred while retrieving user roles: {ex.Message}", null));
-            }
-        }
     }
 }

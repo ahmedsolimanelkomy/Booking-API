@@ -112,7 +112,7 @@ namespace Booking_API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCar(int id)
         {
-            var car = await _carService.GetAsync(c => c.Id == id);
+            var car = await _carService.GetAsync(c => c.Id == id, ["CarRentals", "CarReviews", "CarPhotos"]);
             if (car == null)
             {
                 return NotFound(new GeneralResponse<CarDTO>(false, "Car not found", null));

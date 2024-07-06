@@ -27,8 +27,10 @@ namespace Booking_API.Models
         [Required]
         public double DropOffLocation { get; set; }
 
+        [CheckInDate]
         public DateTime PickUpDate { get; set; }
 
+        [CheckOutDate("PickUpDate", ErrorMessage = "Check-out date must be after the check-in date.")]
         public DateTime DropOffDate { get; set; }
 
 

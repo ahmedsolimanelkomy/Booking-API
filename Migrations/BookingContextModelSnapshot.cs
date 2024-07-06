@@ -67,7 +67,7 @@ namespace Booking_API.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<DateTime>("BirthDate")
+                    b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("CityId")
@@ -181,6 +181,9 @@ namespace Booking_API.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("GasType")
+                        .HasColumnType("int");
+
                     b.Property<int?>("GearType")
                         .HasColumnType("int");
 
@@ -224,6 +227,12 @@ namespace Booking_API.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<int?>("AgencyPhotoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AgencyPhotoURL")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("CarRentalId")
                         .HasColumnType("int");
 
@@ -235,9 +244,6 @@ namespace Booking_API.Migrations
 
                     b.Property<double?>("Latitude")
                         .HasColumnType("float");
-
-                    b.Property<string>("LogoURL")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double?>("Longitude")
                         .HasColumnType("float");
@@ -253,6 +259,8 @@ namespace Booking_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AgencyPhotoId");
 
                     b.HasIndex("CityId");
 
@@ -988,9 +996,15 @@ namespace Booking_API.Migrations
 
             modelBuilder.Entity("Booking_API.Models.CarAgency", b =>
                 {
+                    b.HasOne("Booking_API.Models.CarPhoto", "AgencyPhoto")
+                        .WithMany()
+                        .HasForeignKey("AgencyPhotoId");
+
                     b.HasOne("Booking_API.Models.City", "City")
                         .WithMany("CarAgencies")
                         .HasForeignKey("CityId");
+
+                    b.Navigation("AgencyPhoto");
 
                     b.Navigation("City");
                 });

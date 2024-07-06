@@ -14,8 +14,7 @@ namespace Booking_API.Models
         [MaxLength(200)]
         public string? Address { get; set; }
 
-        [Url]
-        public string? LogoURL { get; set; }
+        public string? AgencyPhotoURL { get; set; }
 
         [Phone]
         public string? PhoneNumber { get; set; }

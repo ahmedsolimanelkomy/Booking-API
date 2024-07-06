@@ -31,17 +31,13 @@ namespace Booking_API.Services
         public async Task<IEnumerable<FilteredCarDTO>> GetFilteredCars(CarRentalFilterationDTO filter)
         {
 
-            // Fetch all cars with their related entities
-            var cars = await _unitOfWork.Cars.GetListAsync(
-                car => true, // No initial filter
-                new[] { "CarAgency", "CarAgency.City", "CarPhotos" }
-            );
+            var cars = await _unitOfWork.Cars.GetListAsync(car => true, // No initial filter
+                new[] { "CarAgency", "CarAgency.City", "CarPhotos" });
 
             // Apply the filters
             var filteredCars = cars.Where(car =>
-                (string.IsNullOrEmpty(filter.PickUpCity) ||
-                 (car.CarAgency?.City?.Name != null &&
-                  car.CarAgency.City.Name.Equals(filter.PickUpCity, StringComparison.OrdinalIgnoreCase))) &&
+                (!filter.CityId.HasValue ||
+                 (car.CarAgency?.CityId != null && car.CarAgency.CityId == filter.CityId.Value)) &&
                 (!filter.MinPrice.HasValue || (car.RentPrice.HasValue && car.RentPrice.Value >= filter.MinPrice.Value)) &&
                 (!filter.MaxPrice.HasValue || (car.RentPrice.HasValue && car.RentPrice.Value <= filter.MaxPrice.Value)) &&
                 (!filter.GearType.HasValue || car.GearType == filter.GearType) &&
@@ -50,15 +46,13 @@ namespace Booking_API.Services
                  (car.Brand != null && car.Brand.Equals(filter.Brand, StringComparison.OrdinalIgnoreCase))) &&
                 (!filter.InsuranceIncluded.HasValue || car.InsuranceIncluded == filter.InsuranceIncluded) &&
                 (!filter.NumberOfSeats.HasValue || car.NumberOfSeats == filter.NumberOfSeats) &&
-                (string.IsNullOrEmpty(filter.AgencyName) ||
-                 (car.CarAgency?.Name != null &&
-                  car.CarAgency.Name.Equals(filter.AgencyName, StringComparison.OrdinalIgnoreCase)))
+                (!filter.AgencyId.HasValue ||
+                 (car.CarAgency?.Id != null && car.CarAgency.Id == filter.AgencyId.Value))
             ).ToList();
 
             // Map the filtered cars to FilteredCarDTO
             return _mapper.Map<IEnumerable<FilteredCarDTO>>(filteredCars);
         }
-
     }
 
 }

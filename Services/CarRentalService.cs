@@ -28,15 +28,15 @@ namespace Booking_API.Services
 
             var filteredRentals = rentals
                 .Where(rental =>
-                    (string.IsNullOrEmpty(filter.AgencyName) || rental.CarAgency.Name.Contains(filter.AgencyName, System.StringComparison.OrdinalIgnoreCase)) &&
-                    (!filter.PickUpDate.HasValue || rental.PickUpDate.Date == filter.PickUpDate.Value.Date) &&
-                    (!filter.DropOffDate.HasValue || rental.DropOffDate.Date == filter.DropOffDate.Value.Date) &&
+                    (!filter.AgencyId.HasValue || rental.CarAgency.Id == filter.AgencyId.Value) &&
+                    rental.PickUpDate.Date == filter.PickUpDate.Date &&
+                    rental.DropOffDate.Date == filter.DropOffDate.Date &&
                     (!filter.GearType.HasValue || rental.Car.GearType == filter.GearType) &&
                     (!filter.ModelOfYear.HasValue || rental.Car.ModelOfYear == filter.ModelOfYear) &&
-                    (string.IsNullOrEmpty(filter.Brand) || rental.Car.Brand.Contains(filter.Brand, System.StringComparison.OrdinalIgnoreCase)) &&
+                    (string.IsNullOrEmpty(filter.Brand) || rental.Car.Brand.Contains(filter.Brand, StringComparison.OrdinalIgnoreCase)) &&
                     (!filter.NumberOfSeats.HasValue || rental.Car.NumberOfSeats == filter.NumberOfSeats) &&
                     (!filter.InsuranceIncluded.HasValue || rental.Car.InsuranceIncluded == filter.InsuranceIncluded) &&
-                    (string.IsNullOrEmpty(filter.PickUpCity) || rental.CarAgency.City.Name.Contains(filter.PickUpCity, System.StringComparison.OrdinalIgnoreCase))
+                    (!filter.CityId.HasValue || rental.CarAgency.CityId == filter.CityId.Value)
                 ).ToList();
 
             return _mapper.Map<IEnumerable<CarRentalViewDTO>>(filteredRentals);

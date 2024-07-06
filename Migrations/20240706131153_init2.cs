@@ -5,19 +5,13 @@
 namespace Booking_API.Migrations
 {
     /// <inheritdoc />
-    public partial class try2 : Migration
+    public partial class init2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "Description",
-                table: "Cars",
-                type: "nvarchar(max)",
-                nullable: true);
-
             migrationBuilder.AddColumn<int>(
-                name: "Rating",
+                name: "GasType",
                 table: "Cars",
                 type: "int",
                 nullable: true);
@@ -27,11 +21,7 @@ namespace Booking_API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Description",
-                table: "Cars");
-
-            migrationBuilder.DropColumn(
-                name: "Rating",
+                name: "GasType",
                 table: "Cars");
         }
     }

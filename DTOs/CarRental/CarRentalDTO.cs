@@ -1,4 +1,5 @@
 ﻿using Booking_API.Models;
+using Booking_API.Validations;
 
 namespace Booking_API.DTOs.CarRental
 {
@@ -15,8 +16,12 @@ namespace Booking_API.DTOs.CarRental
         public string? Notes { get; set; }
         public double? PickUpLocation { get; set; }
         public double? DropOffLocation { get; set; }
-        public DateTime? PickUpDate { get; set; }
-        public DateTime? DropOffDate { get; set; }
+
+        [CheckInDate]
+        public DateTime PickUpDate { get; set; }
+
+        [CheckOutDate("PickUpDate", ErrorMessage = "Check-out date must be after the check-in date.")]
+        public DateTime DropOffDate { get; set; }
 
     }
 }

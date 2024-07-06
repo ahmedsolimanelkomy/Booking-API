@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Booking_API.Migrations
 {
     [DbContext(typeof(BookingContext))]
-    [Migration("20240705182046_try3")]
-    partial class try3
+    [Migration("20240706101217_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,7 +70,7 @@ namespace Booking_API.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<DateTime>("BirthDate")
+                    b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("CityId")
@@ -227,6 +227,12 @@ namespace Booking_API.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<int?>("AgencyPhotoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AgencyPhotoURL")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("CarRentalId")
                         .HasColumnType("int");
 
@@ -238,9 +244,6 @@ namespace Booking_API.Migrations
 
                     b.Property<double?>("Latitude")
                         .HasColumnType("float");
-
-                    b.Property<string>("LogoURL")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double?>("Longitude")
                         .HasColumnType("float");
@@ -256,6 +259,8 @@ namespace Booking_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AgencyPhotoId");
 
                     b.HasIndex("CityId");
 
@@ -295,13 +300,13 @@ namespace Booking_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CarAgencyId")
+                    b.Property<int?>("CarAgencyId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CarId")
+                    b.Property<int?>("CarId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CarRentalInvoiceId")
+                    b.Property<int?>("CarRentalInvoiceId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DropOffDate")
@@ -328,7 +333,7 @@ namespace Booking_API.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -991,9 +996,15 @@ namespace Booking_API.Migrations
 
             modelBuilder.Entity("Booking_API.Models.CarAgency", b =>
                 {
+                    b.HasOne("Booking_API.Models.CarPhoto", "AgencyPhoto")
+                        .WithMany()
+                        .HasForeignKey("AgencyPhotoId");
+
                     b.HasOne("Booking_API.Models.City", "City")
                         .WithMany("CarAgencies")
                         .HasForeignKey("CityId");
+
+                    b.Navigation("AgencyPhoto");
 
                     b.Navigation("City");
                 });
@@ -1011,27 +1022,19 @@ namespace Booking_API.Migrations
                 {
                     b.HasOne("Booking_API.Models.CarAgency", "CarAgency")
                         .WithMany("CarRentals")
-                        .HasForeignKey("CarAgencyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CarAgencyId");
 
                     b.HasOne("Booking_API.Models.Car", "Car")
                         .WithMany("CarRentals")
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CarId");
 
                     b.HasOne("Booking_API.Models.CarRentalInvoice", "CarRentalInvoice")
                         .WithMany()
-                        .HasForeignKey("CarRentalInvoiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CarRentalInvoiceId");
 
                     b.HasOne("Booking_API.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("CarRentals")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("ApplicationUser");
 

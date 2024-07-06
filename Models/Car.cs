@@ -8,6 +8,12 @@ namespace Booking_API.Models
         Manual,
         Automatic
     }
+    public enum GasType
+    {
+        Diesel,
+        BioDiesel,
+        Octane95,
+    }
 
     public class Car
     {
@@ -36,6 +42,8 @@ namespace Booking_API.Models
         public string? Description { get; set; }
 
         public GearType? GearType { get; set; }
+
+        public GasType? GasType { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "NumberOfSeats must be at least 1")]
         public int? NumberOfSeats { get; set; }

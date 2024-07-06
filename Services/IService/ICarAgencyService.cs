@@ -6,7 +6,9 @@ namespace Booking_API.Services.IService
 {
     public interface ICarAgencyService : IService<CarAgency>
     {
-        public Task<IEnumerable<CarAgencyDTO>> GetFilteredCarAgencies(CarAgencyFilterDTO carAgencyFilterDTO);
+        public Task<IEnumerable<CarAgencyViewDTO>> GetFilteredCarAgencies(CarAgencyFilterDTO carAgencyFilterDTO);
+        Task<string> SavePhoto(IFormFile photo);
+        void DeletePhoto(string photoUrl);
     }
 
 }

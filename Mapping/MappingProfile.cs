@@ -166,9 +166,9 @@ namespace Booking_API.Mapping
             CreateMap<HotelBookingInvoice, HotelBookingInvoiceDTO>().ReverseMap();
             CreateMap<CarRentalInvoice, CarRentalInvoiceDTO>().ReverseMap();
             CreateMap<ViewInvoiceDTO, HotelBookingInvoice>().ReverseMap();
-<<<<<<< HEAD
 
             CreateMap<CarAgency, CarAgencyDTO>();
+            CreateMap<CarAgency, CarAgencyViewDTO>();
 
             CreateMap<Hotel, FilteredHotelDTO>()
                 .ForMember(dest => dest.CityName, opt => opt.MapFrom(src => src.City.Name))
@@ -183,8 +183,8 @@ namespace Booking_API.Mapping
 
             CreateMap<Car, FilteredCarDTO>()
            .ForMember(dest => dest.CarPhotos, opt => opt.MapFrom(src => src.CarPhotos));
-            CreateMap<CarAgency, CarAgencyDTO>()
-                .ForMember(dest => dest.CityName, opt => opt.MapFrom(src => src.City.Name));
+            //CreateMap<CarAgency, CarAgencyDTO>()
+            //    .ForMember(dest => dest.CityId, opt => opt.MapFrom(src => src.City.Id));
 
 
             CreateMap<CarRental, CarRentalViewDTO>()
@@ -206,9 +206,7 @@ namespace Booking_API.Mapping
             .ForMember(dest => dest.CarAgencyName, opt => opt.MapFrom(src => src.CarAgency.Name))
             .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => src.Car.Brand))
             .ForMember(dest => dest.carPhotos, opt => opt.MapFrom(src => src.Car.CarPhotos));
-        }
-=======
->>>>>>> e921610547baa3229fc08ec70eb6f285c84ea00f
+        
 
             CreateMap<HotelWishListDTO, HotelWishList>().ReverseMap();
 
@@ -219,9 +217,5 @@ namespace Booking_API.Mapping
         }
     }
 
-<<<<<<< HEAD
-=======
-    
->>>>>>> e921610547baa3229fc08ec70eb6f285c84ea00f
 }
 

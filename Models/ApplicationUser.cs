@@ -19,7 +19,7 @@ namespace Booking_API.Models
         public string? PhotoUrl { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
 
         // Foreign keys
         [ForeignKey("WishList")]

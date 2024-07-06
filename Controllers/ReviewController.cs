@@ -108,7 +108,7 @@ namespace Booking_API.Controllers
             var reviews = await reviewService.GetAllReviewsByHotelIdAsync(hotelId, includeProperties);
             if (reviews == null || !reviews.Any())
             {
-                return NotFound(new GeneralResponse<object>(false, "No reviews found for this hotel", null));
+                return Ok(new GeneralResponse<object>(true, "No reviews found for this hotel", null));
             }
 
             return Ok(new GeneralResponse<IEnumerable<DisplayHotelReviewDTO>>(true, "Reviews retrieved successfully", reviews));

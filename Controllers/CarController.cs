@@ -1,8 +1,13 @@
 ﻿using AutoMapper;
 using Booking_API.DTOs;
+using Booking_API.DTOs.CarDTOS;
+using Booking_API.DTOs.CarRental;
+using Booking_API.DTOs.HotelDTOS;
 using Booking_API.Models;
+using Booking_API.Services;
 using Booking_API.Services.IService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Booking_API.Controllers
 {
@@ -26,6 +31,30 @@ namespace Booking_API.Controllers
             var cars = await _carService.GetAllAsync();
             var carDTOs = _mapper.Map<IEnumerable<CarDTO>>(cars);
             return Ok(new GeneralResponse<IEnumerable<CarDTO>>(true, "Cars retrieved successfully", carDTOs));
+        }
+        
+        
+        [HttpGet("GetCarByBrand")]
+        public async Task<ActionResult<IEnumerable<FilteredCarDTO>>> GetCarByBrand([FromQuery] string Brand)
+        {
+            IEnumerable<FilteredCarDTO> Cars = await _carService.GetCarByBrand(Brand);
+            if (Cars == null || !Cars.Any())
+            {
+                return Ok(new GeneralResponse<IEnumerable<FilteredCarDTO>>(false, "No cars available in this brand", null));
+            }
+            return Ok(new GeneralResponse<IEnumerable<FilteredCarDTO>>(true, "cars retrieved successfully", Cars));
+        } 
+        
+        // GET: api/Filteration
+        [HttpGet("GetFilteredCars")]
+        public async Task<ActionResult<IEnumerable<FilteredCarDTO>>> GetFilteredCars([FromQuery] CarRentalFilterationDTO filter)
+        {
+            var cars = await _carService.GetFilteredCars(filter);
+            if (cars == null || !cars.Any())
+            {
+                return Ok(new GeneralResponse<IEnumerable<FilteredCarDTO>>(false, "No cars found with the specified criteria", null));
+            }
+            return Ok(new GeneralResponse<IEnumerable<FilteredCarDTO>>(true, "Cars retrieved successfully", cars));
         }
 
         // GET: api/Car/{id}
@@ -83,7 +112,7 @@ namespace Booking_API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCar(int id)
         {
-            var car = await _carService.GetAsync(c => c.Id == id);
+            var car = await _carService.GetAsync(c => c.Id == id, ["CarRentals", "CarReviews", "CarPhotos"]);
             if (car == null)
             {
                 return NotFound(new GeneralResponse<CarDTO>(false, "Car not found", null));
@@ -92,5 +121,7 @@ namespace Booking_API.Controllers
             await _carService.DeleteAsync(id);
             return CreatedAtAction(nameof(DeleteCar), new { id = car.Id }, new GeneralResponse<CarDTO>(true, "Car created successfully", null));
         }
+
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Booking_API.Models;
+using Booking_API.Repository;
 using Booking_API.Repository.IRepository;
 using Booking_API.Services.IService;
 
@@ -52,6 +53,20 @@ namespace Booking_API.Services
                 wishList.Hotels.Remove(hotel);
                 await UpdateAsync(wishList);
             }
+        }
+
+        public async Task<bool[]> CheckHotelsInUserWishListAsync(int userId, int[] hotelIds)
+        {
+            var wishList = await _unitOfWork.GetRepository<HotelWishList>()
+                .GetAsync(w => w.UserId == userId, includeProperties: new string[] { "Hotels" });
+
+            if (wishList == null)
+            {
+                return hotelIds.Select(id => false).ToArray();
+            }
+
+            var hotelIdSet = wishList.Hotels.Select(h => h.Id).ToHashSet();
+            return hotelIds.Select(id => hotelIdSet.Contains(id)).ToArray();
         }
     }
 }

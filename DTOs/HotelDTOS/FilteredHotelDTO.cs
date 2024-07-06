@@ -12,7 +12,7 @@ namespace Booking_API.DTOs.HotelDTOS
 
         public string? Name { get; set; }
 
-        public int Rating { get; set; }
+        public int? Rating { get; set; }
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
         public string? Description { get; set; }

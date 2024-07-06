@@ -105,5 +105,13 @@ namespace Booking_API.Controllers
         }
 
 
+        [HttpPost("user/{userId}")]
+        public async Task<ActionResult<GeneralResponse<bool[]>>> CheckHotelsInUserWishList(int userId, [FromBody] int[] hotelIds)
+        {
+            var results = await wishListService.CheckHotelsInUserWishListAsync(userId, hotelIds);
+            return Ok(new GeneralResponse<bool[]>(true, "Check completed successfully", results));
+        }
+
+
     }
 }

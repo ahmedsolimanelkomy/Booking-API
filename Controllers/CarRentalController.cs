@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Booking_API.DTOs;
+using Booking_API.DTOs.CarDTOS;
 using Booking_API.DTOs.CarRental;
 using Booking_API.Models;
+using Booking_API.Services;
 using Booking_API.Services.IService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,13 +22,45 @@ namespace Booking_API.Controllers
             _mapper = mapper;
         }
 
+        #region Filteration
 
-        [HttpGet("filter")]
-        public async Task<IActionResult> GetFilteredCarRentals([FromQuery] CarRentalFilterationDTO filter)
+        [HttpGet("GetFilteredCarRentals")]
+        public async Task<ActionResult<GeneralResponse<IEnumerable<CarRentalViewDTO>>>> GetFilteredCarRentals([FromQuery] CarRentalFilterationDTO filter)
         {
-            var result = await _carRentalService.GetFilteredCarRentalsAsync(filter);
-            return Ok(result);
+            try
+            {
+                var rentalDTOs = await _carRentalService.GetFilteredCarRentals(filter);
+                if (rentalDTOs == null || !rentalDTOs.Any())
+                {
+                    return NotFound(new GeneralResponse<IEnumerable<CarRentalViewDTO>>(false, "No rentals found for the specified filter criteria", null));
+                }
+                return Ok(new GeneralResponse<IEnumerable<CarRentalViewDTO>>(true, "Filtered rentals retrieved successfully", rentalDTOs));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new GeneralResponse<IEnumerable<CarRentalViewDTO>>(false, ex.Message, null));
+            }
         }
+
+        [HttpGet("GetFilteredUserCarRents")]
+        public async Task<ActionResult<GeneralResponse<IEnumerable<CarRentalViewDTO>>>> GetFilteredUserCarRents([FromQuery] UserCarRentalFilterDTO filter)
+        {
+            try
+            {
+                var rentalDTOs = await _carRentalService.GetFilteredUserCarRents(filter);
+                if (rentalDTOs == null || !rentalDTOs.Any())
+                {
+                    return NotFound(new GeneralResponse<IEnumerable<CarRentalViewDTO>>(false, "No rentals found for the specified filter criteria", null));
+                }
+                return Ok(new GeneralResponse<IEnumerable<CarRentalViewDTO>>(true, "Filtered rentals retrieved successfully", rentalDTOs));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new GeneralResponse<IEnumerable<CarRentalViewDTO>>(false, ex.Message, null));
+            }
+        }
+
+        #endregion
 
         // GET: api/CarRental
         [HttpGet]

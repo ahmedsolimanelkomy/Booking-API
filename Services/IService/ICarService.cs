@@ -8,7 +8,7 @@ namespace Booking_API.Services.IService
     public interface ICarService : IService<Car>
     {
         public Task<IEnumerable<FilteredCarDTO>> GetCarByBrand(string Brand);
-        public Task<IEnumerable<FilteredCarDTO>> GetFilteredCars(CarRentalFilterationDTO filter);
+        public Task<IEnumerable<FilteredCarDTO>> GetFilteredCars(CarFilterationDTO filter);
 
     }
 }

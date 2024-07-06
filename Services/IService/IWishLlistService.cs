@@ -8,5 +8,6 @@ namespace Booking_API.Services.IService
         public Task AddHotelToWishListAsync(int userId, int hotelId);
 
         public Task RemoveHotelFromWishListAsync(int userId, int hotelId);
+        public Task<bool[]> CheckHotelsInUserWishListAsync(int userId, int[] hotelIds);
     }
 }

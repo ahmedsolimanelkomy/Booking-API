@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Booking_API.DTOs.CarAgencyDTOS;
 using Booking_API.DTOs.HotelDTOS;
 using Booking_API.Models;
 using Booking_API.Repository.IRepository;
 using Booking_API.Services.IService;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 
 namespace Booking_API.Services
@@ -118,6 +120,15 @@ namespace Booking_API.Services
             return _mapper.Map<IEnumerable<FilteredHotelDTO>>(filteredHotels);
         }
 
+        public async Task<IEnumerable<FilteredHotelDTO>> GetHotelsByCityName( string City)
+        {
+            var hotels = await _unitOfWork.Hotels.GetAllAsync(new[] { "City" , "Photos", "Rooms", "Features" });
+
+            var filteredHotels = hotels
+                .Where(hotel => hotel.City != null && hotel.City.Name.Equals(City, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+            return _mapper.Map<IEnumerable<FilteredHotelDTO>>(filteredHotels.ToList());
+        }
 
 
     }

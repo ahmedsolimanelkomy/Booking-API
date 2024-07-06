@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Booking_API.DTOs;
+using Booking_API.DTOs.CarAgencyDTOS;
 using Booking_API.Models;
 using Booking_API.Services.IService;
 using Microsoft.AspNetCore.Mvc;
@@ -21,30 +22,42 @@ namespace Booking_API.Controllers
 
         // GET: api/CarAgency
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CarAgencyDTO>>> GetCarAgencies()
+        public async Task<ActionResult<IEnumerable<CarAgencyViewDTO>>> GetCarAgencies()
         {
             var carAgencies = await _carAgencyService.GetAllAsync();
-            var carAgencyDTOs = _mapper.Map<IEnumerable<CarAgencyDTO>>(carAgencies);
-            return Ok(new GeneralResponse<IEnumerable<CarAgencyDTO>>(true, "Car agencies retrieved successfully", carAgencyDTOs));
+            var carAgencyDTOs = _mapper.Map<IEnumerable<CarAgencyViewDTO>>(carAgencies);
+            return Ok(new GeneralResponse<IEnumerable<CarAgencyViewDTO>>(true, "Car agencies retrieved successfully", carAgencyDTOs));
+        }
+
+        // GET: api/CarAgency
+        [HttpGet("GetFilteredCarAgencies")]
+        public async Task<ActionResult<IEnumerable<CarAgencyViewDTO>>> GetFilteredCarAgencies([FromQuery] CarAgencyFilterDTO carAgencyFilterDTO)
+        {
+            var carAgencyDTOs = await _carAgencyService.GetFilteredCarAgencies(carAgencyFilterDTO);
+            if(!carAgencyDTOs.Any())
+            {
+                return BadRequest(new GeneralResponse<IEnumerable<CarAgencyViewDTO>>(false, "there is no car agency with this filteration", null));
+            }
+            return Ok(new GeneralResponse<IEnumerable<CarAgencyViewDTO>>(true, "Car agencies filtered successfully", carAgencyDTOs));
         }
 
         // GET: api/CarAgency/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<CarAgencyDTO>> GetCarAgencyById(int id)
+        public async Task<ActionResult<CarAgencyViewDTO>> GetCarAgencyById(int id)
         {
             var carAgency = await _carAgencyService.GetAsync(ca => ca.Id == id);
             if (carAgency == null)
             {
-                return NotFound(new GeneralResponse<CarAgencyDTO>(false, "Car agency not found", null));
+                return NotFound(new GeneralResponse<CarAgencyViewDTO>(false, "Car agency not found", null));
             }
 
-            var carAgencyDTO = _mapper.Map<CarAgencyDTO>(carAgency);
-            return Ok(new GeneralResponse<CarAgencyDTO>(true, "Car agency retrieved successfully", carAgencyDTO));
+            var carAgencyDTO = _mapper.Map<CarAgencyViewDTO>(carAgency);
+            return Ok(new GeneralResponse<CarAgencyViewDTO>(true, "Car agency retrieved successfully", carAgencyDTO));
         }
 
         // POST: api/CarAgency
         [HttpPost]
-        public async Task<ActionResult<CarAgencyDTO>> CreateCarAgency(CarAgencyDTO carAgencyDTO)
+        public async Task<ActionResult<CarAgencyDTO>> CreateCarAgency([FromForm] CarAgencyDTO carAgencyDTO)
         {
             if (carAgencyDTO == null)
             {
@@ -52,6 +65,9 @@ namespace Booking_API.Controllers
             }
 
             var carAgency = _mapper.Map<CarAgency>(carAgencyDTO);
+            var PhotoUrl = await _carAgencyService.SavePhoto(carAgencyDTO.AgencyPhoto);
+            carAgency.AgencyPhotoURL = PhotoUrl;
+
             await _carAgencyService.AddAsync(carAgency);
             var createdCarAgencyDTO = _mapper.Map<CarAgencyDTO>(carAgency);
             return CreatedAtAction(nameof(GetCarAgencyById), new { id = createdCarAgencyDTO.Id }, new GeneralResponse<CarAgencyDTO>(true, "Car agency created successfully", createdCarAgencyDTO));
@@ -81,14 +97,14 @@ namespace Booking_API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCarAgency(int id)
         {
-            var carAgency = await _carAgencyService.GetAsync(ca => ca.Id == id);
+            var carAgency = await _carAgencyService.GetAsync(ca => ca.Id == id, ["CarRentals", "Cars", "CarAgencyReviews"]);
             if (carAgency == null)
             {
                 return NotFound(new GeneralResponse<CarAgencyDTO>(false, "Car agency not found", null));
             }
 
             await _carAgencyService.DeleteAsync(id);
-            return CreatedAtAction(nameof(DeleteCarAgency), new { id = carAgency.Id }, new GeneralResponse<CarAgencyDTO>(true, "Car agency created successfully", null));
+            return Ok(new GeneralResponse<CarAgency>(true, "Car agency Deleted successfully", carAgency));
         }
     }
 }

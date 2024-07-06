@@ -192,6 +192,16 @@ namespace Booking_API.Controllers
         }
         #endregion
 
+        [HttpGet("/api/GetHotelsByCityName")]
+        public async Task<IActionResult> GetHotelsByCityName([FromQuery] string City)
+        {
+            IEnumerable<FilteredHotelDTO> hotels = await _HotelService.GetHotelsByCityName(City);
+            if (hotels == null || !hotels.Any())
+            {
+                return Ok(new GeneralResponse<IEnumerable<FilteredHotelDTO>>(false, "No hotels found in the specified city", null));
+            }
+            return Ok(new GeneralResponse<IEnumerable<FilteredHotelDTO>>(true, "Hotels retrieved successfully", hotels));
+        }
     }
 }
 

@@ -5,6 +5,8 @@ namespace Booking_API.Services.IService
 {
     public interface ICarRentalService : IService<CarRental>
     {
-        public Task<IEnumerable<CarRental>> GetFilteredCarRentalsAsync(CarRentalFilterationDTO filter);
+        public Task<IEnumerable<CarRentalViewDTO>> GetFilteredCarRentals(CarRentalFilterationDTO filter);
+        public Task<IEnumerable<CarRentalViewDTO>> GetFilteredUserCarRents(UserCarRentalFilterDTO filter);
+
     }
 }

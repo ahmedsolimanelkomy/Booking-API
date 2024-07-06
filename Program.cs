@@ -53,6 +53,7 @@ namespace Booking_API
             builder.Services.AddScoped<ICarRentalService, CarRentalService>();
             builder.Services.AddScoped<IHotelBookingInvoiceService, HotelBookingInvoiceService>();
             builder.Services.AddScoped<ICarRentalInvoiceService, CarRentalInvoiceService>();
+            builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddSingleton<BraintreeService>();
             builder.Services.AddHostedService<BookingStatusUpdateBackgroundService>();

@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Booking_API.Migrations
 {
     /// <inheritdoc />
@@ -681,6 +683,29 @@ namespace Booking_API.Migrations
                         column: x => x.CarId,
                         principalTable: "Cars",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "Countries",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "USA" },
+                    { 2, "Canada" },
+                    { 3, "Germany" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Cities",
+                columns: new[] { "Id", "Code", "CountryId", "Name" },
+                values: new object[,]
+                {
+                    { 1, "NY", 1, "New York" },
+                    { 2, "LA", 1, "Los Angeles" },
+                    { 3, "TO", 2, "Toronto" },
+                    { 4, "VA", 2, "Vancouver" },
+                    { 5, "BE", 3, "Berlin" },
+                    { 6, "MU", 3, "Munich" }
                 });
 
             migrationBuilder.CreateIndex(

@@ -2,12 +2,16 @@
 using Booking_API.DTOs;
 using Booking_API.DTOs.AccountDTOS;
 using Booking_API.Models;
+using Booking_API.Services;
 using Booking_API.Services.IService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -133,35 +137,38 @@ namespace Booking_API.Controllers
 
             try
             {
+           
                 var user = await _userManager.FindByNameAsync(loginUser.UserName);
+
                 if (user == null)
                 {
                     return Unauthorized(new { message = "User not found", ispass = false });
                 }
 
-                bool isPasswordCorrect = await _userManager.CheckPasswordAsync(user, loginUser.Password);
-                if (!isPasswordCorrect)
+                if (user.EmailConfirmed)
                 {
-                    return Unauthorized(new { message = "Invalid password", ispass = false });
-                }
 
-                var claims = new List<Claim>
-                {
+                    bool isPasswordCorrect = await _userManager.CheckPasswordAsync(user, loginUser.Password);
+                    if (!isPasswordCorrect)
+                    {
+                        return Unauthorized(new { message = "Invalid password", ispass = false });
+                    }
+
+                    var claims = new List<Claim>
+                    {
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                };
+                    };
+                    var roles = await _userManager.GetRolesAsync(user);
+                    foreach (var role in roles)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, role));
+                    }
 
-                var roles = await _userManager.GetRolesAsync(user);
-                foreach (var role in roles)
-                {
-                    claims.Add(new Claim(ClaimTypes.Role, role));
-                }
-
-                var signKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:SecKey"]));
-                var signingCredentials = new SigningCredentials(signKey, SecurityAlgorithms.HmacSha256);
-
-                var token = new JwtSecurityToken(
+                    var signKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:SecKey"]));
+                    var signingCredentials = new SigningCredentials(signKey, SecurityAlgorithms.HmacSha256);
+                    var token = new JwtSecurityToken(
                     issuer: _configuration["JWT:ValidIss"],
                     audience: _configuration["JWT:ValidAud"],
                     expires: DateTime.Now.AddDays(2),
@@ -169,11 +176,21 @@ namespace Booking_API.Controllers
                     signingCredentials: signingCredentials
                 );
 
-                return Ok(new
+                    return Ok(new
+                    {
+                        roles = roles,
+                        token = new JwtSecurityTokenHandler().WriteToken(token),
+                    });
+
+                }
+                else
                 {
-                    roles = roles,
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                });
+                    return Unauthorized(new
+                    {
+                        ErrorMsg = "Gmail Not Confirmed"
+                    });
+                }
+                
             }
             catch (Exception ex)
             {
@@ -313,6 +330,30 @@ namespace Booking_API.Controllers
             return BadRequest(new GeneralResponse<string>(false, errors, null));
         }
 
+
+
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("change-password")]
+        public async Task<ActionResult> ChangePassword(ChangePasswordDTO model)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return BadRequest("User not found");
+            }
+
+            var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+
+            if (changePasswordResult.Succeeded)
+            {
+                return Ok("Password changed successfully");
+            }
+            else
+            {
+                return BadRequest(changePasswordResult.Errors);
+            }
+        }
 
         #region Mail Confirmation
         private async Task SendConfirmationEmail(string email, ApplicationUser user)

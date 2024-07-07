@@ -32,7 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\Assets\Images\HotelsPhotos\" />
     <Folder Include="wwwroot\Assets\Images\UserPhotos\" />
   </ItemGroup>

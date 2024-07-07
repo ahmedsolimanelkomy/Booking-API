@@ -17,11 +17,13 @@ namespace Booking_API.Controllers
     {
         private readonly ICarService _carService;
         private readonly IMapper _mapper;
+        private readonly ICarAgencyService _carAgencyService;
 
-        public CarController(ICarService carService, IMapper mapper)
+        public CarController(ICarService carService, IMapper mapper, ICarAgencyService carAgencyService)
         {
             _carService = carService;
             _mapper = mapper;
+            _carAgencyService = carAgencyService;
         }
 
         // GET: api/Car
@@ -120,6 +122,37 @@ namespace Booking_API.Controllers
 
             await _carService.DeleteAsync(id);
             return CreatedAtAction(nameof(DeleteCar), new { id = car.Id }, new GeneralResponse<CarDTO>(true, "Car created successfully", null));
+        }
+
+
+        [HttpGet("/api/GetAgencyAndCars/{agencyId}")]
+        public async Task<ActionResult<GeneralResponse<IEnumerable<CarDTO>>>> GetAgencyAndCars(int agencyId, [FromQuery] string[] includeProperties)
+        {
+            // Check if agency exists
+            CarAgency agency = await _carAgencyService.GetAsync(a => a.Id == agencyId);
+
+            if (agency == null)
+            {
+                return BadRequest(new GeneralResponse<IEnumerable<CarDTO>>(false, "Agency Not Found", null));
+            }
+
+            // Retrieve cars for the specified agency
+            var carsResponse = await _carService.GetListAsync(c => c.AgencyId == agencyId, includeProperties);
+
+            IList<CarDTO> carsDTO = new List<CarDTO>();
+
+            // Check if carsResponse is a list of Car entities
+            if (carsResponse != null && carsResponse.Any())
+            {
+                // Mapping the response to DTOs
+                carsDTO = (IList<CarDTO>)_mapper.Map<IEnumerable<Car>, IEnumerable<CarDTO>>(carsResponse);
+
+                return Ok(new GeneralResponse<IEnumerable<CarDTO>>(true, "Cars retrieved successfully", carsDTO));
+            }
+            else
+            {
+                return NotFound(new GeneralResponse<IEnumerable<CarDTO>>(false, "No cars found for this agency", null));
+            }
         }
 
 

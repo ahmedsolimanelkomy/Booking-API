@@ -25,6 +25,7 @@ namespace Booking_API.Mapping
 
             CreateMap<HotelReview, DisplayHotelReviewDTO>();
             CreateMap<AddHotelReviewDTO, HotelReview>();
+            CreateMap<Car, CarDTO>();
 
             CreateMap<UserRegisterDTO, ApplicationUser>().ReverseMap();
             CreateMap<AdminDTO, ApplicationUser>().ReverseMap();

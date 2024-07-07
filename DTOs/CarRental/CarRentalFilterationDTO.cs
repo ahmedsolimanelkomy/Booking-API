@@ -10,9 +10,9 @@ namespace Booking_API.DTOs.CarRental
         //Main Filteration 
         public string? PickUpCity { get; set; }
 
-        public DateTime PickUpDate { get; set; }
+        public DateTime? PickUpDate { get; set; }
 
-        public DateTime DropOffDate { get; set; }
+        public DateTime? DropOffDate { get; set; }
 
         //Second Filteration
 

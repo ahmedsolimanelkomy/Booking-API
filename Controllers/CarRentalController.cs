@@ -24,7 +24,7 @@ namespace Booking_API.Controllers
 
         #region Filteration
 
-        [HttpGet("GetFilteredCarRentals")]
+        [HttpPost("GetFilteredCarRentals")]
         public async Task<ActionResult<GeneralResponse<IEnumerable<CarRentalViewDTO>>>> GetFilteredCarRentals([FromQuery] CarRentalFilterationDTO filter)
         {
             try

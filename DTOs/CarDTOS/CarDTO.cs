@@ -16,5 +16,6 @@ namespace Booking_API.DTOs.CarDTOS
         public GearType? GearType { get; set; }
         public GasType? GasType { get; set; }
         public int? NumberOfSeats { get; set; }
+        public ICollection<CarPhoto>? CarPhotos { get; set; } = new HashSet<CarPhoto>();
     }
 }

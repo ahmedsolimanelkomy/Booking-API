@@ -47,6 +47,7 @@ namespace Booking_API
             builder.Services.AddScoped<IService<City>, Service<City>>();
             builder.Services.AddScoped<IService<Country>, Service<Country>>();
             builder.Services.AddScoped<IReviewService, ReviewService>();
+            builder.Services.AddScoped<ICarPhotoService, CarPhotoService>();
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<ICarService, CarService>();
             builder.Services.AddScoped<ICarAgencyService, CarAgencyService>();

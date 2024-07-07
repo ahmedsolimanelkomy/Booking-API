@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace Booking_API.Models
 {
@@ -35,6 +37,25 @@ namespace Booking_API.Models
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            // Seed data for Countries
+            builder.Entity<Country>().HasData(
+                new Country { Id = 1, Name = "USA" },
+                new Country { Id = 2, Name = "Canada" },
+                new Country { Id = 3, Name = "Germany" }
+            );
+
+            // Seed data for Cities
+            builder.Entity<City>().HasData(
+                new City { Id = 1, Name = "New York", Code = "NY", CountryId = 1 },
+                new City { Id = 2, Name = "Los Angeles", Code = "LA", CountryId = 1 },
+                new City { Id = 3, Name = "Toronto", Code = "TO", CountryId = 2 },
+                new City { Id = 4, Name = "Vancouver", Code = "VA", CountryId = 2 },
+                new City { Id = 5, Name = "Berlin", Code = "BE", CountryId = 3 },
+                new City { Id = 6, Name = "Munich", Code = "MU", CountryId = 3 }
+            );
+
         }
+
     }
 }

@@ -10,7 +10,7 @@ namespace Booking_API.Services.IService
         Task<string> SavePhoto(IFormFile photo);
         void DeletePhoto(string photoUrl);
         public Task<IEnumerable<FilteredCarDTO>> GetCarByBrand(string Brand);
-        public Task<IEnumerable<FilteredCarDTO>> GetFilteredCars(CarRentalFilterationDTO filter);
+        public Task<IEnumerable<FilteredCarDTO>> GetFilteredCars(CarFilterationDTO filter);
 
     }
 }

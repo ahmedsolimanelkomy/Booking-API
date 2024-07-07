@@ -4,6 +4,7 @@ using Booking_API.DTOs.AccountDTOS;
 using Booking_API.DTOs.AdminDTOS;
 using Booking_API.DTOs.CarAgencyDTOS;
 using Booking_API.DTOs.CarDTOS;
+using Booking_API.DTOs.CarPhotoDTOS;
 using Booking_API.DTOs.CarRental;
 using Booking_API.DTOs.CityDTOS;
 using Booking_API.DTOs.CountryDTOS;
@@ -192,8 +193,35 @@ namespace Booking_API.Mapping
 
             CreateMap<PassportDto, Passport>()
                 .ForMember(dest => dest.PassportNumber, opt => opt.MapFrom(src => src.PassportNumber)).ReverseMap();
+            
+            CreateMap<Car, FilteredCarDTO>()
+           .ForMember(dest => dest.AgencyName, opt => opt.MapFrom(src => src.CarAgency.Name))
+           .ForMember(dest => dest.CarType, opt => opt.MapFrom(src => src.CarType))
+           .ForMember(dest => dest.GasType, opt => opt.MapFrom(src => src.GasType));
 
-        }
+            CreateMap<CarPhoto, CarPhotoDTO>();
+            CreateMap<CarPhotoDTO, CarPhoto>();
+
+            CreateMap<CarPhoto, GetCarPhotoDTO>()
+                .ForMember(dest => dest.Photo, opt => opt.Ignore()); // Assuming the photo content will be handled separately
+            CreateMap<GetCarPhotoDTO, CarPhoto>()
+                .ForMember(dest => dest.PhotoUrl, opt => opt.Ignore());
+
+            CreateMap<CreateCarPhotoDTO, CarPhoto>()
+                .ForMember(dest => dest.PhotoUrl, opt => opt.Ignore());
+            CreateMap<CarPhoto, CreateCarPhotoDTO>()
+                .ForMember(dest => dest.Photo, opt => opt.Ignore());
+
+            CreateMap<UpdateCarPhotoDTO, CarPhoto>()
+                .ForMember(dest => dest.PhotoUrl, opt => opt.Ignore());
+            CreateMap<CarPhoto, UpdateCarPhotoDTO>()
+                .ForMember(dest => dest.Photo, opt => opt.Ignore());
+
+            CreateMap<BulkCarPhotoDTO, CarPhoto>()
+                .ForMember(dest => dest.PhotoUrl, opt => opt.Ignore())
+                .ForMember(dest => dest.CarId, opt => opt.Ignore()); // Assuming each photo will be associated with a car individually
+        
+    }
     }
 
 }

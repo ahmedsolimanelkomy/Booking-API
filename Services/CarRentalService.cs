@@ -29,8 +29,8 @@ namespace Booking_API.Services
             var filteredRentals = rentals
                 .Where(rental =>
                     (!filter.AgencyId.HasValue || rental.CarAgency.Id == filter.AgencyId.Value) &&
-                    rental.PickUpDate.Date == filter.PickUpDate.Date &&
-                    rental.DropOffDate.Date == filter.DropOffDate.Date &&
+                    rental.PickUpDate.Date == filter.PickUpDate &&
+                    rental.DropOffDate.Date == filter.DropOffDate &&
                     (!filter.GearType.HasValue || rental.Car.GearType == filter.GearType) &&
                     (!filter.ModelOfYear.HasValue || rental.Car.ModelOfYear == filter.ModelOfYear) &&
                     (string.IsNullOrEmpty(filter.Brand) || rental.Car.Brand.Contains(filter.Brand, StringComparison.OrdinalIgnoreCase)) &&

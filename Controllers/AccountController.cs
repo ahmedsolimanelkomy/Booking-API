@@ -74,8 +74,9 @@ namespace Booking_API.Controllers
             try
             {
                 // Check if user already exists
-                var userExist = await _userManager.FindByEmailAsync(model.Email);
-                if (userExist != null)
+                var userEmailExist = await _userManager.FindByEmailAsync(model.Email);
+                var userNameExist = await _userManager.FindByNameAsync(model.UserName);
+                if (userEmailExist != null && userNameExist != null)
                 {
                     return Conflict(new GeneralResponse<string>(false, "User with this email already exists", null));
                 }

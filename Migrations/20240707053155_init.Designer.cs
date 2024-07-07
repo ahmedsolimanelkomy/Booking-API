@@ -4,6 +4,7 @@ using Booking_API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Booking_API.Migrations
 {
     [DbContext(typeof(BookingContext))]
-    partial class BookingContextModelSnapshot : ModelSnapshot
+    [Migration("20240707053155_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -469,53 +472,6 @@ namespace Booking_API.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("Cities");
-<<<<<<< HEAD
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Code = "NY",
-                            CountryId = 1,
-                            Name = "New York"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Code = "LA",
-                            CountryId = 1,
-                            Name = "Los Angeles"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Code = "TO",
-                            CountryId = 2,
-                            Name = "Toronto"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Code = "VA",
-                            CountryId = 2,
-                            Name = "Vancouver"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Code = "BE",
-                            CountryId = 3,
-                            Name = "Berlin"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Code = "MU",
-                            CountryId = 3,
-                            Name = "Munich"
-                        });
-=======
->>>>>>> c70ca5be561ea152a1ea186be19bc0ccc0c5b5ca
                 });
 
             modelBuilder.Entity("Booking_API.Models.Country", b =>
@@ -532,26 +488,6 @@ namespace Booking_API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Countries");
-<<<<<<< HEAD
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "USA"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Canada"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Germany"
-                        });
-=======
->>>>>>> c70ca5be561ea152a1ea186be19bc0ccc0c5b5ca
                 });
 
             modelBuilder.Entity("Booking_API.Models.Feature", b =>

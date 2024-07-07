@@ -12,10 +12,43 @@ namespace Booking_API.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public CarService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork)
+        private readonly IWebHostEnvironment _env;
+
+        public CarService(IUnitOfWork unitOfWork, IMapper mapper, IWebHostEnvironment env) : base(unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _env = env;
+        }
+
+        public async Task<string> SavePhoto(IFormFile photo)
+        {
+            var uploadsFolder = Path.Combine(_env.WebRootPath, "Assets/Images/Car");
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+            var uniqueFileName = Guid.NewGuid().ToString() + "_" + photo.FileName;
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await photo.CopyToAsync(fileStream);
+            }
+
+            return $"/Assets/Images/Car/{uniqueFileName}";
+        }
+
+        public void DeletePhoto(string photoUrl)
+        {
+            var fileName = Path.GetFileName(photoUrl);
+            var filePath = Path.Combine(_env.WebRootPath, "Assets/Images/Car", fileName);
+
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
         }
 
         public async Task<IEnumerable<FilteredCarDTO>> GetCarByBrand(string Brand)

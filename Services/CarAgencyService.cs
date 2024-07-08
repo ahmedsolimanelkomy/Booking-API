@@ -19,17 +19,17 @@ namespace Booking_API.Services
             _mapper = mapper;
             _env = env;
         }
-        public async Task<IEnumerable<CarAgencyViewDTO>> GetFilteredCarAgencies(CarAgencyFilterDTO carAgencyFilterDTO)
-        {
-            IEnumerable<CarAgency> CarAgencies = await _unitOfWork.CarAgencies.GetAllAsync(new[] {"City"} );
-            var FilteredAgencies = CarAgencies.Where(CarAgency => 
-            (!carAgencyFilterDTO.CityId.HasValue || CarAgency.CityId == carAgencyFilterDTO.CityId) &&
-            (string.IsNullOrEmpty(carAgencyFilterDTO.Name) || CarAgency.Name.Contains(carAgencyFilterDTO.Name, StringComparison.OrdinalIgnoreCase)) &&
-            (string.IsNullOrEmpty(carAgencyFilterDTO.Address) || CarAgency.Address.Contains(carAgencyFilterDTO.Address, StringComparison.OrdinalIgnoreCase))
-            ).ToList();
+        //public async Task<IEnumerable<CarAgencyViewDTO>> GetFilteredCarAgencies(CarAgencyFilterDTO carAgencyFilterDTO)
+        //{
+        //    IEnumerable<CarAgency> CarAgencies = await _unitOfWork.CarAgencies.GetAllAsync(new[] {"City"} );
+        //    var FilteredAgencies = CarAgencies.Where(CarAgency => 
+        //    (!carAgencyFilterDTO.CityId.HasValue || CarAgency.CityId == carAgencyFilterDTO.CityId) &&
+        //    (string.IsNullOrEmpty(carAgencyFilterDTO.Name) || CarAgency.Name.Contains(carAgencyFilterDTO.Name, StringComparison.OrdinalIgnoreCase)) &&
+        //    (string.IsNullOrEmpty(carAgencyFilterDTO.Address) || CarAgency.Address.Contains(carAgencyFilterDTO.Address, StringComparison.OrdinalIgnoreCase))
+        //    ).ToList();
 
-            return _mapper.Map<IEnumerable<CarAgencyViewDTO>>(FilteredAgencies);
-        }
+        //    return _mapper.Map<IEnumerable<CarAgencyViewDTO>>(FilteredAgencies);
+        //}
 
         public async Task<string> SavePhoto(IFormFile photo)
         {

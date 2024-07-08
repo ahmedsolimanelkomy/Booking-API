@@ -43,11 +43,11 @@ namespace Booking_API.Controllers
                 return Ok(new GeneralResponse<IEnumerable<FilteredCarDTO>>(false, "No cars available in this brand", null));
             }
             return Ok(new GeneralResponse<IEnumerable<FilteredCarDTO>>(true, "cars retrieved successfully", Cars));
-        } 
+        }
         
         // GET: api/Filteration
         [HttpGet("GetFilteredCars")]
-        public async Task<ActionResult<IEnumerable<FilteredCarDTO>>> GetFilteredCars([FromQuery] CarRentalFilterationDTO filter)
+        public async Task<ActionResult<IEnumerable<FilteredCarDTO>>> GetFilteredCars([FromQuery] CarFilterationDTO filter)
         {
             var cars = await _carService.GetFilteredCars(filter);
             if (cars == null || !cars.Any())

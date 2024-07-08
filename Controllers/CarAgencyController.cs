@@ -29,17 +29,17 @@ namespace Booking_API.Controllers
             return Ok(new GeneralResponse<IEnumerable<CarAgencyViewDTO>>(true, "Car agencies retrieved successfully", carAgencyDTOs));
         }
 
-        // GET: api/CarAgency
-        [HttpGet("GetFilteredCarAgencies")]
-        public async Task<ActionResult<IEnumerable<CarAgencyViewDTO>>> GetFilteredCarAgencies([FromQuery] CarAgencyFilterDTO carAgencyFilterDTO)
-        {
-            var carAgencyDTOs = await _carAgencyService.GetFilteredCarAgencies(carAgencyFilterDTO);
-            if(!carAgencyDTOs.Any())
-            {
-                return BadRequest(new GeneralResponse<IEnumerable<CarAgencyViewDTO>>(false, "there is no car agency with this filteration", null));
-            }
-            return Ok(new GeneralResponse<IEnumerable<CarAgencyViewDTO>>(true, "Car agencies filtered successfully", carAgencyDTOs));
-        }
+        //// GET: api/CarAgency
+        //[HttpGet("GetFilteredCarAgencies")]
+        //public async Task<ActionResult<IEnumerable<CarAgencyViewDTO>>> GetFilteredCarAgencies([FromQuery] CarAgencyFilterDTO carAgencyFilterDTO)
+        //{
+        //    var carAgencyDTOs = await _carAgencyService.GetFilteredCarAgencies(carAgencyFilterDTO);
+        //    if(!carAgencyDTOs.Any())
+        //    {
+        //        return BadRequest(new GeneralResponse<IEnumerable<CarAgencyViewDTO>>(false, "there is no car agency with this filteration", null));
+        //    }
+        //    return Ok(new GeneralResponse<IEnumerable<CarAgencyViewDTO>>(true, "Car agencies filtered successfully", carAgencyDTOs));
+        //}
 
         // GET: api/CarAgency/{id}
         [HttpGet("{id}")]

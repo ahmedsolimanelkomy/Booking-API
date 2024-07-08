@@ -7,7 +7,9 @@ namespace Booking_API.DTOs.CarDTOS
     public class FilteredCarDTO
     {
         public int Id { get; set; }
+
         public int CarAgencyId { get; set; }
+
         public decimal? RentPrice { get; set; }
 
         public bool? AvailabilityStatus { get; set; }
@@ -30,7 +32,7 @@ namespace Booking_API.DTOs.CarDTOS
         public string? Brand { get; set; }
 
         public string? AgencyName { get; set; }
-        public string? Brand { get; set; }
+
         public CarType? CarType { get; set; }
 
         public ICollection<CarPhoto>? CarPhotos { get; set; } = new HashSet<CarPhoto>();

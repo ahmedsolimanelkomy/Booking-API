@@ -188,15 +188,13 @@ namespace Booking_API.Mapping
 
             CreateMap<PassportDto, Passport>()
                 .ForMember(dest => dest.PassportNumber, opt => opt.MapFrom(src => src.PassportNumber)).ReverseMap();
-<<<<<<< HEAD
+
             CreateMap<CreateCarRentDTO, CarRental>().ReverseMap();
-=======
             
             CreateMap<Car, FilteredCarDTO>()
            .ForMember(dest => dest.AgencyName, opt => opt.MapFrom(src => src.CarAgency.Name))
            .ForMember(dest => dest.CarType, opt => opt.MapFrom(src => src.CarType))
            .ForMember(dest => dest.GasType, opt => opt.MapFrom(src => src.GasType));
->>>>>>> 61b84634512dbe86195fb2661d675972f760b182
 
             CreateMap<CarPhoto, CarPhotoDTO>();
             CreateMap<CarPhotoDTO, CarPhoto>();
@@ -219,8 +217,15 @@ namespace Booking_API.Mapping
             CreateMap<BulkCarPhotoDTO, CarPhoto>()
                 .ForMember(dest => dest.PhotoUrl, opt => opt.Ignore())
                 .ForMember(dest => dest.CarId, opt => opt.Ignore()); // Assuming each photo will be associated with a car individually
-        
-    }
+
+            CreateMap<Car, FilteredCarDTO>()
+                .ForMember(dest => dest.GearType, opt => opt.MapFrom(src => src.GearType.ToString()))
+                .ForMember(dest => dest.GasType, opt => opt.MapFrom(src => src.GasType.ToString()))
+                .ForMember(dest => dest.CarPhotos, opt => opt.MapFrom(src => src.CarPhotos));
+
+            CreateMap<CarPhoto, CarPhotoDTO>(); // If you have a CarPhotoDTO, map it here
+        }
+
     }
 
 }

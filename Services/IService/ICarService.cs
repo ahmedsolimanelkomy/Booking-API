@@ -11,6 +11,7 @@ namespace Booking_API.Services.IService
         void DeletePhoto(string photoUrl);
         public Task<IEnumerable<FilteredCarDTO>> GetCarByBrand(string Brand);
         public Task<IEnumerable<FilteredCarDTO>> GetFilteredCars(CarFilterationDTO filter);
+        Task<IEnumerable<FilteredCarDTO>> GetCarsByAgencyId(int agencyId);
 
     }
 }

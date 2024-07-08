@@ -87,6 +87,12 @@ namespace Booking_API.Services
         }
 
 
+        //get cars by agency id
+        public async Task<IEnumerable<FilteredCarDTO>> GetCarsByAgencyId(int agencyId)
+        {
+            var cars = await _unitOfWork.Cars.GetListAsync(c => c.AgencyId == agencyId, new[] { "CarPhotos" });
+            return _mapper.Map<IEnumerable<FilteredCarDTO>>(cars);
+        }
 
     }
 

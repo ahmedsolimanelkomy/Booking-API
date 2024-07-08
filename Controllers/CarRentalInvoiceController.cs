@@ -36,6 +36,17 @@ namespace Booking_API.Controllers
             }
             return Ok(new GeneralResponse<CarRentalInvoice>(true, "CarRentalInvoice retrieved successfully", response));
         }
+        
+        [HttpGet("/GetCarUserRentalInvoiceById/{userId}")]
+        public async Task<ActionResult<GeneralResponse<CarRentalInvoice>>> GetCarUserRentalInvoice(int userId, [FromQuery] string[] includeProperties)
+        {
+            var response = await CarRentalInvoiceService.GetAsync(b => b.UserId == userId, includeProperties);
+            if (response == null)
+            {
+                return NotFound(new GeneralResponse<CarRentalInvoice>(false, "CarRentalInvoice not found", null));
+            }
+            return Ok(new GeneralResponse<CarRentalInvoice>(true, "CarRentalInvoice retrieved successfully", response));
+        }
 
         [HttpPost]
         public async Task<ActionResult<GeneralResponse<CarRentalInvoiceDTO>>> PostCarRentalInvoice(CarRentalInvoiceDTO carRentalInvoiceDTO)

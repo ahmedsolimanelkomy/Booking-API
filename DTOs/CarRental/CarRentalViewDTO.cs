@@ -45,5 +45,7 @@ namespace Booking_API.DTOs.CarRental
         public int CarAgencyId { get; set; }
 
         public ICollection<CarPhoto> carPhotos { get; set; }
+
+        public CarRentalInvoice CarRentalInvoice { get; set; }
     }
 }

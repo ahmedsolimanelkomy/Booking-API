@@ -5,7 +5,10 @@ using Booking_API.DTOs.CarRental;
 using Booking_API.Models;
 using Booking_API.Services;
 using Booking_API.Services.IService;
+using Braintree;
 using Microsoft.AspNetCore.Mvc;
+using BraintreeService = Booking_API.Services.BraintreeService;
+using PaymentMethod = Booking_API.Models.PaymentMethod;
 
 namespace Booking_API.Controllers
 {
@@ -14,11 +17,15 @@ namespace Booking_API.Controllers
     public class CarRentalController : ControllerBase
     {
         private readonly ICarRentalService _carRentalService;
+        private readonly ICarRentalInvoiceService _carRentalInvoiceService;
+        private readonly BraintreeService _braintreeService;
         private readonly IMapper _mapper;
 
-        public CarRentalController(ICarRentalService carRentalService, IMapper mapper)
+        public CarRentalController(ICarRentalService carRentalService, IMapper mapper, ICarRentalInvoiceService carRentalInvoiceService, BraintreeService braintreeService)
         {
             _carRentalService = carRentalService;
+            _carRentalInvoiceService = carRentalInvoiceService;
+            _braintreeService = braintreeService;
             _mapper = mapper;
         }
 
@@ -30,7 +37,7 @@ namespace Booking_API.Controllers
             try
             {
                 var rentalDTOs = await _carRentalService.GetFilteredCarRentals(filter);
-                if (rentalDTOs == null || !rentalDTOs.Any())
+                if (rentalDTOs == null)
                 {
                     return NotFound(new GeneralResponse<IEnumerable<CarRentalViewDTO>>(false, "No rentals found for the specified filter criteria", null));
                 }
@@ -132,6 +139,126 @@ namespace Booking_API.Controllers
 
             await _carRentalService.DeleteAsync(id);
             return CreatedAtAction(nameof(DeleteCarRental), new { id = carRental.Id }, new GeneralResponse<CarRentalDTO>(true, "Car rental created successfully", null));
+        }
+
+        #region Payment
+
+        [HttpPost("checkout")]
+        public async Task<IActionResult> Checkout([FromBody] CarRentalPaymentRequest paymentRequest)
+        {
+            if (paymentRequest == null || paymentRequest.RentalData == null)
+            {
+                return BadRequest(new GeneralResponse<CreateCarRentDTO>(false, "Invalid data", null));
+            }
+
+            var rentalDto = paymentRequest.RentalData;
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new GeneralResponse<CreateCarRentDTO>(false, "Invalid rental data", rentalDto));
+            }
+
+            // Process the payment
+            var paymentResult = await _braintreeService.MakePaymentAsync(paymentRequest.Nonce, paymentRequest.Amount);
+
+            if (!paymentResult.IsSuccess())
+            {
+                // Payment failed, return error
+                return BadRequest(new { Errors = paymentResult.Errors.DeepAll() });
+            }
+
+            // Payment succeeded, proceed with rental
+            rentalDto.Status = BookingStatus.Confirmed;
+            var rentalResponse = await _carRentalService.CreateCarRentAsync(rentalDto);
+
+            if (!rentalResponse.Success)
+            {
+                // Optionally, handle failure to create rental (rollback payment if necessary)
+                return BadRequest(new GeneralResponse<CreateCarRentDTO>(false, "Rental creation failed", rentalDto));
+            }
+
+            // Create the invoice
+            var invoiceResponse = await _carRentalService.CreateInvoiceAsync(
+                rentalResponse.Data,
+                paymentRequest.Amount,
+                rentalDto.UserId,
+                PaymentMethod.PayPal
+                );
+            if (!invoiceResponse.Success)
+            {
+                // Handle failure to create invoice by deleting the rental
+                var rental = await _carRentalService.GetAsync(r => r.Id == rentalResponse.Data.Id);
+                await _carRentalService.DeleteAsync(rental.Id);
+
+                return BadRequest(new GeneralResponse<CreateCarRentDTO>(false, "Invoice creation failed, rental deleted", rentalDto));
+            }
+
+            return Ok(new
+            {
+                Message = "Rental and payment successful"
+            });
+        }
+
+        [HttpPost("checkout/cash")]
+        public async Task<IActionResult> CheckoutCash([FromBody] CarRentalPaymentRequest paymentRequest)
+        {
+            if (paymentRequest == null || paymentRequest.RentalData == null)
+            {
+                return BadRequest(new GeneralResponse<CreateCarRentDTO>(false, "Invalid data", null));
+            }
+
+            var rentalDto = paymentRequest.RentalData;
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new GeneralResponse<CreateCarRentDTO>(false, "Invalid rental data", rentalDto));
+            }
+
+            // Proceed with rental
+            rentalDto.Status = BookingStatus.Confirmed;
+            var rentalResponse = await _carRentalService.CreateCarRentAsync(rentalDto);
+
+            if (!rentalResponse.Success)
+            {
+                return BadRequest(new GeneralResponse<CreateCarRentDTO>(false, "Rental creation failed", rentalDto));
+            }
+
+            // Create the invoice
+            var invoiceResponse = await _carRentalService.CreateInvoiceAsync(
+                rentalResponse.Data,
+                paymentRequest.Amount,
+                rentalDto.UserId,
+                PaymentMethod.Cash
+            );
+
+            if (!invoiceResponse.Success)
+            {
+                var rental = await _carRentalService.GetAsync(r => r.Id == rentalResponse.Data.Id);
+                await _carRentalService.DeleteAsync(rental.Id);
+
+                return BadRequest(new GeneralResponse<CreateCarRentDTO>(false, "Invoice creation failed, rental deleted", rentalDto));
+            }
+
+            return Ok(new
+            {
+                Message = "Rental successful with cash payment"
+            });
+        }
+
+        [HttpGet("client_token")]
+        public async Task<IActionResult> GetClientToken()
+        {
+            var clientToken = await _braintreeService.GetClientTokenAsync();
+            return Ok(new { clientToken });
+        }
+
+        #endregion
+
+        public class CarRentalPaymentRequest
+        {
+            public string? Nonce { get; set; }
+            public decimal Amount { get; set; }
+            public CreateCarRentDTO RentalData { get; set; }
         }
     }
 }

@@ -18,7 +18,8 @@ namespace Booking_API.Models
         Pending,
         Completed,
         Failed,
-        Refunded
+        Refunded,
+        Confirmed
     }
     public class HotelBookingInvoice
     {

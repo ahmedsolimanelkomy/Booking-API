@@ -2,6 +2,7 @@
 using Booking_API.DTOs;
 using Booking_API.DTOs.CarDTOS;
 using Booking_API.DTOs.CarRental;
+using Booking_API.DTOs.CityDTOS;
 using Booking_API.DTOs.HotelDTOS;
 using Booking_API.Models;
 using Booking_API.Services;
@@ -87,24 +88,38 @@ namespace Booking_API.Controllers
         }
 
         // PUT: api/Car/{id}
+        //[HttpPatch("{id}")]
+        //public async Task<IActionResult> UpdateCar(int id, CarDTO carDTO)
+        //{
+        //    if (id != carDTO.Id)
+        //    {
+        //        return BadRequest(new GeneralResponse<CarDTO>(false, "Car ID mismatch or invalid data", null));
+        //    }
+
+        //    var existingCar = await _carService.GetAsync(c => c.Id == id);
+        //    if (existingCar == null)
+        //    {
+        //        return NotFound(new GeneralResponse<CarDTO>(false, "Car not found", null));
+        //    }
+
+        //    _mapper.Map(carDTO, existingCar); // Map updated fields to the existing car instance
+        //    await _carService.UpdateAsync(existingCar);
+
+        //    return CreatedAtAction(nameof(UpdateCar), new { id = existingCar.Id }, new GeneralResponse<CarDTO>(true, "Car created successfully", carDTO));
+        //}
+
+
+
         [HttpPatch("{id}")]
-        public async Task<IActionResult> UpdateCar(int id, CarDTO carDTO)
+        public async Task<ActionResult<GeneralResponse<FilteredCarDTO>>> UpdateCar(int id, CarDTO carDTO)
         {
             if (id != carDTO.Id)
             {
-                return BadRequest(new GeneralResponse<CarDTO>(false, "Car ID mismatch or invalid data", null));
+                return BadRequest(new GeneralResponse<FilteredCarDTO>(false, "City ID mismatch", null));
             }
-
-            var existingCar = await _carService.GetAsync(c => c.Id == id);
-            if (existingCar == null)
-            {
-                return NotFound(new GeneralResponse<CarDTO>(false, "Car not found", null));
-            }
-
-            _mapper.Map(carDTO, existingCar); // Map updated fields to the existing car instance
-            await _carService.UpdateAsync(existingCar);
-
-            return CreatedAtAction(nameof(UpdateCar), new { id = existingCar.Id }, new GeneralResponse<CarDTO>(true, "Car created successfully", carDTO));
+            var car = _mapper.Map<Car>(carDTO);
+            await _carService.UpdateAsync(car);
+            return CreatedAtAction(nameof(UpdateCar), new { id = car.Id }, new GeneralResponse<CarDTO>(true, "Car created successfully", carDTO));
         }
 
 
@@ -120,6 +135,20 @@ namespace Booking_API.Controllers
 
             await _carService.DeleteAsync(id);
             return CreatedAtAction(nameof(DeleteCar), new { id = car.Id }, new GeneralResponse<CarDTO>(true, "Car created successfully", null));
+        }
+
+
+        //get car by agency id
+
+        [HttpGet("ByAgency/{agencyId}")]
+        public async Task<IActionResult> GetCarsByAgencyId(int agencyId)
+        {
+            var cars = await _carService.GetCarsByAgencyId(agencyId);
+            if (cars == null || !cars.Any())
+            {
+                return NotFound("No cars found for the given agency ID.");
+            }
+            return Ok(cars);
         }
 
 

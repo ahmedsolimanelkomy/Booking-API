@@ -188,10 +188,6 @@ namespace Booking_API.Mapping
 
             CreateMap<PassportDto, Passport>()
                 .ForMember(dest => dest.PassportNumber, opt => opt.MapFrom(src => src.PassportNumber)).ReverseMap();
-<<<<<<< HEAD
-=======
-
->>>>>>> 3a11b5c4181d1da923cc9c0b70cc43fb41be61b6
             CreateMap<CreateCarRentDTO, CarRental>().ReverseMap();
             
             CreateMap<Car, FilteredCarDTO>()

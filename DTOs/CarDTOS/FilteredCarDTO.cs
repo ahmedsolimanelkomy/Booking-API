@@ -29,8 +29,6 @@ namespace Booking_API.DTOs.CarDTOS
         public string? Description { get; set; }
 
         public int? ModelOfYear { get; set; }
-        public string? Brand { get; set; }
-
         public string? AgencyName { get; set; }
 
         public CarType? CarType { get; set; }

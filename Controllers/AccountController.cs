@@ -146,7 +146,9 @@ namespace Booking_API.Controllers
                     return Unauthorized(new { message = "User not found", ispass = false });
                 }
 
-                if (user.EmailConfirmed)
+                var userRole = await _userManager.GetRolesAsync(user);
+
+                if (user.EmailConfirmed || userRole.Contains("Admin"))
                 {
 
                     bool isPasswordCorrect = await _userManager.CheckPasswordAsync(user, loginUser.Password);
@@ -362,7 +364,7 @@ namespace Booking_API.Controllers
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             //var encodedToken = Uri.EscapeDataString(token); // Encode the token
             var confirmationLink = $"http://localhost:4200/confirm-email?UserId={user.Id}&Token={token}";
-            await _emailService.SendEmailAsync(email, "Confirm Your Email", $"Please confirm your account by <a href='{confirmationLink}'>clicking here</a>.", true);
+            await _emailService.SendEmailAsync(email, "Confirm Your Email", $"We are from BookingBoo System ,Please confirm your account by <a href='{confirmationLink}'>clicking here</a>.", true);
         }
 
         [HttpGet("confirm-email")]

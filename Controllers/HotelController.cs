@@ -65,7 +65,7 @@ namespace Booking_API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<GeneralResponse<Hotel>>> DeleteHotel(int id)
         {
-            var existingHotel = await _HotelService.GetAsync(b => b.Id == id, ["Features","Rooms","Photos"]);
+            var existingHotel = await _HotelService.GetAsync(b => b.Id == id, ["Features","Rooms","Photos", "HotelBookings", "HotelReviews", "HotelBookings.HotelBookingInvoice"]);
             if (existingHotel == null)
             {
                 return NotFound(new GeneralResponse<Hotel>(false, "Hotel not found", null));

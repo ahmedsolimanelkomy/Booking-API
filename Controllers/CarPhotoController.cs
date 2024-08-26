@@ -101,8 +101,8 @@ namespace Booking_API.Controllers
 
             var carPhoto = _mapper.Map<CarPhoto>(createCarPhotoDto);
             carPhoto.PhotoUrl = photoUrl;
-            car.CarPhotos.Add(carPhoto);
-            await _carService.UpdateAsync(car);
+            car?.CarPhotos?.Add(carPhoto);
+            await _carService.UpdateAsync(car!);
 
             return Ok(new GeneralResponse<CreateCarPhotoDTO>(true, "CarPhoto added successfully", createCarPhotoDto));
         }

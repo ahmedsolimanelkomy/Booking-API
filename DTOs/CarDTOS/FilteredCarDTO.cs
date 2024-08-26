@@ -32,6 +32,7 @@ namespace Booking_API.DTOs.CarDTOS
         public string? AgencyName { get; set; }
 
         public CarType? CarType { get; set; }
+        public string? Brand { get; set; }
 
         public ICollection<CarPhoto>? CarPhotos { get; set; } = new HashSet<CarPhoto>();
     }
